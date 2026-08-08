@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Acesso - Media Lobby FFWS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @font-face { font-family: 'GFF-Latin'; src: url('fonts/GFF-LATIN-BLACK.woff2') format('woff2'); }
+        body { font-family: 'GFF-Latin', sans-serif; background-image: url('info-ffws/backgroundpainel.png'); background-position: center; background-size: cover; }
+        .btn-primary { background-color: #e8b033; color: #1a1a1a; }
+        .btn-primary:hover { background-color: #f74afe; color: #fff; }
+        
+        .loader {
+            border: 3px solid rgba(232, 176, 51, 0.2);
+            border-top: 3px solid #e8b033;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="flex min-h-screen items-center justify-center">
+
+    <div class="bg-[#10101e]/90 p-8 rounded-xl shadow-2xl w-96 border border-[#e8b033]/50 backdrop-blur-sm">
+        <div class="flex justify-center mb-4"><img src="info-ffws/logoffws.png" class="max-h-20"></div>
+        <h1 class="text-xl font-bold mb-6 text-center text-[#e8b033]">PAINEL DE ACESSO - MEDIA LOBBY</h1>
+        
+        <p id="mensagem-status" class="hidden text-sm mb-4 text-center font-bold flex items-center justify-center gap-2"></p>
+        
+        <form id="login-form">
+            <input type="email" id="email" placeholder="Email@dominio.com" required class="w-full p-3 rounded bg-[#1a1a2e] border border-[#444] mb-3 text-white">
+            <input type="password" id="senha" placeholder="Senha" required class="w-full p-3 rounded bg-[#1a1a2e] border border-[#444] mb-4 text-white">
+            <button type="submit" id="btn-entrar" class="w-full btn-primary p-3 rounded font-bold transition shadow-md">ACESSAR PAINEL</button>
+        </form>
+    </div>
+
+    <script src="dados.js"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const emailInput = document.getElementById('email').value.trim().toLowerCase();
+            const passInput = document.getElementById('senha').value;
+            const msgStatus = document.getElementById('mensagem-status');
+            const btnEntrar = document.getElementById('btn-entrar');
+
+            btnEntrar.disabled = true;
+            msgStatus.className = "text-yellow-400 text-sm mb-4 text-center font-bold flex items-center justify-center gap-2";
+            msgStatus.innerHTML = `<div class="loader"></div> PROCESSANDO...`;
+            msgStatus.classList.remove('hidden');
+
+            setTimeout(() => {
+                const user = listaUsuarios.find(u => u.email === emailInput && u.senha === passInput);
+                if (user) {
+                    msgStatus.className = "text-green-500 text-sm mb-4 text-center font-bold";
+                    msgStatus.innerText = "LOGIN AUTORIZADO";
+                    sessionStorage.setItem('autenticado', 'true');
+                    sessionStorage.setItem('user_scope', user.scope);
+                    setTimeout(() => window.location.href = 'painel.html', 1000);
+                } else {
+                    msgStatus.className = "text-red-400 text-sm mb-4 text-center font-bold";
+                    msgStatus.innerText = "Credenciais de Acesso Incorreta!";
+                    btnEntrar.disabled = false;
+                }
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
