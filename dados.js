@@ -1,9 +1,9 @@
 // LISTA DE USUÁRIOS E PERMISSÕES DE ACESSO
 const listaUsuarios = [
-    { email: "admin@medialobby.com", senha: "Stw1402s@", scope: "all" },
-    { email: "staff@medialobby.com", senha: "suasenhastaff", scope: "all" },
-    { email: "organizador@medialobby.com", senha: "suasenhaorg", scope: "all" },
-    { email: "medialobby@medialobby.com", senha: "suasenhaglobal", scope: "all" },
+    { email: "jotinha@admin.com", senha: "Stw1402s@", scope: "all" },
+    { email: "oaspira@diretoria.com", senha: "SpawnFreeFire26", scope: "all" },
+    { email: "yuta@medialobby.com", senha: "YutaEventos2026", scope: "all" },
+    { email: "thallys@pixelbroadcast.com", senha: "Thallys2026", scope: "all" },
     { email: "pedrow@medialobby.com", senha: "infmeuamor", scope: "all" },
     
     { email: "afrogames@equipe.com", senha: "123", scope: "afrogames" },
@@ -293,9 +293,9 @@ const dadosEquipes = [
         nome: "LOUD SNICKERS",
         logo: "https://drive.google.com/file/d/12-OgkD0hxZaBMMWwFuItzPz6A6vg_gLg/view?usp=drivesdk",
         logos: [
-            { nome: "Logo 1", id: "" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
-            { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
-            { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
+            { nome: "LOGO 1", id: "https://drive.google.com/file/d/1MQfqoKBUU_qJDK5PVIj7xqbOjpF62I1k/view?usp=drivesdk" }, { nome: "LOGO 2", id: "https://drive.google.com/file/d/12-OgkD0hxZaBMMWwFuItzPz6A6vg_gLg/view?usp=drivesdk" }, { nome: "LOGO 4", id: "https://drive.google.com/file/d/1hWVVI0sXhn-K18NxLWp9MYSymFhwAeTM/view?usp=drivesdk" },
+            { nome: "LOGO 4", id: "https://drive.google.com/file/d/1xYQl0J-NbEpikSkjEi6OjGGN4ZtPToaE/view?usp=drivesdk" }, { nome: "LOGO 5", id: "https://drive.google.com/file/d/1FhAahkOrQlH3BPWLq6KY40P90_4elV99/view?usp=drivesdk" }, { nome: "LOGO 6", id: "https://drive.google.com/file/d/1Nx42caTDCEUeLYB4ow4Gc8AGcLImegiE/view?usp=drivesdk" },
+            { nome: "LOGO 7", id: "https://drive.google.com/file/d/1qmRQCZb_urQFVV1aEiCziR5VUwwAzSK-/view?usp=drivesdk" }, { nome: "LOGO 8", id: "https://drive.google.com/file/d/1-BT7cCnUzmabBLm2jx8uINai-mTseYdQ/view?usp=drivesdk" }, { nome: "LOGO 9", id: "https://drive.google.com/file/d/1J82k-yygTpodFgRxSCU5pNWVnoHP_na0/view?usp=drivesdk" },
             { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
             { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
         ],
