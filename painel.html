@@ -317,220 +317,79 @@
             irParaTopo();
         }
 
-        async function listarFotosDaPastaDrive(linkPasta) {
-            const apiKey = (typeof GOOGLE_DRIVE_API_KEY !== "undefined" ? GOOGLE_DRIVE_API_KEY : "");
-            if (!apiKey) {
-                throw new Error("Configure GOOGLE_DRIVE_API_KEY no dados.js.");
-            }
-
-            const pastaId = extrairIdDrive(linkPasta);
-            if (!pastaId) {
-                throw new Error("O link da pasta de fotos desta equipe é inválido.");
-            }
-
-            const arquivos = [];
-            let pageToken = "";
-
-            do {
-                const params = new URLSearchParams({
-                    q: `'${pastaId}' in parents and trashed = false`,
-                    fields: "nextPageToken,files(id,name,mimeType,size)",
-                    pageSize: "1000",
-                    key: apiKey
-                });
-                if (pageToken) params.set("pageToken", pageToken);
-
-                const resposta = await fetch(
-                    `https://www.googleapis.com/drive/v3/files?${params.toString()}`
-                );
-
-                if (!resposta.ok) {
-                    throw new Error(`Google Drive API retornou ${resposta.status}.`);
-                }
-
-                const dados = await resposta.json();
-
-                for (const arquivo of (dados.files || [])) {
-                    if (arquivo.mimeType && arquivo.mimeType.startsWith("image/")) {
-                        arquivos.push(arquivo);
-                    }
-                }
-
-                pageToken = dados.nextPageToken || "";
-            } while (pageToken);
-
-            return arquivos;
-        }
-
-        function escaparHtml(texto) {
-            return String(texto ?? "")
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
-
-        function nomeSemExtensao(nome) {
-            return String(nome || "").replace(/\.[^.]+$/, "");
-        }
-
-        function arquivoEhDaPose(arquivo, sigla) {
-            const nome = nomeSemExtensao(arquivo.name).normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "").toUpperCase();
-
-            // A foto pode estar nomeada com a sigla em qualquer posição,
-            // por exemplo: NICK_FCI, FCI_NICK ou UID-NICK_FCI.
-            return new RegExp(`(^|[^A-Z0-9])${sigla}([^A-Z0-9]|$)`, "i").test(nome) ||
-                   nome.endsWith(`_${sigla}`) ||
-                   nome.endsWith(`-${sigla}`);
-        }
-
-        async function baixarFotoDrive(fileId, nomeArquivo, mimeType, botao) {
-            const apiKey = (typeof GOOGLE_DRIVE_API_KEY !== "undefined" ? GOOGLE_DRIVE_API_KEY : "");
-
-            if (!apiKey || !fileId) {
-                alert("Não foi possível preparar o download.");
-                return;
-            }
-
-            const textoOriginal = botao ? botao.innerText : "Baixar Foto";
-
-            try {
-                if (botao) {
-                    botao.disabled = true;
-                    botao.innerText = "Baixando...";
-                }
-
-                // Busca os bytes diretamente pela API do Google Drive.
-                // Não abre nem redireciona para drive.google.com.
-                const resposta = await fetch(
-                    `https://www.googleapis.com/drive/v3/files/${encodeURIComponent(fileId)}?alt=media&key=${encodeURIComponent(apiKey)}`
-                );
-
-                if (!resposta.ok) {
-                    throw new Error(`Download HTTP ${resposta.status}.`);
-                }
-
-                const blob = await resposta.blob();
-                const blobUrl = URL.createObjectURL(
-                    new Blob([blob], { type: mimeType || blob.type || "application/octet-stream" })
-                );
-
-                const link = document.createElement("a");
-                link.href = blobUrl;
-                link.download = nomeArquivo || "foto";
-                link.style.display = "none";
-                document.body.appendChild(link);
-                link.click();
-                link.remove();
-
-                setTimeout(() => URL.revokeObjectURL(blobUrl), 15000);
-            } catch (erro) {
-                console.error(erro);
-                alert("Não foi possível baixar a imagem diretamente. Verifique a API Key e as permissões da pasta.");
-            } finally {
-                if (botao) {
-                    botao.disabled = false;
-                    botao.innerText = textoOriginal;
-                }
-            }
-        }
-
-        async function abrirEstilo(indexEstilo) {
+        function abrirEstilo(indexEstilo) {
             estiloSelecionado = listaEstilos[indexEstilo];
             nivelAtual = 'fotos';
-
             const nomeFormatado = formatarTitulo(estiloSelecionado.nomeEstilo);
             titulo.innerText = `${equipeSelecionada.nome} - ${nomeFormatado}`;
-            subtitulo.innerText = `Fotos da equipe — ${nomeFormatado}`;
-
+            subtitulo.innerText = `Pasta: ${nomeFormatado}`;
+            
             btnVoltar.classList.remove('hidden');
             btnVoltar.innerText = "← Voltar para a Pasta de Poses";
-            if (scope === 'all') btnInicio.classList.remove('hidden');
-
+            if (scope === 'all') {
+                btnInicio.classList.remove('hidden');
+            }
+            
             container.innerHTML = `
                 <div class="col-span-full flex flex-col items-center justify-center p-16">
                     <div class="loader mb-4"></div>
-                    <p class="text-gray-400">Buscando fotos da equipe...</p>
+                    <p class="text-gray-400">Buscando fotos disponíveis...</p>
                 </div>
             `;
 
-            try {
-                // A pasta é escolhida DENTRO DA EQUIPE.
-                // Cada sigla tem seu próprio campo para você colocar o link
-                // da pasta daquela pose naquela equipe.
-                const pastaDaPose = equipeSelecionada?.pastasFotos?.[estiloSelecionado.sigla] || "";
+            if (!equipeSelecionada.membros || equipeSelecionada.membros.length === 0) {
+                setTimeout(() => {
+                    container.innerHTML = `<p class="text-gray-400 col-span-full text-center">Nenhum membro cadastrado para esta equipe.</p>`;
+                }, 400);
+                irParaTopo();
+                return;
+            }
 
-                if (!pastaDaPose) {
-                    throw new Error(
-                        `Cole o link da pasta do Drive no campo "${estiloSelecionada.sigla}" desta equipe no dados.js.`
-                    );
+            let htmlCards = '';
+            let contadorEncontrados = 0;
+
+            equipeSelecionada.membros.forEach((membro) => {
+                const siglaEstilo = estiloSelecionado.sigla;
+                const fileId = membro.fotos ? membro.fotos[siglaEstilo] : null;
+
+                if (fileId && fileId.trim() !== "") {
+                    contadorEncontrados++;
+                    let urlDriveImg = processarLinkDrive(fileId);
+                    
+                    let matchId = fileId.match(/id=([a-zA-Z0-9_-]+)/) || fileId.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                    let idLimpo = matchId ? matchId[1] : (fileId.length > 20 && !fileId.includes('/') ? fileId : '');
+                    let urlDriveDownload = idLimpo ? `https://drive.google.com/uc?export=download&id=${idLimpo}` : urlDriveImg;
+
+                    htmlCards += `
+                        <div class="bg-[#161624] border border-[#2a2a3f] p-4 rounded-xl shadow-md flex flex-col justify-between">
+                            <div>
+                                <div class="w-full h-48 bg-black/40 rounded mb-3 border border-[#2a2a3f] flex items-center justify-center overflow-hidden p-2">
+                                    <img src="${urlDriveImg}" alt="${membro.nick}" class="w-full h-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
+                                </div>
+                                <h2 class="font-bold text-white text-sm truncate mb-1" title="${membro.nick}">${membro.nick}</h2>
+                                <p class="text-xs text-amber-400 font-medium mb-4">${nomeFormatado}</p>
+                            </div>
+                            <a href="${urlDriveDownload}" target="_blank" class="w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
+                                Baixar Foto
+                            </a>
+                        </div>
+                    `;
                 }
+            });
 
-                const arquivos = await listarFotosDaPastaDrive(pastaDaPose);
-
-                // A pasta já é da pose, então não exigimos que o nome do arquivo
-                // contenha a sigla. Caso contenha, filtramos para maior precisão.
-                const comSigla = arquivos.filter(a => arquivoEhDaPose(a, estiloSelecionado.sigla));
-                const fotos = comSigla.length ? comSigla : arquivos;
-
-                if (!fotos.length) {
+            setTimeout(() => {
+                if (contadorEncontrados === 0) {
                     container.innerHTML = `
                         <div class="col-span-full bg-[#161624] border border-[#2a2a3f] p-8 rounded-xl text-center shadow-md">
                             <div class="text-5xl mb-4">📂</div>
-                            <h2 class="text-xl font-bold text-white mb-2">Nenhuma foto encontrada</h2>
-                            <p class="text-gray-300 text-sm">A pasta desta pose ainda não possui imagens acessíveis.</p>
+                            <h2 class="text-xl font-bold text-white mb-2">Nenhuma foto cadastrada nesta pasta</h2>
+                            <p class="text-gray-300 text-sm mb-4">Adicione os IDs do Google Drive correspondentes aos membros no arquivo de dados.</p>
                         </div>
                     `;
-                    irParaTopo();
-                    return;
+                } else {
+                    container.innerHTML = htmlCards;
                 }
-
-                let html = "";
-
-                fotos.forEach((arquivo, index) => {
-                    const nome = escaparHtml(arquivo.name || `foto-${index + 1}`);
-                    const nomeArquivoJS = String(arquivo.name || `foto-${index + 1}`)
-                        .replace(/\\/g, "\\\\")
-                        .replace(/'/g, "\\'");
-
-                    const preview = `https://drive.google.com/uc?export=view&id=${encodeURIComponent(arquivo.id)}`;
-
-                    html += `
-                        <div class="bg-[#161624] border border-[#2a2a3f] p-4 rounded-xl shadow-md flex flex-col justify-between">
-                            <div>
-                                <div class="w-full h-56 bg-black/40 rounded mb-3 border border-[#2a2a3f] flex items-center justify-center overflow-hidden p-2">
-                                    <img src="${preview}" loading="lazy" decoding="async"
-                                         alt="${nome}"
-                                         class="w-full h-full object-contain filter drop-shadow"
-                                         onerror="this.src='info-ffws/logoffws.png'">
-                                </div>
-                                <h2 class="font-bold text-white text-sm truncate mb-1" title="${nome}">${nome}</h2>
-                                <p class="text-xs text-amber-400 font-medium mb-4">${escaparHtml(nomeFormatado)}</p>
-                            </div>
-
-                            <button type="button"
-                                onclick="baixarFotoDrive('${arquivo.id}', '${nomeArquivoJS}', '${arquivo.mimeType || "image/jpeg"}', this)"
-                                class="w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
-                                Baixar Foto
-                            </button>
-                        </div>
-                    `;
-                });
-
-                container.innerHTML = html;
-            } catch (erro) {
-                console.error("Erro ao carregar fotos:", erro);
-                container.innerHTML = `
-                    <div class="col-span-full bg-[#161624] border border-red-500/40 p-8 rounded-xl text-center shadow-md">
-                        <div class="text-5xl mb-4">⚠️</div>
-                        <h2 class="text-xl font-bold text-white mb-2">Não foi possível carregar as fotos</h2>
-                        <p class="text-gray-300 text-sm mb-2">${escaparHtml(erro.message)}</p>
-                        <p class="text-gray-500 text-xs">Verifique o link da pasta desta pose e a Google Drive API.</p>
-                    </div>
-                `;
-            }
+            }, 300);
 
             irParaTopo();
         }
