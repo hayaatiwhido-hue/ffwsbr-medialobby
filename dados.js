@@ -3,6 +3,7 @@ const listaUsuarios = [
     { email: "admin@medialobby.com", senha: "Stw1402s@", scope: "all" },
     { email: "staff@medialobby.com", senha: "suasenhastaff", scope: "all" },
     { email: "organizador@medialobby.com", senha: "suasenhaorg", scope: "all" },
+    { email: "ag4futury2022@novofuturo.com", senha: "Futury@2022", scope: "all" },
     { email: "medialobby@medialobby.com", senha: "suasenhaglobal", scope: "all" },
 
     { email: "afrogames@equipe.com", senha: "123", scope: "afrogames" },
