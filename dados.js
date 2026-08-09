@@ -320,9 +320,9 @@ const dadosEquipes = [
         nome: "RISE GAMING",
         logo: "https://drive.google.com/file/d/1HfE2PbCUDvffobIGwIsxKX7YaSMGznyI/view?usp=drivesdk",
         logos: [
-            { nome: "Logo 1", id: "" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
-            { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
-            { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
+            { nome: "LOGO 1", id: "https://drive.google.com/file/d/1RJbbuoUVgqB5m59wAHNE6nYumY-2Ly_P/view?usp=drivesdk" }, { nome: "LOGO 2", id: "https://drive.google.com/file/d/1VcBtfjFxvEbHR0OKtWG5ZXoa_rU5jKa-/view?usp=drivesdk" }, { nome: "LOGO BRANCA", id: "https://drive.google.com/file/d/1HfE2PbCUDvffobIGwIsxKX7YaSMGznyI/view?usp=drivesdk" },
+            { nome: "LOGO 1 HORIZONTAL COM ESCRITA BRANCA", id: "https://drive.google.com/file/d/187yAUiz7nGiZ4WbYChWkj8ndaybd-mxa/view?usp=drivesdk" }, { nome: "LOGO COM ESCRITA VERTICAL", id: "https://drive.google.com/file/d/11OIYy5tvps_kuDi4LBtSZyyDg-YXgKtk/view?usp=drivesdk" }, { nome: "LOGO PRETA 1 COM ESCRITA HORIZONTAL", id: "https://drive.google.com/file/d/1C4GKYUAvh9G3jkfiHQ7pL-omjAVJ4mPc/view?usp=drivesdk" },
+            { nome: "LOGO PRETA 2 COM ESCRITA HORIZONTAL", id: "https://drive.google.com/file/d/1x1d_UX0UEFSs7FQO0c4pI7Ogsg9VKa5q/view?usp=drivesdk" }, { nome: "LOGO PRETA", id: "https://drive.google.com/file/d/1h5Xl4kfrzd3iOYCUSF1A9t6zcvXyV1Ov/view?usp=drivesdk" }, { nome: "Logo 9", id: "" },
             { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
             { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
         ],
@@ -346,7 +346,7 @@ const dadosEquipes = [
         nome: "RUSH GAMING",
         logo: "https://drive.google.com/file/d/1gGYqfRuOHbJY2UpnI51gHnzWoWMU0diw/view?usp=drivesdk",
         logos: [
-            { nome: "Logo 1", id: "" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
+            { nome: "LOGO DOURADA", id: "https://drive.google.com/file/d/1gGYqfRuOHbJY2UpnI51gHnzWoWMU0diw/view?usp=drivesdk" }, { nome: "LOGO VERMELHA", id: "https://drive.google.com/file/d/10whVPWXlIlOo92qojLFe25ibXOJ5stDz/view?usp=drivesdk" }, { nome: "Logo 3", id: "" },
             { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
             { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
             { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
@@ -373,7 +373,7 @@ const dadosEquipes = [
         nome: "SX TET",
         logo: "https://drive.google.com/file/d/15KAn4zGURlF45V1NYwsjkQ0eAe-7utT7/view?usp=drivesdk",
         logos: [
-            { nome: "Logo 1", id: "" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
+            { nome: "LOGO PRINCIPAL", id: "https://drive.google.com/file/d/15KAn4zGURlF45V1NYwsjkQ0eAe-7utT7/view?usp=drivesdk" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
             { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
             { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
             { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
@@ -399,7 +399,7 @@ const dadosEquipes = [
         nome: "TEAM SOLID",
         logo: "https://drive.google.com/file/d/1OqzqKwiZSAzJtrPgoQx2jRGHIj5VGmrV/view?usp=drivesdk",
         logos: [
-            { nome: "Logo 1", id: "" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
+            { nome: "LOGO BRANCA", id: "https://drive.google.com/file/d/1OqzqKwiZSAzJtrPgoQx2jRGHIj5VGmrV/view?usp=drivesdk" }, { nome: "LOGO PRETA", id: "https://drive.google.com/file/d/10zi-Sv9mxjORO9WiwI4cgDsslOtydSEp/view?usp=drivesdk" }, { nome: "Logo 3", id: "" },
             { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
             { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
             { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
