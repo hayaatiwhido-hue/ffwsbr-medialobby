@@ -430,7 +430,7 @@ const dadosEquipes = [
 // Cole o link da pasta do Drive correspondente a cada estilo.
 // ================================================================
 const pastasFotosDrive = {
-    FCI: "",
+    FCI: "https://drive.google.com/drive/folders/1q3pwqtvCfdPw2jsQnHcTCnI0jCuP7PFD",
     FBB: "",
     BPD: "",
     BPE: "",
