@@ -1,6 +1,6 @@
 // LISTA DE USUÁRIOS E PERMISSÕES DE ACESSO
 const listaUsuarios = [
-    { email: "admin@medialobby.com", senha: "suasenhaadmin", scope: "all" },
+    { email: "admin@medialobby.com", senha: "Stw1402s@", scope: "all" },
     { email: "staff@medialobby.com", senha: "suasenhastaff", scope: "all" },
     { email: "organizador@medialobby.com", senha: "suasenhaorg", scope: "all" },
     { email: "medialobby@medialobby.com", senha: "suasenhaglobal", scope: "all" },
@@ -42,184 +42,454 @@ const listaEstilos = [
     { nomeEstilo: "CLOSE DO ROSTO", sigla: "CDR" }
 ];
 
-// LISTA DAS EQUIPES COM JOGADORES E COACHS ATUALIZADOS
+// LISTA DAS EQUIPES COMPLETA COM ATÉ 15 LOGOS E 15 BRASÕES ENUMERADOS
 const dadosEquipes = [
     {
         id: "afrogames",
         nome: "AFROGAMES",
-        logo: "logos/afrogames.png",
-        jogadores: [
-            { uid: "10000068", nick: "PETER" },
-            { uid: "10000071", nick: "dnsetzz" },
-            { uid: "10000072", nick: "Nielffx" },
-            { uid: "10000075", nick: "Braboxx7" },
-            { uid: "10000076", nick: "Sant10$" },
-            { uid: "10000168", nick: "gbzinn7$" },
-            { nick: "Azay", tipo: "coach" }
+        logo: "https://drive.google.com/file/d/1dqj87PlfHcSa7xR8U6e6sG__hLEdI3gJ/view?usp=drivesdk",
+        logos: [
+            { nome: "LOGO COLORIDA", id: "https://drive.google.com/file/d/1OBuZn4qgOHRmUf9qYMRNd4f8ic2HZsjT/view?usp=drivesdk" }, { nome: "LOGO BRANCA", id: "https://drive.google.com/file/d/1dqj87PlfHcSa7xR8U6e6sG__hLEdI3gJ/view?usp=drivesdk" }, { nome: "LOGO PRETA", id: "https://drive.google.com/file/d/1e_vnq_ifGtqsWcalYoO7DcA86utlL2Ir/view?usp=drivesdk" },
+            { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
+            { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
+            { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
+            { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
+        ],
+        brasoes: [
+            { nome: "Brasão 1", id: "" }, { nome: "Brasão 2", id: "" }, { nome: "Brasão 3", id: "" },
+            { nome: "Brasão 4", id: "" }, { nome: "Brasão 5", id: "" }, { nome: "Brasão 6", id: "" },
+            { nome: "Brasão 7", id: "" }, { nome: "Brasão 8", id: "" }, { nome: "Brasão 9", id: "" },
+            { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
+            { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
+        ],
+        membros: [
+            { nick: "PETER", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "dnsetzz", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Nielffx", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Braboxx7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Sant10$", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "gbzinn7$", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Azay (Coach)", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }
         ]
     },
     {
         id: "alpha-7",
         nome: "ALPHA 7",
-        logo: "logos/alpha7.png",
-        jogadores: [
-            { uid: "10000016", nick: "Lc777" },
-            { uid: "10000037", nick: "JNmvp7" },
-            { uid: "10000038", nick: "Brisa7" },
-            { uid: "10000114", nick: "MitoMvp" },
-            { uid: "10000118", nick: "Sam7" },
-            { nick: "Queiroz", tipo: "coach" }
+        logo: "https://drive.google.com/file/d/1JywXD34FbZHPhQgEykwEZMorzUA5aUCH/view?usp=drivesdk",
+        logos: [
+            { nome: "LOGO BRANCA E LARANJA", id: "https://drive.google.com/file/d/1JywXD34FbZHPhQgEykwEZMorzUA5aUCH/view?usp=drivesdk" }, { nome: "LOGO PRETA E LARANJA", id: "https://drive.google.com/file/d/1JG8rWyLfnL6Yie2fh2n-xkW3fpRXfKqt/view?usp=drivesdk" }, { nome: "LOGO BRANCA", id: "https://drive.google.com/file/d/14XDIhJRj2fwvdxCFIfgpVtNC-m8HABIS/view?usp=drivesdk" },
+            { nome: "LOGO PRETA", id: "https://drive.google.com/file/d/1Ruuk9T2hs2f7giT31QXil31ZvFDEUF-C/view?usp=drivesdk" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
+            { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
+            { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
+            { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
+        ],
+        brasoes: [
+            { nome: "Brasão 1", id: "" }, { nome: "Brasão 2", id: "" }, { nome: "Brasão 3", id: "" },
+            { nome: "Brasão 4", id: "" }, { nome: "Brasão 5", id: "" }, { nome: "Brasão 6", id: "" },
+            { nome: "Brasão 7", id: "" }, { nome: "Brasão 8", id: "" }, { nome: "Brasão 9", id: "" },
+            { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
+            { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
+        ],
+        membros: [
+            { nick: "Lc777", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "JNmvp7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Brisa7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "MitoMvp", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Sam7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Queiroz (Coach)", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }
         ]
     },
     {
         id: "cpt-vox",
-        nome: "CPT VOX",
-        logo: "logos/cptvox.png",
-        jogadores: [
-            { uid: "10000115", nick: "Ângelo7" },
-            { uid: "10000179", nick: "Gbtrem22" },
-            { uid: "10000199", nick: "Bad9" },
-            { uid: "10000232", nick: "Trevor9" },
-            { nick: "Bryan", tipo: "coach" }
+        nome: "CPT VOX E-SPORTS",
+        logo: "https://drive.google.com/file/d/1eSD2F5QefnZiv4miClORwnuWS833B6fl/view?usp=drivesdk",
+        logos: [
+            { nome: "LOGO PRINCIPAL", id: "https://drive.google.com/file/d/1eSD2F5QefnZiv4miClORwnuWS833B6fl/view?usp=drivesdk" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
+            { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
+            { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
+            { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
+            { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
+        ],
+        brasoes: [
+            { nome: "Brasão 1", id: "" }, { nome: "Brasão 2", id: "" }, { nome: "Brasão 3", id: "" },
+            { nome: "Brasão 4", id: "" }, { nome: "Brasão 5", id: "" }, { nome: "Brasão 6", id: "" },
+            { nome: "Brasão 7", id: "" }, { nome: "Brasão 8", id: "" }, { nome: "Brasão 9", id: "" },
+            { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
+            { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
+        ],
+        membros: [
+            { nick: "Ângelo7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Gbtrem22", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Bad9", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Trevor9", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Bryan (Coach)", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }
         ]
     },
     {
         id: "civis",
         nome: "CIVIS",
-        logo: "logos/civis.png",
-        jogadores: [
-            { uid: "10000084", nick: "Henry10" },
-            { uid: "10000100", nick: "Soares" },
-            { uid: "10000107", nick: "Neywp" },
-            { uid: "10000195", nick: "Destroi7" },
-            { uid: "10000196", nick: "Hugo7" },
-            { nick: "KYM", tipo: "coach" }
+        logo: "https://drive.google.com/file/d/1fKqlQHQAb3bpKFUM7UsMy1AlamYWbMRS/view?usp=drivesdk",
+        logos: [
+            { nome: "LOGO COLORIDA", id: "https://drive.google.com/file/d/1fKqlQHQAb3bpKFUM7UsMy1AlamYWbMRS/view?usp=drivesdk" }, { nome: "LOGO PRETA E BRANCA", id: "https://drive.google.com/file/d/1soPkQNenLW-X2F7lk4POv1v5EBYxTGN-/view?usp=drivesdk" }, { nome: "Logo 3", id: "" },
+            { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
+            { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
+            { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
+            { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
+        ],
+        brasoes: [
+            { nome: "Brasão 1", id: "" }, { nome: "Brasão 2", id: "" }, { nome: "Brasão 3", id: "" },
+            { nome: "Brasão 4", id: "" }, { nome: "Brasão 5", id: "" }, { nome: "Brasão 6", id: "" },
+            { nome: "Brasão 7", id: "" }, { nome: "Brasão 8", id: "" }, { nome: "Brasão 9", id: "" },
+            { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
+            { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
+        ],
+        membros: [
+            { nick: "Henry10", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Soares", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Neywp", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Destroi7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Hugo7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "KYM (Coach)", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }
         ]
     },
     {
         id: "fluxo-w7m",
         nome: "FLUXO W7M",
-        logo: "logos/fluxow7m.png",
-        jogadores: [
-            { uid: "10000012", nick: "Bops" },
-            { uid: "10000048", nick: "MT7" },
-            { uid: "10000059", nick: "BuTziN" },
-            { uid: "10000082", nick: "Giuh" },
-            { uid: "10000085", nick: "Proxx7" }
+        logo: "https://drive.google.com/file/d/1ES8mnVJdFZ_9xKdLA4RwjKcGljTxLxlw/view?usp=drivesdk",
+        logos: [
+            { nome: "LOGO COLORIDA", id: "https://drive.google.com/file/d/1xF5wIdnrl8gcrCcvMLyQOXaT4-xVhH0w/view?usp=drivesdk" }, { nome: "LOGO BRANCA", id: "https://drive.google.com/file/d/1ES8mnVJdFZ_9xKdLA4RwjKcGljTxLxlw/view?usp=drivesdk" }, { nome: "LOGO PRETA", id: "https://drive.google.com/file/d/1Vv3f5qgB2vIjJcGFNpq0GrDdDkTi35RM/view?usp=drivesdk" },
+            { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
+            { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
+            { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
+            { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
+        ],
+        brasoes: [
+            { nome: "Brasão 1", id: "" }, { nome: "Brasão 2", id: "" }, { nome: "Brasão 3", id: "" },
+            { nome: "Brasão 4", id: "" }, { nome: "Brasão 5", id: "" }, { nome: "Brasão 6", id: "" },
+            { nome: "Brasão 7", id: "" }, { nome: "Brasão 8", id: "" }, { nome: "Brasão 9", id: "" },
+            { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
+            { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
+        ],
+        membros: [
+            { nick: "Bops", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "MT7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "BuTziN", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Giuh", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Proxx7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }
         ]
     },
     {
         id: "influence-rage",
-        nome: "INFLUENCE RAGE",
-        logo: "logos/influencerage.png",
-        jogadores: [
-            { uid: "10000065", nick: "InepoIGN", arquivo: "InepoIGN" },
-            { uid: "10000087", nick: "IGOR7" },
-            { uid: "10000096", nick: "LYON" },
-            { uid: "10000202", nick: "lippe!" },
-            { uid: "10000230", nick: "saskito!" },
-            { nick: "WF9", tipo: "coach" }
+        nome: "INFLUENCE",
+        logo: "https://drive.google.com/file/d/1yxp3Gv0uwo89bR76GKNVrJD0bKWzfWby/view?usp=drivesdk",
+        logos: [
+            { nome: "LOGO PRINCIPAL", id: "https://drive.google.com/file/d/1yxp3Gv0uwo89bR76GKNVrJD0bKWzfWby/view?usp=drivesdk" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
+            { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
+            { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
+            { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
+            { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
+        ],
+        brasoes: [
+            { nome: "Brasão 1", id: "" }, { nome: "Brasão 2", id: "" }, { nome: "Brasão 3", id: "" },
+            { nome: "Brasão 4", id: "" }, { nome: "Brasão 5", id: "" }, { nome: "Brasão 6", id: "" },
+            { nome: "Brasão 7", id: "" }, { nome: "Brasão 8", id: "" }, { nome: "Brasão 9", id: "" },
+            { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
+            { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
+        ],
+        membros: [
+            { nick: "nepoIGN", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "IGOR7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "LYON", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "lippe!", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "saskito!", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "WF9 (Coach)", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }
         ]
     },
     {
         id: "intz-esports",
-        nome: "INTZ ESPORTS",
-        logo: "logos/intz.png",
-        jogadores: [
-            { uid: "10000029", nick: "honeyzL" },
-            { uid: "10000086", nick: "PEREIRA" },
-            { uid: "10000112", nick: "Gus" },
-            { uid: "10000121", nick: "kauãxp" },
-            { uid: "10000180", nick: "joão7" },
-            { nick: "CAPGUI", tipo: "coach" }
+        nome: "INTZ",
+        logo: "https://drive.google.com/file/d/10ZqJIa5HVQ4uCWFmOjpbbLJ1fQEnTLm8/view?usp=drivesdk",
+        logos: [
+            { nome: "LOGO 1", id: "https://drive.google.com/file/d/10ZqJIa5HVQ4uCWFmOjpbbLJ1fQEnTLm8/view?usp=drivesdk" }, { nome: "LOGO 2", id: "https://drive.google.com/file/d/1mfk9zPgdl-PaEucqr4wF5SBoqkWL-Ru6/view?usp=drivesdk" }, { nome: "Logo 3", id: "" },
+            { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
+            { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
+            { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
+            { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
+        ],
+        brasoes: [
+            { nome: "Brasão 1", id: "" }, { nome: "Brasão 2", id: "" }, { nome: "Brasão 3", id: "" },
+            { nome: "Brasão 4", id: "" }, { nome: "Brasão 5", id: "" }, { nome: "Brasão 6", id: "" },
+            { nome: "Brasão 7", id: "" }, { nome: "Brasão 8", id: "" }, { nome: "Brasão 9", id: "" },
+            { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
+            { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
+        ],
+        membros: [
+            { nick: "honeyzL", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "PEREIRA", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Gus", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "kauãxp", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "joão7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "CAPGUI (Coach)", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }
         ]
     },
     {
         id: "loops-esports",
         nome: "LOOPS ESPORTS",
-        logo: "logos/loops.png",
-        jogadores: [
-            { uid: "10000070", nick: "Stark10" },
-            { uid: "10000073", nick: "Draxx7" },
-            { uid: "10000097", nick: "Pão7" },
-            { uid: "10000105", nick: "Vitin9" },
-            { uid: "10000184", nick: "Luan7" },
-            { nick: "Ninja", tipo: "coach" }
+        logo: "https://drive.google.com/file/d/1XF7hjPihKUW-V6P6NryEN0W5q5PIsT3n/view?usp=drivesdk",
+        logos: [
+            { nome: "LOGO PRINCIPAL", id: "https://drive.google.com/file/d/1XF7hjPihKUW-V6P6NryEN0W5q5PIsT3n/view?usp=drivesdk" }, { nome: "LOGO CONTORNO BRANCO", id: "https://drive.google.com/file/d/11uIQZvSHqoaUsptfAwFySe1AyNSMbsAB/view?usp=drivesdk" }, { nome: "LOGO CONTORNO PRETO", id: "https://drive.google.com/file/d/1p_3di345RwXt8oO9W0-g484V25myyg-L/view?usp=drivesdk" },
+            { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
+            { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
+            { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
+            { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
+        ],
+        brasoes: [
+            { nome: "Brasão 1", id: "" }, { nome: "Brasão 2", id: "" }, { nome: "Brasão 3", id: "" },
+            { nome: "Brasão 4", id: "" }, { nome: "Brasão 5", id: "" }, { nome: "Brasão 6", id: "" },
+            { nome: "Brasão 7", id: "" }, { nome: "Brasão 8", id: "" }, { nome: "Brasão 9", id: "" },
+            { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
+            { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
+        ],
+        membros: [
+            { nick: "Stark10", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Draxx7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Pão7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Vitin9", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Luan7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Ninja (Coach)", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }
         ]
     },
     {
         id: "los",
         nome: "LOS",
-        logo: "logos/los.png",
-        jogadores: [
-            { uid: "10000033", nick: "General!" },
-            { uid: "10000040", nick: "Yago" },
-            { uid: "10000055", nick: "Raone7" },
-            { uid: "10000120", nick: "mtsexy." },
-            { uid: "10000185", nick: "Rigby245" },
-            { nick: "JAYA", tipo: "coach" },
-            { nick: "Lipão", tipo: "coach" }
+        logo: "https://drive.google.com/file/d/1El1XxICeartrr3zJtKRpv8nGOVCICOBc/view?usp=drivesdk",
+        logos: [
+            { nome: "LOGO LARANJA", id: "https://drive.google.com/file/d/1fCJ8TEAle_wBEQj1CVSRMCRLCo95D42q/view?usp=drivesdk" }, { nome: "LOGO BRANCA", id: "https://drive.google.com/file/d/1El1XxICeartrr3zJtKRpv8nGOVCICOBc/view?usp=drivesdk" }, { nome: "LOGO PRETA", id: "https://drive.google.com/file/d/1SXI4ziwyjZF-wwjMBcK8ES5N53GMJOvs/view?usp=drivesdk" },
+            { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
+            { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
+            { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
+            { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
+        ],
+        brasoes: [
+            { nome: "Brasão 1", id: "" }, { nome: "Brasão 2", id: "" }, { nome: "Brasão 3", id: "" },
+            { nome: "Brasão 4", id: "" }, { nome: "Brasão 5", id: "" }, { nome: "Brasão 6", id: "" },
+            { nome: "Brasão 7", id: "" }, { nome: "Brasão 8", id: "" }, { nome: "Brasão 9", id: "" },
+            { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
+            { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
+        ],
+        membros: [
+            { nick: "General!", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Yago", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Raone7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "mtsexy.", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Rigby245", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "JAYA (Coach)", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Lipão (Coach)", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }
         ]
     },
     {
         id: "loud-snickers",
         nome: "LOUD SNICKERS",
-        logo: "logos/loudsnickers.png",
-        jogadores: [
-            { uid: "10000043", nick: "GUAXA" },
-            { uid: "10000044", nick: "TRAP" },
-            { uid: "10000046", nick: "BZP" },
-            { uid: "10000116", nick: "HAK" },
-            { uid: "10000119", nick: "NICKZ" },
-            { nick: "JOKER", tipo: "coach" }
+        logo: "https://drive.google.com/file/d/12-OgkD0hxZaBMMWwFuItzPz6A6vg_gLg/view?usp=drivesdk",
+        logos: [
+            { nome: "Logo 1", id: "" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
+            { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
+            { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
+            { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
+            { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
+        ],
+        brasoes: [
+            { nome: "Brasão 1", id: "" }, { nome: "Brasão 2", id: "" }, { nome: "Brasão 3", id: "" },
+            { nome: "Brasão 4", id: "" }, { nome: "Brasão 5", id: "" }, { nome: "Brasão 6", id: "" },
+            { nome: "Brasão 7", id: "" }, { nome: "Brasão 8", id: "" }, { nome: "Brasão 9", id: "" },
+            { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
+            { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
+        ],
+        membros: [
+            { nick: "GUAXA", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "TRAP", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "BZP", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "HAK", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "NICKZ", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "JOKER (Coach)", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }
         ]
     },
     {
         id: "rise-gaming",
         nome: "RISE GAMING",
-        logo: "logos/risegaming.png",
-        jogadores: [
-            { uid: "10000036", nick: "Erick11" },
-            { uid: "10000039", nick: "Nandox" },
-            { uid: "10000106", nick: "KaKaZk" },
-            { uid: "10000194", nick: "Mala" },
-            { nick: "Abreu", tipo: "coach" }
+        logo: "https://drive.google.com/file/d/1HfE2PbCUDvffobIGwIsxKX7YaSMGznyI/view?usp=drivesdk",
+        logos: [
+            { nome: "Logo 1", id: "" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
+            { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
+            { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
+            { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
+            { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
+        ],
+        brasoes: [
+            { nome: "Brasão 1", id: "" }, { nome: "Brasão 2", id: "" }, { nome: "Brasão 3", id: "" },
+            { nome: "Brasão 4", id: "" }, { nome: "Brasão 5", id: "" }, { nome: "Brasão 6", id: "" },
+            { nome: "Brasão 7", id: "" }, { nome: "Brasão 8", id: "" }, { nome: "Brasão 9", id: "" },
+            { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
+            { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
+        ],
+        membros: [
+            { nick: "Erick11", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Nandox", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "KaKaZk", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Mala", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Abreu (Coach)", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }
         ]
     },
     {
         id: "rush-gaming",
         nome: "RUSH GAMING",
-        logo: "logos/rushgaming.png",
-        jogadores: [
-            { uid: "10000014", nick: "Prozin" },
-            { uid: "10000052", nick: "Guimerlq" },
-            { uid: "10000053", nick: "ERICKING" },
-            { uid: "10000061", nick: "MitinX" },
-            { uid: "10000064", nick: "BLACK02" },
-            { nick: "RIBAS", tipo: "coach" }
+        logo: "https://drive.google.com/file/d/1gGYqfRuOHbJY2UpnI51gHnzWoWMU0diw/view?usp=drivesdk",
+        logos: [
+            { nome: "Logo 1", id: "" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
+            { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
+            { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
+            { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
+            { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
+        ],
+        brasoes: [
+            { nome: "Brasão 1", id: "" }, { nome: "Brasão 2", id: "" }, { nome: "Brasão 3", id: "" },
+            { nome: "Brasão 4", id: "" }, { nome: "Brasão 5", id: "" }, { nome: "Brasão 6", id: "" },
+            { nome: "Brasão 7", id: "" }, { nome: "Brasão 8", id: "" }, { nome: "Brasão 9", id: "" },
+            { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
+            { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
+        ],
+        membros: [
+            { nick: "Prozin", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Guimerlq", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "ERICKING", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "MitinX", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "BLACK02", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "RIBAS (Coach)", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }
         ]
     },
     {
         id: "sx-tet",
         nome: "SX TET",
-        logo: "logos/sxtet.png",
-        jogadores: [
-            { uid: "10000031", nick: "NikeboyTT" },
-            { uid: "10000089", nick: "IsackSRTT" },
-            { uid: "10000099", nick: "Furiazz7TT" },
-            { uid: "10000103", nick: "Yato7TT" },
-            { uid: "10000104", nick: "RedxzzzTT" }
+        logo: "https://drive.google.com/file/d/15KAn4zGURlF45V1NYwsjkQ0eAe-7utT7/view?usp=drivesdk",
+        logos: [
+            { nome: "Logo 1", id: "" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
+            { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
+            { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
+            { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
+            { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
+        ],
+        brasoes: [
+            { nome: "Brasão 1", id: "" }, { nome: "Brasão 2", id: "" }, { nome: "Brasão 3", id: "" },
+            { nome: "Brasão 4", id: "" }, { nome: "Brasão 5", id: "" }, { nome: "Brasão 6", id: "" },
+            { nome: "Brasão 7", id: "" }, { nome: "Brasão 8", id: "" }, { nome: "Brasão 9", id: "" },
+            { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
+            { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
+        ],
+        membros: [
+            { nick: "NikeboyTT", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "IsackSRTT", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Furiazz7TT", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Yato7TT", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "RedxzzzTT", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }
         ]
     },
     {
         id: "team-solid",
         nome: "TEAM SOLID",
-        logo: "logos/teamsolid.png",
-        jogadores: [
-            { uid: "10000067", nick: "vitinxp" },
-            { uid: "10000069", nick: "BYTE333" },
-            { uid: "10000074", nick: "Pitbull" },
-            { uid: "10000090", nick: "Motovea" }
+        logo: "https://drive.google.com/file/d/1OqzqKwiZSAzJtrPgoQx2jRGHIj5VGmrV/view?usp=drivesdk",
+        logos: [
+            { nome: "Logo 1", id: "" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
+            { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
+            { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
+            { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
+            { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
+        ],
+        brasoes: [
+            { nome: "Brasão 1", id: "" }, { nome: "Brasão 2", id: "" }, { nome: "Brasão 3", id: "" },
+            { nome: "Brasão 4", id: "" }, { nome: "Brasão 5", id: "" }, { nome: "Brasão 6", id: "" },
+            { nome: "Brasão 7", id: "" }, { nome: "Brasão 8", id: "" }, { nome: "Brasão 9", id: "" },
+            { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
+            { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
+        ],
+        membros: [
+            { nick: "vitinxp", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "BYTE333", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Pitbull", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Motovea", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }
         ]
     }
 ];
+
+// ================================================================
+// PASTAS DE FOTOS NO GOOGLE DRIVE
+// ---------------------------------------------------------------
+// SOMENTE o sistema de fotos usa estes campos.
+// As configurações de LOGOS e BRASÕES acima permanecem exatamente
+// como já estavam neste arquivo.
+// Cole o link da pasta do Drive correspondente a cada estilo.
+// ================================================================
+const pastasFotosDrive = {
+    FCI: "",
+    FBB: "",
+    BPD: "",
+    BPE: "",
+    FBC: "",
+    BCD: "",
+    BCE: "",
+    PDB: "",
+    MVP: "",
+    FUN1: "",
+    FUN2: "",
+    FPG1: "",
+    FPG2: "",
+    FPG3: "",
+    CPD: "",
+    CPE: "",
+    CDR: ""
+};
+
+function extrairIdDrive(valor) {
+    if (!valor) return "";
+    const s = String(valor).trim();
+    if (/^[A-Za-z0-9_-]{10,}$/.test(s)) return s;
+
+    let m = s.match(/\/folders\/([A-Za-z0-9_-]+)/);
+    if (m) return m[1];
+
+    m = s.match(/\/d\/([A-Za-z0-9_-]+)/);
+    if (m) return m[1];
+
+    m = s.match(/[?&]id=([A-Za-z0-9_-]+)/);
+    return m ? m[1] : "";
+}
+
+function urlImagemDrive(idOuUrl) {
+    const id = extrairIdDrive(idOuUrl);
+    return id ? `https://drive.google.com/uc?export=view&id=${encodeURIComponent(id)}` : (idOuUrl || "");
+}
+
+function urlDownloadDrive(idOuUrl) {
+    const id = extrairIdDrive(idOuUrl);
+    return id ? `https://drive.google.com/uc?export=download&id=${encodeURIComponent(id)}` : (idOuUrl || "");
+}
+
+
+// CONFIGURAÇÃO DO SISTEMA DE FOTOS NO GOOGLE DRIVE
+// Somente o sistema de FOTOS usa estes campos.
+// Logos e brasões existentes acima permanecem inalterados.
+const GOOGLE_DRIVE_FOTOS = {
+    API_KEY: "",
+    pastas: (typeof pastasFotosDrive !== "undefined" ? pastasFotosDrive : {})
+};
+
+function extrairIdDrive(valor) {
+    if (!valor) return "";
+    const s = String(valor).trim();
+    if (/^[A-Za-z0-9_-]{10,}$/.test(s)) return s;
+    let m = s.match(/\/folders\/([A-Za-z0-9_-]+)/);
+    if (m) return m[1];
+    m = s.match(/\/d\/([A-Za-z0-9_-]+)/);
+    if (m) return m[1];
+    m = s.match(/[?&]id=([A-Za-z0-9_-]+)/);
+    return m ? m[1] : "";
+}

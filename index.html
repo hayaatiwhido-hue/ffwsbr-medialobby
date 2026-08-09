@@ -25,7 +25,10 @@
 <body class="flex min-h-screen items-center justify-center">
 
     <div class="bg-[#10101e]/90 p-8 rounded-xl shadow-2xl w-96 border border-[#e8b033]/50 backdrop-blur-sm">
-        <div class="flex justify-center mb-4"><img src="info-ffws/logoffws.png" class="max-h-20"></div>
+        <div class="flex justify-center items-center gap-3 mb-4">
+            <img src="info-ffws/logoffws.png" class="max-h-20" alt="Logo FFWS">
+            <img id="logo-diretoria" src="" class="max-h-16 max-w-32 object-contain" alt="Logo Diretoria" onerror="this.style.display='none'">
+        </div>
         <h1 class="text-xl font-bold mb-6 text-center text-[#e8b033]">PAINEL DE ACESSO - MEDIA LOBBY</h1>
         
         <p id="mensagem-status" class="hidden text-sm mb-4 text-center font-bold flex items-center justify-center gap-2"></p>
@@ -39,6 +42,9 @@
 
     <script src="dados.js"></script>
     <script>
+        const logoDiretoriaEl = document.getElementById('logo-diretoria');
+        if (typeof logoDiretoria !== 'undefined' && logoDiretoriaEl) logoDiretoriaEl.src = logoDiretoria;
+
         document.getElementById('login-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const emailInput = document.getElementById('email').value.trim().toLowerCase();
