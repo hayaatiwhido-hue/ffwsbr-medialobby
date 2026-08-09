@@ -23,10 +23,7 @@ const listaUsuarios = [
 
 // LISTA DE PASTAS E SUAS RESPECTIVAS SIGLAS
 const listaEstilos = [
-    { nomeEstilo: "FOTO DE IDENTIFICAÇÃO", sigla: "FCI" },
     { nomeEstilo: "BRAÇO SOLTO - FRENTE", sigla: "FBB" },
-    { nomeEstilo: "BRAÇO SOLTO - DIREITA", sigla: "BPD" },
-    { nomeEstilo: "BRAÇO SOLTO - ESQUERDA", sigla: "BPE" },
     { nomeEstilo: "BRAÇO CRUZADO - FRENTE", sigla: "FBC" },
     { nomeEstilo: "BRAÇO CRUZADO - DIREITA", sigla: "BCD" },
     { nomeEstilo: "BRAÇO CRUZADO - ESQUERDA", sigla: "BCE" },
@@ -63,13 +60,13 @@ const dadosEquipes = [
             { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
         ],
         membros: [
-            { nick: "PETER", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
-            { nick: "dnsetzz", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
-            { nick: "Nielffx", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
-            { nick: "Braboxx7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
-            { nick: "Sant10$", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
-            { nick: "gbzinn7$", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
-            { nick: "Azay (Coach)", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }
+            { nick: "AFG Peter", fotos: { FCI: "", FBB: "https://drive.google.com/file/d/1LjG3gu39yPH6o2DObxRFrcYtrGRr0sml/view?usp=drivesdk", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "AFG Dnsetzz", fotos: { FCI: "", FBB: "https://drive.google.com/file/d/12GwLBaAvrmU_ehCCWaUNQCmrrbiHprUI/view?usp=drivesdk", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "AFG Nielffx", fotos: { FCI: "", FBB: "https://drive.google.com/file/d/1ahRsMj_hMlfC8cxrfk5p2TIk5q2lF_U-/view?usp=drivesdk", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "AFG BRABOXX7", fotos: { FCI: "", FBB: "https://drive.google.com/file/d/1467KjMfHRD0kxNdrevrhQBKo4K9hXKR7/view?usp=drivesdk", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "AFG Sant10$", fotos: { FCI: "", FBB: "https://drive.google.com/file/d/1ZazNlSxps7B1VqbaRUS-bsBK5_VHKuTi/view?usp=drivesdk", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "AFG gbzinn7$", fotos: { FCI: "", FBB: "https://drive.google.com/file/d/1njZwrwR0P47uvl6_UjyTEe43EmmHJK9m/view?usp=drivesdk", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "AFG Azay (Coach)", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }
         ]
     },
     {
