@@ -47,7 +47,7 @@ const dadosEquipes = [
     {
         id: "afrogames",
         nome: "AFROGAMES",
-        logo: "imagens/logos/afrogames.png",
+        logo: "logos/afrogames.png",
         jogadores: [
             { uid: "10000068", nick: "PETER" },
             { uid: "10000071", nick: "dnsetzz" },
@@ -61,7 +61,7 @@ const dadosEquipes = [
     {
         id: "alpha-7",
         nome: "ALPHA 7",
-        logo: "imagens/logos/alpha7.png",
+        logo: "logos/alpha7.png",
         jogadores: [
             { uid: "10000016", nick: "Lc777" },
             { uid: "10000037", nick: "JNmvp7" },
