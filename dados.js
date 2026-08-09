@@ -64,7 +64,7 @@ const dadosEquipes = [
             { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
         ],
         pastasFotos: {
-            FCI: "",
+            FCI: "https://drive.google.com/drive/folders/1q3pwqtvCfdPw2jsQnHcTCnI0jCuP7PFD",
             FBB: "",
             BPD: "",
             BPE: "",
