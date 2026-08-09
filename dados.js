@@ -1,11 +1,11 @@
 // LISTA DE USUÁRIOS E PERMISSÕES DE ACESSO
 const listaUsuarios = [
-    { email: "jotinha@admin.com", senha: "Stw1402s@", scope: "all" },
-    { email: "oaspira@diretoria.com", senha: "SpawnFreeFire26", scope: "all" },
-    { email: "yuta@medialobby.com", senha: "YutaEventos2026", scope: "all" },
-    { email: "thallys@pixelbroadcast.com", senha: "Thallys2026", scope: "all" },
+    { email: "admin@medialobby.com", senha: "Stw1402s@", scope: "all" },
+    { email: "staff@medialobby.com", senha: "suasenhastaff", scope: "all" },
+    { email: "organizador@medialobby.com", senha: "suasenhaorg", scope: "all" },
+    { email: "medialobby@medialobby.com", senha: "suasenhaglobal", scope: "all" },
     { email: "pedrow@medialobby.com", senha: "infmeuamor", scope: "all" },
-    
+
     { email: "afrogames@equipe.com", senha: "123", scope: "afrogames" },
     { email: "alpha7@equipe.com", senha: "123", scope: "alpha-7" },
     { email: "cptvox@equipe.com", senha: "123", scope: "cpt-vox" },
@@ -63,14 +63,33 @@ const dadosEquipes = [
             { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
             { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
         ],
+        pastasFotos: {
+            FCI: "",
+            FBB: "",
+            BPD: "",
+            BPE: "",
+            FBC: "",
+            BCD: "",
+            BCE: "",
+            PDB: "",
+            MVP: "",
+            FUN1: "",
+            FUN2: "",
+            FPG1: "",
+            FPG2: "",
+            FPG3: "",
+            CPD: "",
+            CPE: "",
+            CDR: ""
+        },
         membros: [
-            { nick: "AFG.PETER", fotos: { FCI: "https://drive.google.com/file/d/1nOYALGVafC8iM852uqoNQfNotGwBcWTz/view?usp=drivesdk", FBB: "https://drive.google.com/file/d/1LjG3gu39yPH6o2DObxRFrcYtrGRr0sml/view?usp=drivesdk", BPD: "https://drive.google.com/file/d/1l7_1Q3UP88f9WbtwfZf8g4isG6Jbl6d5/view?usp=drivesdk", BPE: "https://drive.google.com/file/d/1NXBSYNF3-EHx-uYdEy9BFf_MI-Qs8gzZ/view?usp=drivesdk", FBC: "https://drive.google.com/file/d/1prX56JpOO3Z8OAHw4RVOHIid9hmB3ADE/view?usp=drivesdk", BCD: "https://drive.google.com/file/d/1RadKFm0sKgqhxvwtWkyOtCNaQ4V_3FlM/view?usp=drivesdk", BCE: "https://drive.google.com/file/d/1pNIrV4C7_wkW0KWEkit3IdKlSqjG1JFR/view?usp=drivesdk", PDB: "https://drive.google.com/file/d/1ihBQqnS0ls8ZNXmpFUWt8ayYOVxmoRAA/view?usp=drivesdk", MVP: "https://drive.google.com/file/d/1460wbpm4_bf9e9HpHLoe_jfx639oJkJU/view?usp=drivesdk", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
-            { nick: "AFG.DNSETZZ", fotos: { FCI: "https://drive.google.com/file/d/1BG36BeGw8r1nTV1o9JHXschB_AFSnPAz/view?usp=drivesdk", FBB: "https://drive.google.com/file/d/12GwLBaAvrmU_ehCCWaUNQCmrrbiHprUI/view?usp=drivesdk", BPD: "https://drive.google.com/file/d/1dpZSJRw9oBlvzKJm4xGDSal2-Qe7jM_x/view?usp=drivesdk", BPE: "https://drive.google.com/file/d/1CGkj6gRo_VbHlFgJCwJ3Jtd8T00LSGoi/view?usp=drivesdk", FBC: "https://drive.google.com/file/d/1bu0vWHwme0qjldZeEaA0lt_er7cjbK2e/view?usp=drivesdk", BCD: "https://drive.google.com/file/d/1WSZGg77kcGqLCu1X0jdhIi5zNHVhFvzu/view?usp=drivesdk", BCE: "https://drive.google.com/file/d/1C-cWgy890Hz40k50IwOefBBrHs2xMymY/view?usp=drivesdk", PDB: "https://drive.google.com/file/d/1VaVdvDXCEQ0epbTqhd6d0MFY1Zx2HtzG/view?usp=drivesdk", MVP: "https://drive.google.com/file/d/1ZhiErAW3IGW9URWNWkR8Pfnvo3VfzQxL/view?usp=drivesdk", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
-            { nick: "AFG.NIELFFX", fotos: { FCI: "https://drive.google.com/file/d/1FWg2LII5Saqo77SraR97W0x9XJ5bHqbp/view?usp=drivesdk", FBB: "https://drive.google.com/file/d/1ahRsMj_hMlfC8cxrfk5p2TIk5q2lF_U-/view?usp=drivesdk", BPD: "https://drive.google.com/file/d/1-8fHV-1vZzBc6iGE22QCrAUroR-ZxTMh/view?usp=drivesdk", BPE: "https://drive.google.com/file/d/1NxbH8moPR62QeJcvaiRQE6KXpcr49ceW/view?usp=drivesdk", FBC: "https://drive.google.com/file/d/11Orn3bTNSMzUt3egGP7Vm1CJJjZwmdkS/view?usp=drivesdk", BCD: "https://drive.google.com/file/d/1eWZuI9MjlrIIz8Umw_9dHOT2zAZl_XCM/view?usp=drivesdk", BCE: "https://drive.google.com/file/d/12Lr7GaujIFtcm3KPJdKriLCnY3yMeD4V/view?usp=drivesdk", PDB: "https://drive.google.com/file/d/1eOwxOAtthPbVgglIoeBE08Yg0u0SLsLG/view?usp=drivesdk", MVP: "https://drive.google.com/file/d/1I3zQMIok4ZvtNxUr-fMmfe24te7crYcW/view?usp=drivesdk", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
-            { nick: "AFG.BRABOXX7", fotos: { FCI: "https://drive.google.com/file/d/1CqrC2CE8eRwjIzktQLfH_IkcZrlxkISH/view?usp=drivesdk", FBB: "https://drive.google.com/file/d/1467KjMfHRD0kxNdrevrhQBKo4K9hXKR7/view?usp=drivesdk", BPD: "https://drive.google.com/file/d/1FEyVzlYFBJcXh0Ey0c1pZkJM6ksdigH-/view?usp=drivesdk", BPE: "https://drive.google.com/file/d/13Frk6S7m5Ao_9U7uBzXj7-l5gEvR-dSt/view?usp=drivesdk", FBC: "https://drive.google.com/file/d/1xFCPD4dkq0gcwZMW6c1uArhpGEJh6P6d/view?usp=drivesdk", BCD: "https://drive.google.com/file/d/1Z4LRNHOD-wbm6SsiGqSX9ZOFgdlDwKhh/view?usp=drivesdk", BCE: "https://drive.google.com/file/d/1GYUHBz4hxlOITaJlUBy5WKip2dmG2Ytz/view?usp=drivesdk", PDB: "https://drive.google.com/file/d/1l9N1PKNKRvAfYT6zZEuKyLXzFfHYBsY8/view?usp=drivesdk", MVP: "https://drive.google.com/file/d/1gcKpOFQGSIBlSbzqmEorsUlzWvyCFAv4/view?usp=drivesdk", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
-            { nick: "AFG.SANT10$", fotos: { FCI: "https://drive.google.com/file/d/1vJmUUKz-DZe81w0aYKPdK1XsBxNJmbZb/view?usp=drivesdk", FBB: "https://drive.google.com/file/d/1ZazNlSxps7B1VqbaRUS-bsBK5_VHKuTi/view?usp=drivesdk", BPD: "https://drive.google.com/file/d/1BVefio53IrG3_ZDA5aw7WolTXXzqxgSC/view?usp=drivesdk", BPE: "https://drive.google.com/file/d/1Qw1DzzmjcI0gd56T9oOFB3z2oeNDAs3p/view?usp=drivesdk", FBC: "https://drive.google.com/file/d/1AE3E-k3z5pklfUiqE610xVAvv88m_R1p/view?usp=drivesdk", BCD: "https://drive.google.com/file/d/1MW2HSiXOMgWQW_VnssCAtVY2qZe5T4F3/view?usp=drivesdk", BCE: "https://drive.google.com/file/d/1UK9FyJswg9gIF01TT4xW0-GQ4Pfls7sk/view?usp=drivesdk", PDB: "https://drive.google.com/file/d/1wa53FsRtB5n3Shi8Zdt1mH9YZNkzPkaP/view?usp=drivesdk", MVP: "https://drive.google.com/file/d/1Sv8P3H1WSAk72MBNUW37pHbMEGAOz3gz/view?usp=drivesdk", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
-            { nick: "AFG.GBZINN7$", fotos: { FCI: "https://drive.google.com/file/d/1ZfEg9WTzaDnAE3i8oAGbSblngAjKI-pw/view?usp=drivesdk", FBB: "https://drive.google.com/file/d/1njZwrwR0P47uvl6_UjyTEe43EmmHJK9m/view?usp=drivesdk", BPD: "https://drive.google.com/file/d/17LeZdVLO2n6xh1GcrJld3VBlLSz5PB49/view?usp=drivesdk", BPE: "https://drive.google.com/file/d/1pZQeq_3QaHSPAYX3Qbg9Wn7HzjTpXgdu/view?usp=drivesdk", FBC: "https://drive.google.com/file/d/1qRCXwf22eCwnusElA6W0RlhQIatZdbBT/view?usp=drivesdk", BCD: "https://drive.google.com/file/d/1AYxSR5HL0gu57_ZP0FZ6E95vl_M_H6JS/view?usp=drivesdk", BCE: "https://drive.google.com/file/d/1oOUgRzaVppkytkfWwMin6qCFfQyWgTjd/view?usp=drivesdk", PDB: "https://drive.google.com/file/d/19rpylLjtM2awOkUX2s-FCAMyF-XmFSjj/view?usp=drivesdk", MVP: "https://drive.google.com/file/d/1ou1Q1R2wwirXiG1_7NtViFnmUyBuKUby/view?usp=drivesdk", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
-            { nick: "AFG.AZAY (Coach)", fotos: { FCI: "https://drive.google.com/file/d/1O2a-Zr0AjctOxXsSUCkqc735tqmAsbxb/view?usp=drivesdk", FBB: "https://drive.google.com/file/d/1G2owUgQdGwm-IWyb5PoHRV82M1FPu38F/view?usp=drivesdk", BPD: "https://drive.google.com/file/d/13qyBYGN--DucggprFy8Q3-epKhPoFPR5/view?usp=drivesdk", BPE: "https://drive.google.com/file/d/1LIgZQysfzew6LhrzpsaTmiiX4WLMyEJ9/view?usp=drivesdk", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }
+            { nick: "PETER", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "dnsetzz", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Nielffx", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Braboxx7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Sant10$", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "gbzinn7$", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
+            { nick: "Azay (Coach)", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }
         ]
     },
     {
@@ -91,6 +110,25 @@ const dadosEquipes = [
             { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
             { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
         ],
+        pastasFotos: {
+            FCI: "",
+            FBB: "",
+            BPD: "",
+            BPE: "",
+            FBC: "",
+            BCD: "",
+            BCE: "",
+            PDB: "",
+            MVP: "",
+            FUN1: "",
+            FUN2: "",
+            FPG1: "",
+            FPG2: "",
+            FPG3: "",
+            CPD: "",
+            CPE: "",
+            CDR: ""
+        },
         membros: [
             { nick: "Lc777", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
             { nick: "JNmvp7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
@@ -118,6 +156,25 @@ const dadosEquipes = [
             { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
             { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
         ],
+        pastasFotos: {
+            FCI: "",
+            FBB: "",
+            BPD: "",
+            BPE: "",
+            FBC: "",
+            BCD: "",
+            BCE: "",
+            PDB: "",
+            MVP: "",
+            FUN1: "",
+            FUN2: "",
+            FPG1: "",
+            FPG2: "",
+            FPG3: "",
+            CPD: "",
+            CPE: "",
+            CDR: ""
+        },
         membros: [
             { nick: "Ângelo7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
             { nick: "Gbtrem22", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
@@ -144,6 +201,25 @@ const dadosEquipes = [
             { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
             { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
         ],
+        pastasFotos: {
+            FCI: "",
+            FBB: "",
+            BPD: "",
+            BPE: "",
+            FBC: "",
+            BCD: "",
+            BCE: "",
+            PDB: "",
+            MVP: "",
+            FUN1: "",
+            FUN2: "",
+            FPG1: "",
+            FPG2: "",
+            FPG3: "",
+            CPD: "",
+            CPE: "",
+            CDR: ""
+        },
         membros: [
             { nick: "Henry10", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
             { nick: "Soares", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
@@ -171,6 +247,25 @@ const dadosEquipes = [
             { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
             { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
         ],
+        pastasFotos: {
+            FCI: "",
+            FBB: "",
+            BPD: "",
+            BPE: "",
+            FBC: "",
+            BCD: "",
+            BCE: "",
+            PDB: "",
+            MVP: "",
+            FUN1: "",
+            FUN2: "",
+            FPG1: "",
+            FPG2: "",
+            FPG3: "",
+            CPD: "",
+            CPE: "",
+            CDR: ""
+        },
         membros: [
             { nick: "Bops", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
             { nick: "MT7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
@@ -197,6 +292,25 @@ const dadosEquipes = [
             { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
             { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
         ],
+        pastasFotos: {
+            FCI: "",
+            FBB: "",
+            BPD: "",
+            BPE: "",
+            FBC: "",
+            BCD: "",
+            BCE: "",
+            PDB: "",
+            MVP: "",
+            FUN1: "",
+            FUN2: "",
+            FPG1: "",
+            FPG2: "",
+            FPG3: "",
+            CPD: "",
+            CPE: "",
+            CDR: ""
+        },
         membros: [
             { nick: "nepoIGN", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
             { nick: "IGOR7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
@@ -224,6 +338,25 @@ const dadosEquipes = [
             { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
             { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
         ],
+        pastasFotos: {
+            FCI: "",
+            FBB: "",
+            BPD: "",
+            BPE: "",
+            FBC: "",
+            BCD: "",
+            BCE: "",
+            PDB: "",
+            MVP: "",
+            FUN1: "",
+            FUN2: "",
+            FPG1: "",
+            FPG2: "",
+            FPG3: "",
+            CPD: "",
+            CPE: "",
+            CDR: ""
+        },
         membros: [
             { nick: "honeyzL", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
             { nick: "PEREIRA", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
@@ -251,6 +384,25 @@ const dadosEquipes = [
             { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
             { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
         ],
+        pastasFotos: {
+            FCI: "",
+            FBB: "",
+            BPD: "",
+            BPE: "",
+            FBC: "",
+            BCD: "",
+            BCE: "",
+            PDB: "",
+            MVP: "",
+            FUN1: "",
+            FUN2: "",
+            FPG1: "",
+            FPG2: "",
+            FPG3: "",
+            CPD: "",
+            CPE: "",
+            CDR: ""
+        },
         membros: [
             { nick: "Stark10", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
             { nick: "Draxx7", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
@@ -278,6 +430,25 @@ const dadosEquipes = [
             { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
             { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
         ],
+        pastasFotos: {
+            FCI: "",
+            FBB: "",
+            BPD: "",
+            BPE: "",
+            FBC: "",
+            BCD: "",
+            BCE: "",
+            PDB: "",
+            MVP: "",
+            FUN1: "",
+            FUN2: "",
+            FPG1: "",
+            FPG2: "",
+            FPG3: "",
+            CPD: "",
+            CPE: "",
+            CDR: ""
+        },
         membros: [
             { nick: "General!", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
             { nick: "Yago", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
@@ -293,9 +464,9 @@ const dadosEquipes = [
         nome: "LOUD SNICKERS",
         logo: "https://drive.google.com/file/d/12-OgkD0hxZaBMMWwFuItzPz6A6vg_gLg/view?usp=drivesdk",
         logos: [
-            { nome: "LOGO 1", id: "https://drive.google.com/file/d/1MQfqoKBUU_qJDK5PVIj7xqbOjpF62I1k/view?usp=drivesdk" }, { nome: "LOGO 2", id: "https://drive.google.com/file/d/12-OgkD0hxZaBMMWwFuItzPz6A6vg_gLg/view?usp=drivesdk" }, { nome: "LOGO 4", id: "https://drive.google.com/file/d/1hWVVI0sXhn-K18NxLWp9MYSymFhwAeTM/view?usp=drivesdk" },
-            { nome: "LOGO 4", id: "https://drive.google.com/file/d/1xYQl0J-NbEpikSkjEi6OjGGN4ZtPToaE/view?usp=drivesdk" }, { nome: "LOGO 5", id: "https://drive.google.com/file/d/1FhAahkOrQlH3BPWLq6KY40P90_4elV99/view?usp=drivesdk" }, { nome: "LOGO 6", id: "https://drive.google.com/file/d/1Nx42caTDCEUeLYB4ow4Gc8AGcLImegiE/view?usp=drivesdk" },
-            { nome: "LOGO 7", id: "https://drive.google.com/file/d/1qmRQCZb_urQFVV1aEiCziR5VUwwAzSK-/view?usp=drivesdk" }, { nome: "LOGO 8", id: "https://drive.google.com/file/d/1-BT7cCnUzmabBLm2jx8uINai-mTseYdQ/view?usp=drivesdk" }, { nome: "LOGO 9", id: "https://drive.google.com/file/d/1J82k-yygTpodFgRxSCU5pNWVnoHP_na0/view?usp=drivesdk" },
+            { nome: "Logo 1", id: "https://drive.google.com/file/d/1MQfqoKBUU_qJDK5PVIj7xqbOjpF62I1k/view?usp=drivesdk" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
+            { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
+            { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
             { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
             { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
         ],
@@ -306,6 +477,25 @@ const dadosEquipes = [
             { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
             { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
         ],
+        pastasFotos: {
+            FCI: "",
+            FBB: "",
+            BPD: "",
+            BPE: "",
+            FBC: "",
+            BCD: "",
+            BCE: "",
+            PDB: "",
+            MVP: "",
+            FUN1: "",
+            FUN2: "",
+            FPG1: "",
+            FPG2: "",
+            FPG3: "",
+            CPD: "",
+            CPE: "",
+            CDR: ""
+        },
         membros: [
             { nick: "GUAXA", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
             { nick: "TRAP", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
@@ -320,9 +510,9 @@ const dadosEquipes = [
         nome: "RISE GAMING",
         logo: "https://drive.google.com/file/d/1HfE2PbCUDvffobIGwIsxKX7YaSMGznyI/view?usp=drivesdk",
         logos: [
-            { nome: "LOGO 1", id: "https://drive.google.com/file/d/1RJbbuoUVgqB5m59wAHNE6nYumY-2Ly_P/view?usp=drivesdk" }, { nome: "LOGO 2", id: "https://drive.google.com/file/d/1VcBtfjFxvEbHR0OKtWG5ZXoa_rU5jKa-/view?usp=drivesdk" }, { nome: "LOGO BRANCA", id: "https://drive.google.com/file/d/1HfE2PbCUDvffobIGwIsxKX7YaSMGznyI/view?usp=drivesdk" },
-            { nome: "LOGO 1 HORIZONTAL COM ESCRITA BRANCA", id: "https://drive.google.com/file/d/187yAUiz7nGiZ4WbYChWkj8ndaybd-mxa/view?usp=drivesdk" }, { nome: "LOGO COM ESCRITA VERTICAL", id: "https://drive.google.com/file/d/11OIYy5tvps_kuDi4LBtSZyyDg-YXgKtk/view?usp=drivesdk" }, { nome: "LOGO PRETA 1 COM ESCRITA HORIZONTAL", id: "https://drive.google.com/file/d/1C4GKYUAvh9G3jkfiHQ7pL-omjAVJ4mPc/view?usp=drivesdk" },
-            { nome: "LOGO PRETA 2 COM ESCRITA HORIZONTAL", id: "https://drive.google.com/file/d/1x1d_UX0UEFSs7FQO0c4pI7Ogsg9VKa5q/view?usp=drivesdk" }, { nome: "LOGO PRETA", id: "https://drive.google.com/file/d/1h5Xl4kfrzd3iOYCUSF1A9t6zcvXyV1Ov/view?usp=drivesdk" }, { nome: "Logo 9", id: "" },
+            { nome: "Logo 1", id: "" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
+            { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
+            { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
             { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
             { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
         ],
@@ -333,6 +523,25 @@ const dadosEquipes = [
             { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
             { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
         ],
+        pastasFotos: {
+            FCI: "",
+            FBB: "",
+            BPD: "",
+            BPE: "",
+            FBC: "",
+            BCD: "",
+            BCE: "",
+            PDB: "",
+            MVP: "",
+            FUN1: "",
+            FUN2: "",
+            FPG1: "",
+            FPG2: "",
+            FPG3: "",
+            CPD: "",
+            CPE: "",
+            CDR: ""
+        },
         membros: [
             { nick: "Erick11", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
             { nick: "Nandox", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
@@ -346,7 +555,7 @@ const dadosEquipes = [
         nome: "RUSH GAMING",
         logo: "https://drive.google.com/file/d/1gGYqfRuOHbJY2UpnI51gHnzWoWMU0diw/view?usp=drivesdk",
         logos: [
-            { nome: "LOGO DOURADA", id: "https://drive.google.com/file/d/1gGYqfRuOHbJY2UpnI51gHnzWoWMU0diw/view?usp=drivesdk" }, { nome: "LOGO VERMELHA", id: "https://drive.google.com/file/d/10whVPWXlIlOo92qojLFe25ibXOJ5stDz/view?usp=drivesdk" }, { nome: "Logo 3", id: "" },
+            { nome: "Logo 1", id: "" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
             { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
             { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
             { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
@@ -359,6 +568,25 @@ const dadosEquipes = [
             { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
             { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
         ],
+        pastasFotos: {
+            FCI: "",
+            FBB: "",
+            BPD: "",
+            BPE: "",
+            FBC: "",
+            BCD: "",
+            BCE: "",
+            PDB: "",
+            MVP: "",
+            FUN1: "",
+            FUN2: "",
+            FPG1: "",
+            FPG2: "",
+            FPG3: "",
+            CPD: "",
+            CPE: "",
+            CDR: ""
+        },
         membros: [
             { nick: "Prozin", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
             { nick: "Guimerlq", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
@@ -373,7 +601,7 @@ const dadosEquipes = [
         nome: "SX TET",
         logo: "https://drive.google.com/file/d/15KAn4zGURlF45V1NYwsjkQ0eAe-7utT7/view?usp=drivesdk",
         logos: [
-            { nome: "LOGO PRINCIPAL", id: "https://drive.google.com/file/d/15KAn4zGURlF45V1NYwsjkQ0eAe-7utT7/view?usp=drivesdk" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
+            { nome: "Logo 1", id: "" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
             { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
             { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
             { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
@@ -386,6 +614,25 @@ const dadosEquipes = [
             { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
             { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
         ],
+        pastasFotos: {
+            FCI: "",
+            FBB: "",
+            BPD: "",
+            BPE: "",
+            FBC: "",
+            BCD: "",
+            BCE: "",
+            PDB: "",
+            MVP: "",
+            FUN1: "",
+            FUN2: "",
+            FPG1: "",
+            FPG2: "",
+            FPG3: "",
+            CPD: "",
+            CPE: "",
+            CDR: ""
+        },
         membros: [
             { nick: "NikeboyTT", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
             { nick: "IsackSRTT", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
@@ -399,7 +646,7 @@ const dadosEquipes = [
         nome: "TEAM SOLID",
         logo: "https://drive.google.com/file/d/1OqzqKwiZSAzJtrPgoQx2jRGHIj5VGmrV/view?usp=drivesdk",
         logos: [
-            { nome: "LOGO BRANCA", id: "https://drive.google.com/file/d/1OqzqKwiZSAzJtrPgoQx2jRGHIj5VGmrV/view?usp=drivesdk" }, { nome: "LOGO PRETA", id: "https://drive.google.com/file/d/10zi-Sv9mxjORO9WiwI4cgDsslOtydSEp/view?usp=drivesdk" }, { nome: "Logo 3", id: "" },
+            { nome: "Logo 1", id: "" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
             { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
             { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
             { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
@@ -412,6 +659,25 @@ const dadosEquipes = [
             { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
             { nome: "Brasão 13", id: "" }, { nome: "Brasão 14", id: "" }, { nome: "Brasão 15", id: "" }
         ],
+        pastasFotos: {
+            FCI: "",
+            FBB: "",
+            BPD: "",
+            BPE: "",
+            FBC: "",
+            BCD: "",
+            BCE: "",
+            PDB: "",
+            MVP: "",
+            FUN1: "",
+            FUN2: "",
+            FPG1: "",
+            FPG2: "",
+            FPG3: "",
+            CPD: "",
+            CPE: "",
+            CDR: ""
+        },
         membros: [
             { nick: "vitinxp", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
             { nick: "BYTE333", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } },
@@ -430,7 +696,7 @@ const dadosEquipes = [
 // Cole o link da pasta do Drive correspondente a cada estilo.
 // ================================================================
 const pastasFotosDrive = {
-    FCI: "https://drive.google.com/drive/folders/1q3pwqtvCfdPw2jsQnHcTCnI0jCuP7PFD",
+    FCI: "",
     FBB: "",
     BPD: "",
     BPE: "",
@@ -449,40 +715,7 @@ const pastasFotosDrive = {
     CDR: ""
 };
 
-function extrairIdDrive(valor) {
-    if (!valor) return "";
-    const s = String(valor).trim();
-    if (/^[A-Za-z0-9_-]{10,}$/.test(s)) return s;
-
-    let m = s.match(/\/folders\/([A-Za-z0-9_-]+)/);
-    if (m) return m[1];
-
-    m = s.match(/\/d\/([A-Za-z0-9_-]+)/);
-    if (m) return m[1];
-
-    m = s.match(/[?&]id=([A-Za-z0-9_-]+)/);
-    return m ? m[1] : "";
-}
-
-function urlImagemDrive(idOuUrl) {
-    const id = extrairIdDrive(idOuUrl);
-    return id ? `https://drive.google.com/uc?export=view&id=${encodeURIComponent(id)}` : (idOuUrl || "");
-}
-
-function urlDownloadDrive(idOuUrl) {
-    const id = extrairIdDrive(idOuUrl);
-    return id ? `https://drive.google.com/uc?export=download&id=${encodeURIComponent(id)}` : (idOuUrl || "");
-}
-
-
-// CONFIGURAÇÃO DO SISTEMA DE FOTOS NO GOOGLE DRIVE
-// Somente o sistema de FOTOS usa estes campos.
-// Logos e brasões existentes acima permanecem inalterados.
-const GOOGLE_DRIVE_FOTOS = {
-    API_KEY: "AlzaSyDtKL3jKLDhBEpRTfjqMXtgph3GwZkbXpg",
-    pastas: (typeof pastasFotosDrive !== "undefined" ? pastasFotosDrive : {})
-};
-
+// Helper usado apenas pelo sistema de fotos do painel.
 function extrairIdDrive(valor) {
     if (!valor) return "";
     const s = String(valor).trim();
@@ -494,3 +727,7 @@ function extrairIdDrive(valor) {
     m = s.match(/[?&]id=([A-Za-z0-9_-]+)/);
     return m ? m[1] : "";
 }
+
+// API usada somente para carregar e baixar fotos das pastas configuradas
+// dentro de cada equipe. Logos e brasões não são afetados.
+const GOOGLE_DRIVE_API_KEY = "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";
