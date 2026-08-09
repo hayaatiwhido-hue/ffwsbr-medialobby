@@ -74,7 +74,7 @@ const dadosEquipes = [
     {
         id: "cpt-vox",
         nome: "CPT VOX",
-        logo: "imagens/logos/cptvox.png",
+        logo: "logos/cptvox.png",
         jogadores: [
             { uid: "10000115", nick: "Ângelo7" },
             { uid: "10000179", nick: "Gbtrem22" },
@@ -86,7 +86,7 @@ const dadosEquipes = [
     {
         id: "civis",
         nome: "CIVIS",
-        logo: "imagens/logos/civis.png",
+        logo: "logos/civis.png",
         jogadores: [
             { uid: "10000084", nick: "Henry10" },
             { uid: "10000100", nick: "Soares" },
@@ -99,7 +99,7 @@ const dadosEquipes = [
     {
         id: "fluxo-w7m",
         nome: "FLUXO W7M",
-        logo: "imagens/logos/fluxow7m.png",
+        logo: "logos/fluxow7m.png",
         jogadores: [
             { uid: "10000012", nick: "Bops" },
             { uid: "10000048", nick: "MT7" },
@@ -111,7 +111,7 @@ const dadosEquipes = [
     {
         id: "influence-rage",
         nome: "INFLUENCE RAGE",
-        logo: "imagens/logos/influencerage.png",
+        logo: "logos/influencerage.png",
         jogadores: [
             { uid: "10000065", nick: "InepoIGN", arquivo: "InepoIGN" },
             { uid: "10000087", nick: "IGOR7" },
@@ -124,7 +124,7 @@ const dadosEquipes = [
     {
         id: "intz-esports",
         nome: "INTZ ESPORTS",
-        logo: "imagens/logos/intz.png",
+        logo: "logos/intz.png",
         jogadores: [
             { uid: "10000029", nick: "honeyzL" },
             { uid: "10000086", nick: "PEREIRA" },
@@ -137,7 +137,7 @@ const dadosEquipes = [
     {
         id: "loops-esports",
         nome: "LOOPS ESPORTS",
-        logo: "imagens/logos/loops.png",
+        logo: "logos/loops.png",
         jogadores: [
             { uid: "10000070", nick: "Stark10" },
             { uid: "10000073", nick: "Draxx7" },
@@ -150,7 +150,7 @@ const dadosEquipes = [
     {
         id: "los",
         nome: "LOS",
-        logo: "imagens/logos/los.png",
+        logo: "logos/los.png",
         jogadores: [
             { uid: "10000033", nick: "General!" },
             { uid: "10000040", nick: "Yago" },
@@ -164,7 +164,7 @@ const dadosEquipes = [
     {
         id: "loud-snickers",
         nome: "LOUD SNICKERS",
-        logo: "imagens/logos/loudsnickers.png",
+        logo: "logos/loudsnickers.png",
         jogadores: [
             { uid: "10000043", nick: "GUAXA" },
             { uid: "10000044", nick: "TRAP" },
@@ -177,7 +177,7 @@ const dadosEquipes = [
     {
         id: "rise-gaming",
         nome: "RISE GAMING",
-        logo: "imagens/logos/risegaming.png",
+        logo: "logos/risegaming.png",
         jogadores: [
             { uid: "10000036", nick: "Erick11" },
             { uid: "10000039", nick: "Nandox" },
@@ -189,7 +189,7 @@ const dadosEquipes = [
     {
         id: "rush-gaming",
         nome: "RUSH GAMING",
-        logo: "imagens/logos/rushgaming.png",
+        logo: "logos/rushgaming.png",
         jogadores: [
             { uid: "10000014", nick: "Prozin" },
             { uid: "10000052", nick: "Guimerlq" },
@@ -202,7 +202,7 @@ const dadosEquipes = [
     {
         id: "sx-tet",
         nome: "SX TET",
-        logo: "imagens/logos/sxtet.png",
+        logo: "logos/sxtet.png",
         jogadores: [
             { uid: "10000031", nick: "NikeboyTT" },
             { uid: "10000089", nick: "IsackSRTT" },
@@ -214,7 +214,7 @@ const dadosEquipes = [
     {
         id: "team-solid",
         nome: "TEAM SOLID",
-        logo: "imagens/logos/teamsolid.png",
+        logo: "logos/teamsolid.png",
         jogadores: [
             { uid: "10000067", nick: "vitinxp" },
             { uid: "10000069", nick: "BYTE333" },
