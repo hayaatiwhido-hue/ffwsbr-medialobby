@@ -111,7 +111,7 @@ const dadosEquipes = [
             { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
         ],
         brasoes: [
-            { nome: "BRASÃO 1", id: "https://drive.google.com/file/d/1eIpUZgfrXoq78HZSNQOjCSYzjx2ksbWf/view?usp=drivesdk" }, { nome: "BRASÃO 2", id: "https://drive.google.com/file/d/1TeqH5qV2H8Tl2K1DcdaH_6IGt5OQ7nNR/view?usp=drivesdk" }, { nome: "BRASÃO 3", id: "https://drive.google.com/file/d/1PwqgmeJNi3YC8Hhwq5Il8fwNSu2VJTUW/view?usp=drivesdk" },
+            { nome: "BRASÃO 1", id: "https://drive.google.com/file/d/1YxspL6g2ghgRF77G1QKCWhDDX54y0vWA/view?usp=drivesdk" }, { nome: "BRASÃO 2", id: "https://drive.google.com/file/d/1QHwZktHTPbmHaAov2btYFJaSZOUJhd1l/view?usp=drivesdk" }, { nome: "BRASÃO 3", id: "https://drive.google.com/file/d/1znPFs5I9I26GrUWC5t10sH5ZVDKf-Of5/view?usp=drivesdk" },
             { nome: "Brasão 4", id: "" }, { nome: "Brasão 5", id: "" }, { nome: "Brasão 6", id: "" },
             { nome: "Brasão 7", id: "" }, { nome: "Brasão 8", id: "" }, { nome: "Brasão 9", id: "" },
             { nome: "Brasão 10", id: "" }, { nome: "Brasão 11", id: "" }, { nome: "Brasão 12", id: "" },
