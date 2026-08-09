@@ -157,7 +157,6 @@
         function processarLinkDrive(idOuUrl) {
             if (!idOuUrl) return '';
             let limpo = idOuUrl.trim();
-            // Se já for uma URL completa do Google Drive ou lh3, extrai o ID se possível ou usa direto
             if (limpo.includes('drive.google.com') || limpo.includes('id=')) {
                 const match = limpo.match(/id=([a-zA-Z0-9_-]+)/);
                 if (match && match[1]) {
@@ -167,11 +166,36 @@
                     if (match2 && match2[1]) limpo = match2[1];
                 }
             }
-            // Se parecer um ID puro do Drive
             if (limpo.length > 20 && !limpo.includes('/')) {
                 return `https://lh3.googleusercontent.com/d/${limpo}`;
             }
-            return limpo; // Retorna o original caso seja um link local ou externo padrão
+            return limpo;
+        }
+
+        // Nova função para realizar o download direto do arquivo sem redirecionar para o Drive
+        async function baixarArquivo(url, nomeArquivo) {
+            try {
+                const response = await fetch(url);
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = blobUrl;
+                a.download = nomeArquivo;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(blobUrl);
+                document.body.removeChild(a);
+            } catch (error) {
+                // Fallback caso ocorra restrição de CORS
+                const a = document.createElement('a');
+                a.href = url;
+                a.target = '_blank';
+                a.download = nomeArquivo;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
         }
 
         function renderizarEquipes() {
@@ -216,7 +240,7 @@
 
             container.innerHTML = '';
 
-            // 1. Logotipos (Lendo o array de logos da equipe)
+            // 1. Logotipos
             container.innerHTML += `
                 <div onclick="abrirPastaLogosEBrasoes('Logotipos')" class="bg-[#161624] border border-[#2a2a3f] p-6 rounded-xl shadow-md cursor-pointer card-hover transition flex flex-col items-center text-center border-amber-500/40">
                     <div class="text-4xl mb-3">📁</div>
@@ -225,7 +249,7 @@
                 </div>
             `;
 
-            // 2. Brasões (Lendo o array de brasoes da equipe)
+            // 2. Brasões
             container.innerHTML += `
                 <div onclick="abrirPastaLogosEBrasoes('Brasões')" class="bg-[#161624] border border-[#2a2a3f] p-6 rounded-xl shadow-md cursor-pointer card-hover transition flex flex-col items-center text-center border-amber-500/40">
                     <div class="text-4xl mb-3">📁</div>
@@ -234,7 +258,7 @@
                 </div>
             `;
 
-            // 3. Demais estilos de fotos dos jogadores
+            // 3. Demais estilos de fotos
             listaEstilos.forEach((estilo, index) => {
                 const nomeFormatado = formatarTitulo(estilo.nomeEstilo);
                 container.innerHTML += `
@@ -259,7 +283,6 @@
                 btnInicio.classList.remove('hidden');
             }
 
-            // Garante compatibilidade caso o array venha estruturado como .logos/.brasoes ou como propriedades diretas
             let itens = [];
             if (tipo === 'Logotipos') {
                 itens = equipeSelecionada.logos || [];
@@ -267,7 +290,6 @@
                 itens = equipeSelecionada.brasoes || [];
             }
 
-            // Filtra itens que possuem ID ou link válido preenchido
             const itensValidos = itens.filter(item => {
                 const val = typeof item === 'string' ? item : (item.id || item.link);
                 return val && val.trim() !== "" && !val.includes("SEU_ID");
@@ -291,11 +313,7 @@
                 let nomeItem = typeof item === 'object' && item.nome ? item.nome : `${tipo.slice(0, -1)} ${idx + 1}`;
                 
                 let urlDriveImg = processarLinkDrive(valorBruto);
-                
-                // Extrai o ID limpo para o link de download direto do Google Drive se for o caso
-                let matchId = valorBruto.match(/id=([a-zA-Z0-9_-]+)/) || valorBruto.match(/\/d\/([a-zA-Z0-9_-]+)/);
-                let idLimpo = matchId ? matchId[1] : (valorBruto.length > 20 && !valorBruto.includes('/') ? valorBruto : '');
-                let urlDriveDownload = idLimpo ? `https://drive.google.com/uc?export=download&id=${idLimpo}` : urlDriveImg;
+                let nomeArquivoSeguro = `${nomeItem.replace(/[^a-zA-Z0-9-_]/g, '_')}.png`;
 
                 htmlCards += `
                     <div class="bg-[#161624] border border-[#2a2a3f] p-4 rounded-xl shadow-md flex flex-col justify-between">
@@ -306,9 +324,9 @@
                             <h2 class="font-bold text-white text-sm truncate mb-1" title="${nomeItem}">${nomeItem}</h2>
                             <p class="text-xs text-amber-400 font-medium mb-4">${tipo}</p>
                         </div>
-                        <a href="${urlDriveDownload}" target="_blank" class="w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
+                        <button onclick="baixarArquivo('${urlDriveImg}', '${nomeArquivoSeguro}')" class="w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
                             Baixar Arquivo
-                        </a>
+                        </button>
                     </div>
                 `;
             });
@@ -355,10 +373,7 @@
                 if (fileId && fileId.trim() !== "") {
                     contadorEncontrados++;
                     let urlDriveImg = processarLinkDrive(fileId);
-                    
-                    let matchId = fileId.match(/id=([a-zA-Z0-9_-]+)/) || fileId.match(/\/d\/([a-zA-Z0-9_-]+)/);
-                    let idLimpo = matchId ? matchId[1] : (fileId.length > 20 && !fileId.includes('/') ? fileId : '');
-                    let urlDriveDownload = idLimpo ? `https://drive.google.com/uc?export=download&id=${idLimpo}` : urlDriveImg;
+                    let nomeArquivoSeguro = `${membro.nick.replace(/[^a-zA-Z0-9-_]/g, '_')}_${siglaEstilo}.png`;
 
                     htmlCards += `
                         <div class="bg-[#161624] border border-[#2a2a3f] p-4 rounded-xl shadow-md flex flex-col justify-between">
@@ -369,9 +384,9 @@
                                 <h2 class="font-bold text-white text-sm truncate mb-1" title="${membro.nick}">${membro.nick}</h2>
                                 <p class="text-xs text-amber-400 font-medium mb-4">${nomeFormatado}</p>
                             </div>
-                            <a href="${urlDriveDownload}" target="_blank" class="w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
+                            <button onclick="baixarArquivo('${urlDriveImg}', '${nomeArquivoSeguro}')" class="w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
                                 Baixar Foto
-                            </a>
+                            </button>
                         </div>
                     `;
                 }
