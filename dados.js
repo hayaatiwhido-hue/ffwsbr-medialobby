@@ -479,7 +479,7 @@ function urlDownloadDrive(idOuUrl) {
 // Somente o sistema de FOTOS usa estes campos.
 // Logos e brasões existentes acima permanecem inalterados.
 const GOOGLE_DRIVE_FOTOS = {
-    API_KEY: "",
+    API_KEY: "AlzaSyDtKL3jKLDhBEpRTfjqMXtgph3GwZkbXpg",
     pastas: (typeof pastasFotosDrive !== "undefined" ? pastasFotosDrive : {})
 };
 
