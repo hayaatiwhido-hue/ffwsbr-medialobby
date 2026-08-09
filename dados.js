@@ -4,8 +4,8 @@ const listaUsuarios = [
     { email: "staff@medialobby.com", senha: "suasenhastaff", scope: "all" },
     { email: "organizador@medialobby.com", senha: "suasenhaorg", scope: "all" },
     { email: "medialobby@medialobby.com", senha: "suasenhaglobal", scope: "all" },
-
-    { email: "pedrow@influence.com", senha: "infmeuamor", scope: "influence-rage" },
+    { email: "pedrow@medialobby.com", senha: "infmeuamor", scope: "all" },
+    
     { email: "afrogames@equipe.com", senha: "123", scope: "afrogames" },
     { email: "alpha7@equipe.com", senha: "123", scope: "alpha-7" },
     { email: "cptvox@equipe.com", senha: "123", scope: "cpt-vox" },
