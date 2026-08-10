@@ -63,7 +63,7 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="min-h-screen text-gray-100 p-6">
+<body class="min-h-screen text-gray-100 p-6 flex flex-col justify-between">
 
     <script>
         if (sessionStorage.getItem('autenticado') !== 'true') {
@@ -71,7 +71,7 @@
         }
     </script>
 
-    <div class="max-w-6xl mx-auto bg-[#10101e]/90 p-6 md:p-8 rounded-2xl shadow-2xl border border-[#e8b033]/30 backdrop-blur-sm">
+    <div class="max-w-6xl mx-auto w-full bg-[#10101e]/90 p-6 md:p-8 rounded-2xl shadow-2xl border border-[#e8b033]/30 backdrop-blur-sm my-auto">
         <div class="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-[#262638] pb-4 gap-4">
             <div class="flex items-center gap-4">
                 <div class="bg-[#1a1a2e] p-2 rounded-lg border border-[#e8b033]/40">
@@ -101,6 +101,12 @@
         <div id="conteudo-painel" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         </div>
     </div>
+
+    <!-- Rodapé com as logos dos criadores lado a lado -->
+    <footer class="flex items-center justify-center gap-4 py-6 mt-4">
+        <img src="info-ffws/logo-diretoria.png" alt="" class="h-8 object-contain opacity-80" onerror="this.style.display='none'">
+        <img src="info-ffws/logo-futury.png" alt="" class="h-8 object-contain opacity-80" onerror="this.style.display='none'">
+    </footer>
 
     <script src="dados.js"></script>
 
@@ -153,7 +159,6 @@
             }
         }
 
-        // Função auxiliar para converter link ou ID do Google Drive em link direto de imagem
         function processarLinkDrive(idOuUrl) {
             if (!idOuUrl) return '';
             let limpo = idOuUrl.trim();
@@ -172,7 +177,6 @@
             return limpo;
         }
 
-        // Nova função para realizar o download direto do arquivo sem redirecionar para o Drive
         async function baixarArquivo(url, nomeArquivo) {
             try {
                 const response = await fetch(url);
@@ -187,7 +191,6 @@
                 window.URL.revokeObjectURL(blobUrl);
                 document.body.removeChild(a);
             } catch (error) {
-                // Fallback caso ocorra restrição de CORS
                 const a = document.createElement('a');
                 a.href = url;
                 a.target = '_blank';
@@ -240,7 +243,6 @@
 
             container.innerHTML = '';
 
-            // 1. Logotipos
             container.innerHTML += `
                 <div onclick="abrirPastaLogosEBrasoes('Logotipos')" class="bg-[#161624] border border-[#2a2a3f] p-6 rounded-xl shadow-md cursor-pointer card-hover transition flex flex-col items-center text-center border-amber-500/40">
                     <div class="text-4xl mb-3">📁</div>
@@ -249,7 +251,6 @@
                 </div>
             `;
 
-            // 2. Brasões
             container.innerHTML += `
                 <div onclick="abrirPastaLogosEBrasoes('Brasões')" class="bg-[#161624] border border-[#2a2a3f] p-6 rounded-xl shadow-md cursor-pointer card-hover transition flex flex-col items-center text-center border-amber-500/40">
                     <div class="text-4xl mb-3">📁</div>
@@ -258,7 +259,6 @@
                 </div>
             `;
 
-            // 3. Demais estilos de fotos
             listaEstilos.forEach((estilo, index) => {
                 const nomeFormatado = formatarTitulo(estilo.nomeEstilo);
                 container.innerHTML += `
@@ -409,7 +409,7 @@
             irParaTopo();
         }
 
-        window.onload = inicializarPainel;
+        window.onload = inicializarPanel = inicializarPainel;
     </script>
 </body>
 </html>
