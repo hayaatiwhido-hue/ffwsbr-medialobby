@@ -7,6 +7,9 @@ const listaUsuarios = [
     { email: "ban@novofuturo.com", senha: "BanFFWSgostoso2026", scope: "all" },
     { email: "anextplay@medialobby.com", senha: "Anextplay@gg", scope: "all" },
     { email: "eduardogabriel081005@gmail.com", senha: "Edubiel12", scope: "all" },
+    { email: "ciliro@esolid.com", senha: "eSolidNews2026", scope: "all" },
+    { email: "yuta@medialobby.com", senha: "YutaEventos2026", scope: "all" },
+    { email: "pedrow@medialobby.com", senha: "infmeuamor", scope: "all" },
     { email: "medialobby@medialobby.com", senha: "suasenhaglobal", scope: "all" },
 
     { email: "afrogames@equipe.com", senha: "123", scope: "afrogames" },
