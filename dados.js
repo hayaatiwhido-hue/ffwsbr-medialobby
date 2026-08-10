@@ -20,7 +20,7 @@ const listaUsuarios = [
     { email: "wf9@influence.com", senha: "WF9_Coach", scope: "influence-rage" },
     { email: "saskito@influence.com", senha: "ManagerINF-2026", scope: "influence-rage" },
     { email: "igor@influence.com", senha: "10218211", scope: "player", playerId: "inf.igor7" },
-    { email: "nepoign@influence.com", senha: "812813", scope: "player", playerId: "inf.nepo" },
+    { email: "nepoign@influence.com", senha: "812813211", scope: "player", playerId: "inf.nepo" },
 
     
 ];
