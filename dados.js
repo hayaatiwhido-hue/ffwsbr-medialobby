@@ -37,7 +37,20 @@ const dominiosLogin = [
     { dominio: "@esolid.com", nome: "eSolid News" },
     { dominio: "@pixelbroadcast.com", nome: "Pixel Broadcast" },
     { dominio: "@diretoria.com", nome: "Diretoria de eSports" },
-    { dominio: "@influence.com", nome: "Influence Rage" }
+    { dominio: "@afrogames.com", nome: "Afrogames" },
+    { dominio: "@alpha7.com", nome: "Alpha 7" },
+    { dominio: "@cptvox.com", nome: "CPT Vox" },
+    { dominio: "@civis.com", nome: "Civis" },
+    { dominio: "@fluxow7m.com", nome: "Fluxo W7M" },
+    { dominio: "@influence.com", nome: "Influence Rage" },
+    { dominio: "@intz.com", nome: "INTZ" },
+    { dominio: "@loops.com", nome: "Loops" },
+    { dominio: "@los.com", nome: "Los" },
+    { dominio: "@loudsnickers.com", nome: "Loud Snickers" },
+    { dominio: "@rise.com", nome: "Rise Gaming" },
+    { dominio: "@rush.com", nome: "Rush Gaming" },
+    { dominio: "@sx.com", nome: "SX TET" },
+    { dominio: "@teamsolid.com", nome: "Team Solid" }
 ];
 
 // LISTA DE PASTAS E SUAS RESPECTIVAS SIGLAS
