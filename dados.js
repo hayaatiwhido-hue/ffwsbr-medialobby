@@ -1,8 +1,6 @@
 // LISTA DE USUÁRIOS E PERMISSÕES DE ACESSO
 const listaUsuarios = [
-    { email: "admin@medialobby.com", senha: "Stw1402s@", scope: "all" },
-    { email: "staff@medialobby.com", senha: "suasenhastaff", scope: "all" },
-    { email: "organizador@medialobby.com", senha: "suasenhaorg", scope: "all" },
+    { email: "jotinha@medialobby.com", senha: "Stw1402s@", scope: "all" },
     { email: "ag4futury2022@novofuturo.com", senha: "Futury@2022", scope: "all" },
     { email: "ban@novofuturo.com", senha: "BanFFWSgostoso2026", scope: "all" },
     { email: "anextplay@medialobby.com", senha: "Anextplay@gg", scope: "all" },
@@ -10,7 +8,6 @@ const listaUsuarios = [
     { email: "ciliro@esolid.com", senha: "eSolidNews2026", scope: "all" },
     { email: "yuta@medialobby.com", senha: "YutaEventos2026", scope: "all" },
     { email: "pedrow@medialobby.com", senha: "infmeuamor", scope: "all" },
-    { email: "medialobby@medialobby.com", senha: "suasenhaglobal", scope: "all" },
     { email: "thallys@pixelbroadcast.com", senha: "AdmPixel1", scope: "all" },
 
     { email: "wf9@influence.com", senha: "WF9_Coach", scope: "influence-rage" },
