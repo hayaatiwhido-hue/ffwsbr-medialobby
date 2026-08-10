@@ -61,17 +61,6 @@
             animation: spin 1s linear infinite;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .idioma-painel { position: fixed; top: 12px; right: 12px; z-index: 80; display:flex; gap:3px; background:#161624e8; border:1px solid rgba(232,176,51,.35); border-radius:10px; padding:4px; }
-        .monitor-sidebar { position:fixed; left:10px; top:50%; transform:translateY(-50%); z-index:70; width:54px; background:#10101eeF; border:1px solid rgba(232,176,51,.35); border-radius:14px; padding:7px; box-shadow:0 12px 35px rgba(0,0,0,.35); transition:width .2s ease; }
-        .monitor-sidebar.expanded { width:230px; }
-        .monitor-sidebar button { width:100%; display:flex; align-items:center; gap:10px; color:#eee; padding:10px 8px; border-radius:9px; text-align:left; }
-        .monitor-sidebar button:hover { background:#252538; }
-        .monitor-tab-label { display:none; white-space:nowrap; font-size:13px; font-weight:700; }
-        .monitor-sidebar.expanded .monitor-tab-label { display:inline; }
-        .monitor-panel { display:none; }
-        .monitor-panel.active { display:block; }
-        @media(max-width:640px){ .monitor-sidebar{left:5px;width:48px}.monitor-sidebar.expanded{width:205px} body{padding-left:0!important} }
     </style>
 </head>
 <body class="min-h-screen text-gray-100 p-6">
@@ -81,23 +70,6 @@
             window.location.href = 'index.html';
         }
     </script>
-
-
-    <div class="idioma-painel">
-        <button type="button" data-lang-painel="pt" class="lang-painel px-2 py-1 rounded text-xs font-bold">PT</button>
-        <button type="button" data-lang-painel="en" class="lang-painel px-2 py-1 rounded text-xs font-bold text-gray-400">EN</button>
-        <button type="button" data-lang-painel="es" class="lang-painel px-2 py-1 rounded text-xs font-bold text-gray-400">ES</button>
-    </div>
-
-    <aside id="monitor-sidebar" class="monitor-sidebar hidden" aria-label="Monitoramento">
-        <button type="button" onclick="toggleMonitorSidebar()" title="Expandir monitoramento"><span class="text-xl">⋮</span><span class="monitor-tab-label" data-mon-i18n="menu">Monitoramento</span></button>
-        <div class="border-t border-[#262638] my-2"></div>
-        <button type="button" onclick="abrirMonitor('ativos')" title="Usuários ativos"><span>🟢</span><span class="monitor-tab-label" data-mon-i18n="active">Usuários ativos</span></button>
-        <button type="button" onclick="abrirMonitor('acessos')" title="Últimos acessos"><span>🕘</span><span class="monitor-tab-label" data-mon-i18n="accesses">Últimos acessos</span></button>
-        <button type="button" onclick="abrirMonitor('bloqueados')" title="Tentativas bloqueadas"><span>⛔</span><span class="monitor-tab-label" data-mon-i18n="blocked">Tentativas bloqueadas</span></button>
-        <button type="button" onclick="abrirMonitor('alertas')" title="Alertas"><span>🔔</span><span class="monitor-tab-label" data-mon-i18n="alerts">Alertas</span></button>
-        <button type="button" onclick="abrirMonitor('sessoes')" title="Sessões / dispositivos"><span>📱</span><span class="monitor-tab-label" data-mon-i18n="sessions">Sessões / dispositivos</span></button>
-    </aside>
 
     <div class="max-w-6xl mx-auto bg-[#10101e]/90 p-6 md:p-8 rounded-2xl shadow-2xl border border-[#e8b033]/30 backdrop-blur-sm">
         <div class="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-[#262638] pb-4 gap-4">
@@ -130,20 +102,6 @@
         </div>
     </div>
 
-
-    <section id="monitor-area" class="hidden max-w-6xl mx-auto mb-6">
-        <div class="bg-[#10101e]/95 border border-[#e8b033]/30 rounded-2xl p-5 shadow-2xl backdrop-blur-sm">
-            <div class="flex items-center justify-between gap-3 mb-5">
-                <div>
-                    <h2 id="monitor-titulo" class="text-xl font-bold text-[#e8b033]">Monitoramento</h2>
-                    <p id="monitor-subtitulo" class="text-xs text-gray-400">Dados de acesso do Media Lobby.</p>
-                </div>
-                <button type="button" onclick="fecharMonitor()" class="px-3 py-2 rounded bg-[#1a1a2e] border border-[#e8b033]/40 text-sm">Fechar</button>
-            </div>
-            <div id="monitor-conteudo"></div>
-        </div>
-    </section>
-
     <script src="dados.js"></script>
 
     <script>
@@ -152,11 +110,6 @@
         let estiloSelecionado = null;
 
         const scope = sessionStorage.getItem('user_scope');
-        const userEmail = sessionStorage.getItem('user_email') || '';
-        let userData = {};
-        try { userData = JSON.parse(sessionStorage.getItem('user_data') || '{}'); } catch(e) {}
-        const podeMonitorar = sessionStorage.getItem('pode_monitorar') === 'true' || userData.tipo === 'developer';
-        let jogadorSelecionado = null;
         const container = document.getElementById('conteudo-painel');
         const titulo = document.getElementById('titulo-pagina');
         const subtitulo = document.getElementById('subtitulo-pagina');
@@ -179,7 +132,6 @@
         }
 
         function voltarNivel() {
-            if (scope === 'player' && jogadorSelecionado) { renderizarJogadorExclusivo(jogadorSelecionado); return; }
             if (equipeSelecionada) {
                 abrirEquipe(equipeSelecionada.id);
             } else {
@@ -188,36 +140,18 @@
         }
 
         function inicializarPainel() {
-            if (podeMonitorar) document.getElementById('monitor-sidebar').classList.remove('hidden');
-            aplicarIdiomaPainel();
-            if (scope === 'player') {
-                const achado = localizarJogadorPorId(userData.playerId || sessionStorage.getItem('player_id'));
-                if (achado) {
-                    jogadorSelecionado = achado;
-                    renderizarJogadorExclusivo(achado);
-                } else {
-                    titulo.innerText = 'JOGADOR NÃO ENCONTRADO';
-                    subtitulo.innerText = 'O playerId deste login não corresponde a nenhum jogador cadastrado.';
-                    container.innerHTML = '';
-                }
-            } else if (scope === 'all') {
+            if (scope === 'all') {
                 btnSair.classList.remove('hidden');
                 renderizarEquipes();
             } else {
                 const eq = dadosEquipes.find(e => e.id === scope);
-                if (eq) abrirEquipe(eq.id); else renderizarEquipes();
+                if (eq) {
+                    abrirEquipe(eq.id);
+                } else {
+                    renderizarEquipes();
+                }
             }
         }
-
-        function localizarJogadorPorId(playerId) {
-            if (!playerId) return null;
-            for (const eq of dadosEquipes) {
-                const membro = (eq.membros || []).find(m => m.playerId === playerId);
-                if (membro) return { equipe:eq, jogador:membro };
-            }
-            return null;
-        }
-
 
         // Função auxiliar para converter link ou ID do Google Drive em link direto de imagem
         function processarLinkDrive(idOuUrl) {
@@ -256,14 +190,8 @@
                         <div class="w-24 h-24 flex items-center justify-center mb-4">
                             <img src="${logoSrc}" alt="${eq.nome}" class="max-h-full max-w-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
                         </div>
-                        <h2 class="font-bold text-white text-base">${escaparHtml(eq.nome)}</h2>
-                        <div class="w-full mt-4 pt-3 border-t border-[#2a2a3f] text-left">
-                            <div class="text-[10px] uppercase tracking-wider text-gray-500 mb-2">JOGADORES</div>
-                            <div class="flex flex-wrap gap-2">
-                                ${(eq.membros || []).map(m => `<span class="px-2 py-1 rounded bg-[#1a1a2e] border border-[#2a2a3f] text-xs text-gray-200 inline-flex items-center gap-1.5">${iconeFuncaoHtml(m.funcao, true)}<span>${escaparHtml(m.nick)}</span></span>`).join('')}
-                            </div>
-                        </div>
-                        <span class="text-xs accent-purple font-semibold mt-4">Ver pastas de estilos →</span>
+                        <h2 class="font-bold text-white text-base">${eq.nome}</h2>
+                        <span class="text-xs accent-purple font-semibold mt-2">Ver pastas de estilos →</span>
                     </div>
                 `;
             });
@@ -497,168 +425,174 @@
         async function abrirEstilo(indexEstilo) {
             estiloSelecionado = listaEstilos[indexEstilo];
             nivelAtual = 'fotos';
+
             const nomeFormatado = formatarTitulo(estiloSelecionado.nomeEstilo);
             titulo.innerText = `${equipeSelecionada.nome} - ${nomeFormatado}`;
             subtitulo.innerText = `Pasta: ${nomeFormatado}`;
+
             btnVoltar.classList.remove('hidden');
-            btnVoltar.innerText = '← Voltar para a Pasta de Poses';
+            btnVoltar.innerText = "← Voltar para a Pasta de Poses";
             if (scope === 'all') btnInicio.classList.remove('hidden');
 
-            const membros = (equipeSelecionada.membros || []).filter(m => m && m.fotos && m.fotos[estiloSelecionado.sigla]);
-            container.innerHTML = '';
-            if (!membros.length) {
-                container.innerHTML = `<div class="col-span-full bg-[#161624] border border-[#2a2a3f] p-8 rounded-xl text-center"><div class="text-5xl mb-4">📂</div><h2 class="text-xl font-bold text-white mb-2">Nenhuma foto cadastrada</h2><p class="text-gray-400 text-sm">Não há foto desta pose cadastrada no dados.js para esta equipe.</p></div>`;
-                return;
-            }
-            container.innerHTML = membros.map((membro, index) => criarCardFotoJogador(membro, estiloSelecionado.sigla, nomeFormatado, index)).join('');
-            irParaTopo();
-        }
-
-        function nomeArquivoJogador(nick, sigla, extensao='jpg') {
-            const texto=String(nick||'Player').trim();
-            const partes=texto.split(/\s+/);
-            const tag=partes.shift() || 'TAG';
-            const nome=partes.join(' ') || tag;
-            // Mantém acentos e caracteres especiais. Apenas separadores de sistema são removidos.
-            const seguro=(valor)=>valor.replace(/[\\/:*?"<>|]/g,'').replace(/\s+/g,'_');
-            return `${seguro(tag)}.${seguro(nome)}_${sigla}.${extensao || 'jpg'}`;
-        }
-
-        function extensaoMime(mime){
-            const mapa={'image/jpeg':'jpg','image/png':'png','image/webp':'webp','image/gif':'gif'};
-            return mapa[mime] || 'jpg';
-        }
-
-        function extrairIdDriveLocal(valor){
-            if(!valor) return '';
-            const s=String(valor);
-            const m=s.match(/id=([a-zA-Z0-9_-]+)/) || s.match(/\/d\/([a-zA-Z0-9_-]+)/);
-            return m ? m[1] : (s.length>20 && !s.includes('/') ? s : '');
-        }
-
-        function urlImagemMembro(valor){
-            const id=extrairIdDriveLocal(valor);
-            return id ? `https://drive.google.com/uc?export=view&id=${encodeURIComponent(id)}` : valor;
-        }
-
-        function criarCardFotoJogador(membro, sigla, nomePose, index){
-            const original=membro.fotos[sigla];
-            const imagem=urlImagemMembro(original);
-            const nick=String(membro.nick||'Player');
-            const ext='jpg';
-            const arquivo=nomeArquivoJogador(nick,sigla,ext);
-            return `<div class="bg-[#161624] border border-[#2a2a3f] p-4 rounded-xl shadow-md flex flex-col justify-between">
-                <div>
-                    <div class="w-full h-56 bg-black/40 rounded mb-3 border border-[#2a2a3f] flex items-center justify-center overflow-hidden p-2">
-                        <img src="${escaparHtml(imagem)}" loading="lazy" decoding="async" alt="${escaparHtml(nick)}" class="w-full h-full object-contain" onerror="this.src='info-ffws/logoffws.png'">
-                    </div>
-                    <h2 class="font-bold text-white text-sm truncate mb-2" title="${escaparHtml(nick)}">${escaparHtml(nick)}</h2>
-                    <div class="flex items-center gap-2 text-xs text-gray-300 mb-1">${iconeFuncaoHtml(membro.funcao)}<span>${escaparHtml(membro.funcao || 'FUNÇÃO NÃO INFORMADA')}</span></div>
-                    <p class="text-xs text-gray-500 mb-4">UID: <span class="text-gray-300">${escaparHtml(membro.uid || 'Não informado')}</span></p>
+            container.innerHTML = `
+                <div class="col-span-full flex flex-col items-center justify-center p-16">
+                    <div class="loader mb-4"></div>
+                    <p class="text-gray-400">Buscando todas as fotos da pasta do Google Drive...</p>
                 </div>
-                <button type="button" onclick="baixarFotoJogador(${JSON.stringify(original)}, ${JSON.stringify(arquivo)}, this)" class="w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md">Baixar Foto</button>
-            </div>`;
-        }
+            `;
 
-        async function baixarFotoJogador(urlOriginal,nomeArquivo,botao){
-            const texto=botao?botao.innerText:'';
-            if(botao){botao.disabled=true;botao.innerText='Baixando...';}
-            try{
-                const id=extrairIdDriveLocal(urlOriginal);
-                const url=id ? `https://drive.google.com/uc?export=download&id=${encodeURIComponent(id)}` : urlOriginal;
-                const resp=await fetch(url);
-                if(!resp.ok) throw new Error('Falha no download');
-                const blob=await resp.blob();
-                const blobUrl=URL.createObjectURL(blob);
-                const a=document.createElement('a'); a.href=blobUrl; a.download=nomeArquivo; document.body.appendChild(a); a.click(); a.remove();
-                setTimeout(()=>URL.revokeObjectURL(blobUrl),10000);
-            }catch(e){
-                // Fallback: abre a origem, mas mantém o nome solicitado sempre que o navegador permitir.
-                const a=document.createElement('a'); a.href=urlOriginal; a.download=nomeArquivo; a.target='_blank'; document.body.appendChild(a); a.click(); a.remove();
-            }finally{if(botao){botao.disabled=false;botao.innerText=texto;}}
-        }
+            try {
+                const linkPasta = pastasFotosDrive?.[estiloSelecionado.sigla] || "";
+                const arquivos = await listarFotosDaPastaDrive(linkPasta);
 
-        function renderizarJogadorExclusivo(info){
-            nivelAtual='player'; equipeSelecionada=info.equipe; jogadorSelecionado=info;
-            titulo.innerText=info.jogador.nick;
-            subtitulo.innerText=`${info.equipe.nome} • Acesso exclusivo do jogador`;
-            logoCabecalho.src=processarLinkDrive(info.equipe.logo); logoCabecalho.classList.remove('hidden');
-            btnVoltar.classList.add('hidden'); btnInicio.classList.add('hidden'); btnSair.classList.remove('hidden');
-            container.innerHTML='';
-            const cards=(listaEstilos||[]).map((estilo,index)=>{
-                const url=info.jogador.fotos?.[estilo.sigla];
-                if(!url) return '';
-                return `<div onclick="abrirEstiloExclusivo(${index})" class="bg-[#161624] border border-[#2a2a3f] p-6 rounded-xl shadow-md cursor-pointer card-hover transition flex flex-col items-center text-center">
-                    <div class="text-4xl mb-3">📁</div><h2 class="font-bold text-white text-base">${escaparHtml(formatarTitulo(estilo.nomeEstilo))}</h2><span class="text-xs accent-purple font-semibold mt-2">Abrir foto →</span></div>`;
-            }).join('');
-            container.innerHTML=cards || `<div class="col-span-full text-center text-gray-400 p-8">Nenhuma foto liberada para este jogador.</div>`;
+                if (!arquivos.length) {
+                    container.innerHTML = `
+                        <div class="col-span-full bg-[#161624] border border-[#2a2a3f] p-8 rounded-xl text-center shadow-md">
+                            <div class="text-5xl mb-4">📂</div>
+                            <h2 class="text-xl font-bold text-white mb-2">Nenhuma foto encontrada</h2>
+                            <p class="text-gray-300 text-sm">
+                                A pasta existe, mas nenhuma imagem foi encontrada.
+                            </p>
+                        </div>
+                    `;
+                    irParaTopo();
+                    return;
+                }
+
+                let htmlCards = "";
+
+                arquivos.forEach((arquivo, index) => {
+                    const nome = escaparHtml(arquivo.nome || `Foto ${index + 1}`);
+                    const imagem = escaparHtml(arquivo.imagem);
+                    const download = escaparHtml(arquivo.download);
+
+                    htmlCards += `
+                        <div class="bg-[#161624] border border-[#2a2a3f] p-4 rounded-xl shadow-md flex flex-col justify-between">
+                            <div>
+                                <div class="w-full h-56 bg-black/40 rounded mb-3 border border-[#2a2a3f] flex items-center justify-center overflow-hidden p-2">
+                                    <img src="${imagem}" loading="lazy" decoding="async" alt="${nome}" class="w-full h-full object-contain filter drop-shadow"
+                                         onerror="this.src='info-ffws/logoffws.png'">
+                                </div>
+
+                                <h2 class="font-bold text-white text-sm truncate mb-1" title="${nome}">
+                                    ${nome}
+                                </h2>
+
+                                <p class="text-xs text-amber-400 font-medium mb-4">
+                                    ${escaparHtml(nomeFormatado)}
+                                </p>
+                            </div>
+
+                            <button type="button"
+                                onclick="baixarFotoDrive('${arquivo.id}', '${nome.replace("'", "\'")}', '${arquivo.mimeType || "image/jpeg"}')"
+                                class="w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
+                                Baixar Foto
+                            </button>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = htmlCards;
+
+            } catch (erro) {
+                console.error("Erro ao carregar fotos do Drive:", erro);
+
+                container.innerHTML = `
+                    <div class="col-span-full bg-[#161624] border border-red-500/40 p-8 rounded-xl text-center shadow-md">
+                        <div class="text-5xl mb-4">⚠️</div>
+                        <h2 class="text-xl font-bold text-white mb-2">
+                            Não foi possível carregar as fotos
+                        </h2>
+                        <p class="text-gray-300 text-sm mb-2">
+                            ${escaparHtml(erro.message)}
+                        </p>
+                        <p class="text-gray-500 text-xs">
+                            Confira o link da pasta no dados.js e o compartilhamento da pasta no Google Drive.
+                        </p>
+                    </div>
+                `;
+            }
+
             irParaTopo();
         }
 
-        function abrirEstiloExclusivo(index){
-            estiloSelecionado=listaEstilos[index];
-            titulo.innerText=`${jogadorSelecionado.jogador.nick} - ${formatarTitulo(estiloSelecionado.nomeEstilo)}`;
-            subtitulo.innerText=`${jogadorSelecionado.equipe.nome} • acesso exclusivo`;
-            btnVoltar.classList.remove('hidden'); btnVoltar.innerText='← Voltar para minhas fotos';
-            container.innerHTML=criarCardFotoJogador(jogadorSelecionado.jogador,estiloSelecionado.sigla,estiloSelecionado.nomeEstilo,0);
-            irParaTopo();
+        window.onload = inicializarPainel;
+    
+        /* =========================================================
+           TENTATIVAS BLOQUEADAS — LOGIN IDENTIFICADO
+           =========================================================
+           Cada registro guarda o email completo que tentou acessar,
+           para o Developer saber exatamente qual login precisa ser
+           removido/revisado no banco.
+        */
+        function escaparHtmlMonitoramento(valor) {
+            return String(valor ?? '').replace(/[&<>"']/g, c => ({
+                '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;'
+            }[c]));
         }
 
+        function registrarTentativaBloqueada(login, motivo = 'limite de dispositivos') {
+            const chave = 'mediaLobbyTentativasBloqueadas';
+            const lista = JSON.parse(localStorage.getItem(chave) || '[]');
 
-        function iconeFuncaoHtml(funcao, pequeno=false){
-            const f=String(funcao||'').toUpperCase();
-            const src=(typeof iconesFuncoes!=='undefined' && iconesFuncoes[f]) || '';
-            if(!f) return '';
-            const cls=pequeno?'w-4 h-4':'w-6 h-6';
-            return src ? `<img src="${src}" alt="${escaparHtml(f)}" class="${cls} object-contain inline-block" onerror="this.style.display='none'">` : `<span class="inline-block text-xs">◆</span>`;
+            lista.unshift({
+                login: String(login || '').toLowerCase(),
+                motivo,
+                data: new Date().toISOString(),
+                deviceId: localStorage.getItem('mediaLobbyDeviceId') || ''
+            });
+
+            localStorage.setItem(chave, JSON.stringify(lista.slice(0, 200)));
         }
 
-        const traducoesPainel={
-            pt:{menu:'Monitoramento',active:'Usuários ativos',accesses:'Últimos acessos',blocked:'Tentativas bloqueadas',alerts:'Alertas',sessions:'Sessões / dispositivos'},
-            en:{menu:'Monitoring',active:'Active users',accesses:'Recent access',blocked:'Blocked attempts',alerts:'Alerts',sessions:'Sessions / devices'},
-            es:{menu:'Monitoreo',active:'Usuarios activos',accesses:'Últimos accesos',blocked:'Intentos bloqueados',alerts:'Alertas',sessions:'Sesiones / dispositivos'}
-        };
-        function aplicarIdiomaPainel(){
-            const lang=localStorage.getItem('mediaLobbyIdioma')||'pt';
-            const t=traducoesPainel[lang]||traducoesPainel.pt;
-            document.querySelectorAll('[data-lang-painel]').forEach(b=>{const on=b.dataset.langPainel===lang;b.classList.toggle('bg-[#e8b033]',on);b.classList.toggle('text-[#161624]',on);b.classList.toggle('text-gray-400',!on);});
-            document.querySelectorAll('[data-mon-i18n]').forEach(el=>{if(t[el.dataset.monI18n])el.textContent=t[el.dataset.monI18n];});
+        function obterTentativasBloqueadas() {
+            return JSON.parse(localStorage.getItem('mediaLobbyTentativasBloqueadas') || '[]');
         }
-        document.querySelectorAll('[data-lang-painel]').forEach(b=>b.addEventListener('click',()=>{localStorage.setItem('mediaLobbyIdioma',b.dataset.langPainel);aplicarIdiomaPainel();}));
-        function toggleMonitorSidebar(){document.getElementById('monitor-sidebar').classList.toggle('expanded');}
-        function fecharMonitor(){document.getElementById('monitor-area').classList.add('hidden');}
-        function lerMonitorLocal(tipo){
-            const acessos=JSON.parse(localStorage.getItem('mediaLobbyAcessos')||'[]');
-            const bloqueados=JSON.parse(localStorage.getItem('mediaLobbyTentativasBloqueadas')||'[]');
-            if(tipo==='acessos') return acessos;
-            if(tipo==='bloqueados') return bloqueados;
-            if(tipo==='ativos') return acessos.filter(x=>Date.now()-new Date(x.data).getTime()<30*60*1000);
-            if(tipo==='sessoes') return acessos;
-            return [];
-        }
-        async function buscarMonitorBackend(tipo){
-            const api=(typeof configuracaoSite!=='undefined'&&configuracaoSite.apiMonitoramento)||'';
-            if(!api) return null;
-            try{const r=await fetch(api.replace(/\/$/,'')+'/monitor/'+tipo,{headers:{'X-User-Email':userEmail}});if(!r.ok)return null;return await r.json();}catch(e){return null;}
-        }
-        async function abrirMonitor(tipo){
-            if(!podeMonitorar)return;
-            const area=document.getElementById('monitor-area'), box=document.getElementById('monitor-conteudo');
-            area.classList.remove('hidden'); box.innerHTML='<div class="text-gray-400 p-5">Carregando...</div>';
-            const backend=await buscarMonitorBackend(tipo); const dados=backend?.items || backend || lerMonitorLocal(tipo) || [];
-            const titulos={ativos:'Usuários ativos',acessos:'Últimos acessos',bloqueados:'Tentativas bloqueadas',alertas:'Alertas',sessoes:'Sessões / dispositivos'};
-            document.getElementById('monitor-titulo').textContent=titulos[tipo]||'Monitoramento';
-            if(tipo==='alertas'){
-                const bloqueados=lerMonitorLocal('bloqueados');
-                box.innerHTML=bloqueados.length?bloqueados.map(x=>`<div class="mb-2 p-4 rounded-lg bg-[#161624] border border-red-500/20"><div class="text-red-300 font-bold">⛔ Login bloqueado</div><div class="text-white break-all mt-1">${escaparHtml(x.login)}</div><div class="text-xs text-gray-500 mt-1">${new Date(x.data).toLocaleString()} • ${escaparHtml(x.motivo)}</div></div>`).join(''):'<div class="text-gray-500 p-4">Nenhum alerta registrado.</div>';
+
+        function mostrarTentativasBloqueadas() {
+            const area = document.getElementById('painel-tentativas-bloqueadas');
+            const listaEl = document.getElementById('lista-tentativas-bloqueadas');
+            const contadorEl = document.getElementById('contador-tentativas-bloqueadas');
+
+            if (!area || !listaEl) return;
+
+            area.classList.remove('hidden');
+
+            const registros = obterTentativasBloqueadas();
+            if (contadorEl) contadorEl.textContent = registros.length;
+
+            if (!registros.length) {
+                listaEl.innerHTML = `
+                    <div class="rounded-lg border border-[#2a2a3f] bg-[#11111d] p-4 text-sm text-gray-500">
+                        Nenhuma tentativa bloqueada registrada.
+                    </div>`;
                 return;
             }
-            if(!Array.isArray(dados)||!dados.length){box.innerHTML='<div class="text-gray-500 p-4">Nenhum registro encontrado.</div>';return;}
-            box.innerHTML=dados.map(x=>`<div class="mb-2 p-4 rounded-lg bg-[#161624] border border-[#2a2a3f]"><div class="font-bold text-white break-all">${escaparHtml(x.email||x.login||'Login não informado')}</div><div class="text-xs text-gray-400 mt-1">${x.data?new Date(x.data).toLocaleString():''}</div>${x.deviceId?`<div class="text-[11px] text-gray-500 mt-1">Dispositivo: ${escaparHtml(x.deviceId)}</div>`:''}${x.motivo?`<div class="text-xs text-red-300 mt-1">Motivo: ${escaparHtml(x.motivo)}</div>`:''}</div>`).join('');
+
+            listaEl.innerHTML = registros.map((item, index) => `
+                <div class="rounded-lg border border-red-500/20 bg-[#11111d] p-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                        <div>
+                            <div class="text-xs uppercase tracking-wider text-red-300/70 mb-1">LOGIN BLOQUEADO</div>
+                            <div class="font-bold text-white break-all">${escaparHtmlMonitoramento(item.login)}</div>
+                        </div>
+                        <div class="text-xs text-gray-500 sm:text-right">
+                            ${new Date(item.data).toLocaleString()}
+                        </div>
+                    </div>
+                    <div class="mt-2 text-xs text-gray-400">
+                        Motivo: <span class="text-red-300">${escaparHtmlMonitoramento(item.motivo)}</span>
+                    </div>
+                </div>
+            `).join('');
         }
-        window.onload = inicializarPainel;
-        window.addEventListener('beforeunload',()=>{ try{ sessionStorage.setItem('last_heartbeat',new Date().toISOString()); }catch(e){} });
-    
+
+        // Função pública para a aba de monitoramento.
+        window.mostrarTentativasBloqueadas = mostrarTentativasBloqueadas;
+
+        // Quando o frontend detectar uma resposta de bloqueio, o login
+        // pode ser registrado aqui antes de retornar para a tela de acesso.
+        window.registrarBloqueioLogin = registrarTentativaBloqueada;
 
 </script>
 </body>

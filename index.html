@@ -112,26 +112,46 @@
 
         function carregarDominios() {
             listaDominiosEl.innerHTML = '';
+
             const configurados = Array.isArray(dominiosLogin) ? dominiosLogin : [];
+
+            // Opção padrão: não selecionar domínio e digitar o email completo.
+            const semDominio = document.createElement('button');
+            semDominio.type = 'button';
+            semDominio.className = 'dominio-item w-full text-left px-4 py-3 border-l-2 border-transparent border-b border-[#2d2d42] text-white cursor-pointer';
+            semDominio.innerHTML = '<span class="font-semibold">Usar email completo</span>';
+            semDominio.addEventListener('click', () => selecionarDominio('', semDominio));
+            listaDominiosEl.appendChild(semDominio);
+
+            // Evita duplicação mesmo se o mesmo domínio for cadastrado duas vezes.
             const vistos = new Set();
 
             configurados.forEach(item => {
                 const dominio = String(item.dominio || '').trim().toLowerCase();
                 const nome = String(item.nome || dominio).trim();
+
                 if (!dominio || vistos.has(dominio)) return;
                 vistos.add(dominio);
 
                 const botao = document.createElement('button');
                 botao.type = 'button';
-                botao.className = 'dominio-item w-full text-left px-4 py-3 border-l-2 border-transparent border-b border-[#2d2d42] last:border-b-0 text-white cursor-pointer flex items-center gap-3';
+                botao.className = 'dominio-item w-full text-left px-4 py-3 border-l-2 border-transparent border-b border-[#2d2d42] last:border-b-0 text-white cursor-pointer flex items-center justify-between gap-3';
                 botao.dataset.dominio = dominio;
-                botao.innerHTML = `<span class="font-semibold">${escaparHtml(nome)}</span>`;
+
+                botao.innerHTML = `
+                    <span class="font-semibold">${escaparHtml(nome)}</span>
+                `;
+
                 botao.addEventListener('click', () => selecionarDominio(dominio, botao));
                 listaDominiosEl.appendChild(botao);
             });
 
             if (!listaDominiosEl.children.length) {
-                listaDominiosEl.innerHTML = `<div class="px-4 py-3 text-sm text-gray-500">Nenhum domínio configurado no dados.js.</div>`;
+                listaDominiosEl.innerHTML = `
+                    <div class="px-4 py-3 text-sm text-gray-500">
+                        Nenhum domínio configurado no dados.js.
+                    </div>
+                `;
             }
         }
 
@@ -172,14 +192,7 @@
             const msgStatus = document.getElementById('mensagem-status');
             const btnEntrar = document.getElementById('btn-entrar');
 
-            if (!dominioAtual) {
-                msgStatus.className = "text-yellow-400 text-sm mb-4 text-center font-bold";
-                msgStatus.innerText = (traducoesLogin[idiomaAtual] || traducoesLogin.pt).chooseDomain;
-                msgStatus.classList.remove('hidden');
-                return;
-            }
-
-            if (!valorEmail || !usuarioInput) {
+            if (!valorEmail || (dominioAtual && !usuarioInput)) {
                 msgStatus.className = "text-red-400 text-sm mb-4 text-center font-bold";
                 msgStatus.innerText = !valorEmail
                     ? "Informe seu email ou login."
@@ -204,7 +217,6 @@
                     if (!verificacao.permitido) {
                         msgStatus.className = "text-red-400 text-sm mb-4 text-center font-bold";
                         msgStatus.innerText = (traducoesLogin[idiomaAtual] || traducoesLogin.pt).blocked;
-                        registrarTentativaBloqueadaFrontend(user.email, verificacao.motivo || 'limite de dispositivos');
                         btnEntrar.disabled = false;
                         return;
                     }
@@ -213,8 +225,6 @@
                     msgStatus.innerText = (traducoesLogin[idiomaAtual] || traducoesLogin.pt).authorized;
                     sessionStorage.setItem('autenticado', 'true');
                     sessionStorage.setItem('user_email', user.email);
-                    sessionStorage.setItem('user_data', JSON.stringify(user));
-                    sessionStorage.setItem('pode_monitorar', String(!!(user.tipo === 'developer' || user.podeMonitorar || (Array.isArray(loginsComMonitoramento) && loginsComMonitoramento.map(String).map(v=>v.toLowerCase()).includes(String(user.email).toLowerCase())))));
                     sessionStorage.setItem('user_scope', user.scope);
                     sessionStorage.setItem('user_type', user.tipo || (user.scope === 'player' ? 'player' : 'standard'));
 
@@ -227,58 +237,24 @@
                     setTimeout(() => window.location.href = 'painel.html', 1000);
                 } else {
                     msgStatus.className = "text-red-400 text-sm mb-4 text-center font-bold";
-                    msgStatus.innerText = (traducoesLogin[idiomaAtual] || traducoesLogin.pt).invalid;
+                    msgStatus.innerText = "Credenciais de Acesso Incorreta!";
                     btnEntrar.disabled = false;
                 }
             }, 1500);
         });
     
         const traducoesLogin = {
-            pt:{loginTitle:'PAINEL DE ACESSO - MEDIA LOBBY',organization:'ORGANIZAÇÃO / DOMÍNIO',email:'ENDEREÇO DE EMAIL',access:'ACESSAR PAINEL',fullEmail:'',emailFull:'Digite somente seu login',emailPrefix:'Digite somente seu login',processing:'PROCESSANDO...',authorized:'LOGIN AUTORIZADO',invalid:'Credenciais de Acesso Incorretas!',chooseDomain:'Selecione o domínio do seu login.',blocked:'Este acesso foi bloqueado por limite de dispositivos.'},
+            pt:{loginTitle:'PAINEL DE ACESSO - MEDIA LOBBY',organization:'ORGANIZAÇÃO / DOMÍNIO',email:'ENDEREÇO DE EMAIL',access:'ACESSAR PAINEL',fullEmail:'Usar email completo',emailFull:'Email@dominio.com',emailPrefix:'Digite somente seu login',processing:'PROCESSANDO...',authorized:'LOGIN AUTORIZADO',invalid:'Credenciais de Acesso Incorretas!',chooseDomain:'Selecione o domínio do seu login.',blocked:'Este acesso foi bloqueado por limite de dispositivos.'},
             en:{loginTitle:'MEDIA LOBBY - ACCESS PANEL',organization:'ORGANIZATION / DOMAIN',email:'EMAIL ADDRESS',access:'ACCESS PANEL',fullEmail:'Use full email',emailFull:'Email@domain.com',emailPrefix:'Enter only your login',processing:'PROCESSING...',authorized:'LOGIN AUTHORIZED',invalid:'Incorrect Access Credentials!',chooseDomain:'Select your login domain.',blocked:'This access was blocked because the device limit was reached.'},
-            es:{loginTitle:'PANEL DE ACCESO - MEDIA LOBBY',organization:'ORGANIZACIÓN / DOMINIO',email:'DIRECCIÓN DE EMAIL',access:'ACCEDER AL PANEL',fullEmail:'',emailFull:'Digite somente seu login',emailPrefix:'Digite solo su usuario',processing:'PROCESANDO...',authorized:'ACCESO AUTORIZADO',invalid:'Credenciales de acceso incorrectas!',chooseDomain:'Seleccione el dominio de su login.',blocked:'Este acceso fue bloqueado por el límite de dispositivos.'}
+            es:{loginTitle:'PANEL DE ACCESO - MEDIA LOBBY',organization:'ORGANIZACIÓN / DOMINIO',email:'DIRECCIÓN DE EMAIL',access:'ACCEDER AL PANEL',fullEmail:'Usar email completo',emailFull:'Email@dominio.com',emailPrefix:'Digite solo su usuario',processing:'PROCESANDO...',authorized:'ACCESO AUTORIZADO',invalid:'Credenciales de acceso incorrectas!',chooseDomain:'Seleccione el dominio de su login.',blocked:'Este acceso fue bloqueado por el límite de dispositivos.'}
         };
         let idiomaAtual=localStorage.getItem('mediaLobbyIdioma')||'pt';
         function aplicarIdiomaLogin(){const t=traducoesLogin[idiomaAtual]||traducoesLogin.pt;document.querySelectorAll('[data-i18n]').forEach(el=>{if(t[el.dataset.i18n])el.textContent=t[el.dataset.i18n];});document.querySelectorAll('.idioma-btn').forEach(b=>{const a=b.dataset.lang===idiomaAtual;b.classList.toggle('bg-[#e8b033]',a);b.classList.toggle('text-[#161624]',a);b.classList.toggle('text-gray-400',!a);});if(typeof emailInputEl!=='undefined'&&emailInputEl)emailInputEl.placeholder=dominioAtual?t.emailPrefix:t.emailFull;}
         document.querySelectorAll('.idioma-btn').forEach(b=>b.addEventListener('click',()=>{idiomaAtual=b.dataset.lang;localStorage.setItem('mediaLobbyIdioma',idiomaAtual);aplicarIdiomaLogin();if(typeof carregarDominios==='function')carregarDominios();if(typeof atualizarCampoEmail==='function')atualizarCampoEmail();}));
         aplicarIdiomaLogin();
-        function gerarDeviceId(){
-            let id=localStorage.getItem('mediaLobbyDeviceId');
-            if(!id){ id=(crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(36).slice(2)); localStorage.setItem('mediaLobbyDeviceId',id); }
-            return id;
-        }
-
-        async function verificarAcessoDispositivo(user){
-            const config = typeof configuracaoSite !== 'undefined' ? configuracaoSite : {};
-            if(!config.apiSeguranca) return {permitido:true,modo:'frontend'};
-            try{
-                const r=await fetch(config.apiSeguranca.replace(/\/$/,'')+'/session/check',{
-                    method:'POST',headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify({email:user.email,deviceId:gerarDeviceId(),limite:config.limiteDispositivos || 1,developer:user.tipo==='developer'})
-                });
-                const result=await r.json().catch(()=>({}));
-                return r.ok ? result : {permitido:false,motivo:result.motivo || 'limite de dispositivos'};
-            }catch(e){ return {permitido:false,motivo:'serviço de segurança indisponível'}; }
-        }
-
-        async function registrarTentativaBloqueadaFrontend(login, motivo){
-            const chave='mediaLobbyTentativasBloqueadas';
-            const lista=JSON.parse(localStorage.getItem(chave)||'[]');
-            lista.unshift({login:String(login||'').toLowerCase(),motivo:motivo||'limite de dispositivos',data:new Date().toISOString(),deviceId:gerarDeviceId()});
-            localStorage.setItem(chave,JSON.stringify(lista.slice(0,200)));
-            const api=(typeof configuracaoSite!=='undefined' && configuracaoSite.apiMonitoramento)||'';
-            if(api){
-                try{ await fetch(api.replace(/\/$/,'')+'/events/blocked',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({login,motivo,data:new Date().toISOString(),deviceId:gerarDeviceId()})}); }catch(e){}
-            }
-        }
-
-        function registrarAcessoLocal(user){
-            const a=JSON.parse(localStorage.getItem('mediaLobbyAcessos')||'[]');
-            a.unshift({email:user.email,data:new Date().toISOString(),deviceId:gerarDeviceId()});
-            localStorage.setItem('mediaLobbyAcessos',JSON.stringify(a.slice(0,100)));
-            const api=(typeof configuracaoSite!=='undefined' && configuracaoSite.apiMonitoramento)||'';
-            if(api){ fetch(api.replace(/\/$/,'')+'/events/access',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:user.email,data:new Date().toISOString(),deviceId:gerarDeviceId()})}).catch(()=>{}); }
-        }
+        function gerarDeviceId(){let id=localStorage.getItem('mediaLobbyDeviceId');if(!id){id=(crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(36).slice(2));localStorage.setItem('mediaLobbyDeviceId',id);}return id;}
+        async function verificarAcessoDispositivo(user){if(typeof configuracaoSite==='undefined'||!configuracaoSite.apiSeguranca)return{permitido:true,modo:'frontend'};try{const r=await fetch(configuracaoSite.apiSeguranca+'/session/check',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:user.email,deviceId:gerarDeviceId(),limite:configuracaoSite.limiteDispositivos,developer:user.tipo==='developer'})});return r.ok?await r.json():{permitido:false};}catch(e){return{permitido:false};}}
+        function registrarAcessoLocal(user){const a=JSON.parse(localStorage.getItem('mediaLobbyAcessos')||'[]');a.unshift({email:user.email,data:new Date().toISOString(),deviceId:gerarDeviceId()});localStorage.setItem('mediaLobbyAcessos',JSON.stringify(a.slice(0,100)));}
 
 </script>
 </body>
