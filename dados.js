@@ -5,6 +5,7 @@ const listaUsuarios = [
     { email: "organizador@medialobby.com", senha: "suasenhaorg", scope: "all" },
     { email: "ag4futury2022@novofuturo.com", senha: "Futury@2022", scope: "all" },
     { email: "ban@novofuturo.com", senha: "BanFFWSgostoso2026", scope: "all" },
+    { email: "anextplay@medialobby.com", senha: "Anextplay@gg", scope: "all" },
     { email: "eduardogabriel081005@gmail.com", senha: "Edubiel12", scope: "all" },
     { email: "medialobby@medialobby.com", senha: "suasenhaglobal", scope: "all" },
 
