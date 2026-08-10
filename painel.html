@@ -52,67 +52,408 @@
         .btn-primary:hover { background-color: #f74afe; color: #fff; }
         .card-hover:hover { border-color: #f74afe; box-shadow: 0 4px 20px rgba(247, 74, 254, 0.2); }
 
-        /* Prévia das equipes na tela inicial */
+        /* =========================================================
+           PREVIEW PROFISSIONAL DE EQUIPES / ROSTER
+           ========================================================= */
         .team-preview-card {
+            position: relative;
             width: 100%;
-            min-height: 170px;
+            min-height: 258px;
+            overflow: hidden;
+            isolation: isolate;
+            background:
+                radial-gradient(circle at 8% 50%, rgba(232,176,51,.10), transparent 28%),
+                linear-gradient(135deg, rgba(25,25,42,.98), rgba(15,15,29,.98));
+            border: 1px solid rgba(232,176,51,.22);
+            border-radius: 20px;
+            box-shadow: 0 18px 45px rgba(0,0,0,.28);
+            transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
         }
-        .team-preview-left {
-            width: 150px;
-            min-width: 150px;
+
+        .team-preview-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background:
+                linear-gradient(90deg, rgba(232,176,51,.08), transparent 30%),
+                radial-gradient(circle at 85% 15%, rgba(247,74,254,.08), transparent 24%);
+            pointer-events: none;
         }
+
+        .team-preview-card::after {
+            content: "";
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            right: -190px;
+            top: -240px;
+            border-radius: 50%;
+            border: 1px solid rgba(232,176,51,.08);
+            box-shadow:
+                0 0 0 28px rgba(232,176,51,.025),
+                0 0 0 56px rgba(232,176,51,.018);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .team-preview-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(247,74,254,.48);
+            box-shadow:
+                0 22px 55px rgba(0,0,0,.38),
+                0 0 35px rgba(247,74,254,.08);
+        }
+
+        .team-preview-shell {
+            display: grid;
+            grid-template-columns: minmax(245px, .82fr) minmax(0, 1.75fr);
+            min-height: 258px;
+        }
+
+        .team-preview-identity {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 28px 24px;
+            border-right: 1px solid rgba(255,255,255,.075);
+        }
+
+        .team-preview-identity::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 28px;
+            bottom: 28px;
+            width: 3px;
+            border-radius: 0 4px 4px 0;
+            background: linear-gradient(180deg, #e8b033, #f74afe);
+            box-shadow: 0 0 18px rgba(232,176,51,.25);
+        }
+
+        .team-preview-logo-frame {
+            position: relative;
+            width: 104px;
+            height: 104px;
+            flex: 0 0 104px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(232,176,51,.34);
+            border-radius: 18px;
+            background:
+                linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.012)),
+                rgba(13,13,25,.72);
+            box-shadow:
+                inset 0 0 0 1px rgba(255,255,255,.025),
+                0 12px 30px rgba(0,0,0,.25);
+        }
+
+        .team-preview-logo-frame::before {
+            content: "";
+            position: absolute;
+            inset: 8px;
+            border: 1px dashed rgba(232,176,51,.16);
+            border-radius: 12px;
+        }
+
         .team-preview-logo {
-            width: 82px;
-            height: 82px;
+            position: relative;
+            z-index: 1;
+            width: 78px;
+            height: 78px;
+            object-fit: contain;
+            filter: drop-shadow(0 8px 14px rgba(0,0,0,.42));
         }
-        .team-preview-name {
-            line-height: 1.1;
-            max-width: 145px;
-        }
-        .team-player-list {
+
+        .team-preview-identity-copy {
             min-width: 0;
         }
+
+        .team-preview-kicker {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 7px;
+            color: #8e8e9f;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+        }
+
+        .team-preview-kicker::before {
+            content: "";
+            width: 18px;
+            height: 1px;
+            background: #e8b033;
+        }
+
+        .team-preview-name {
+            margin: 0;
+            line-height: 1.02;
+            max-width: 210px;
+            color: #fff;
+            font-size: clamp(1.05rem, 2vw, 1.55rem);
+            font-weight: 900;
+            letter-spacing: .01em;
+        }
+
+        .team-preview-meta {
+            margin-top: 10px;
+            color: #77778a;
+            font-size: 10px;
+            line-height: 1.5;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .team-preview-access {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 16px;
+            color: #f74afe;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .03em;
+            transition: gap .2s ease, color .2s ease;
+        }
+
+        .team-preview-card:hover .team-preview-access {
+            gap: 11px;
+            color: #ff78ff;
+        }
+
+        .team-preview-roster {
+            min-width: 0;
+            padding: 25px 25px 22px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .team-preview-roster-head {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .team-preview-roster-title {
+            color: #fff;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+        }
+
+        .team-preview-roster-subtitle {
+            color: #646477;
+            font-size: 9px;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            margin-top: 3px;
+        }
+
+        .team-preview-count {
+            min-width: 34px;
+            height: 26px;
+            padding: 0 9px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border: 1px solid rgba(232,176,51,.22);
+            background: rgba(232,176,51,.07);
+            color: #e8b033;
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .team-player-list {
+            min-width: 0;
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+            align-content: start;
+        }
+
         .team-player-chip {
-            background: rgba(26, 26, 46, 0.92);
-            border: 1px solid #2a2a3f;
-            min-height: 38px;
+            position: relative;
+            min-width: 0;
+            min-height: 48px;
+            display: grid;
+            grid-template-columns: 25px minmax(0,1fr);
+            align-items: center;
+            gap: 10px;
+            padding: 7px 10px;
+            border: 1px solid rgba(255,255,255,.065);
+            border-radius: 10px;
+            background: rgba(255,255,255,.025);
+            transition: background .2s ease, border-color .2s ease, transform .2s ease;
         }
+
         .team-player-chip:hover {
-            border-color: rgba(247, 74, 254, 0.65);
-            background: rgba(37, 37, 56, 0.95);
+            transform: translateX(2px);
+            border-color: rgba(247,74,254,.35);
+            background: rgba(247,74,254,.055);
         }
+
+        .team-player-index {
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 7px;
+            color: #6f6f80;
+            background: rgba(0,0,0,.2);
+            border: 1px solid rgba(255,255,255,.05);
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .team-player-info {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .team-player-main {
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
         .team-player-icon {
-            width: 24px;
-            height: 24px;
-            flex: 0 0 24px;
+            width: 23px;
+            height: 23px;
+            flex: 0 0 23px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,.35));
         }
-        @media (max-width: 640px) {
-            .team-preview-card {
-                min-height: 150px;
+
+        .team-player-nick {
+            min-width: 0;
+            color: #f0f0f4;
+            font-size: 12px;
+            font-weight: 700;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .team-player-role {
+            color: #6f6f80;
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+        }
+
+        .team-player-uid {
+            color: #555566;
+            font-size: 8px;
+            margin-left: auto;
+            white-space: nowrap;
+        }
+
+        .team-player-empty {
+            grid-column: 1 / -1;
+            padding: 18px;
+            border: 1px dashed rgba(255,255,255,.08);
+            border-radius: 10px;
+            color: #666679;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        .team-preview-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 25px 20px;
+            border-top: 1px solid rgba(255,255,255,.055);
+        }
+
+        @media (max-width: 760px) {
+            .team-preview-shell {
+                grid-template-columns: 1fr;
             }
-            .team-preview-left {
-                width: 118px;
-                min-width: 118px;
+
+            .team-preview-identity {
+                padding: 22px 20px;
+                border-right: 0;
+                border-bottom: 1px solid rgba(255,255,255,.075);
             }
+
+            .team-preview-identity::after {
+                top: 20px;
+                bottom: 20px;
+            }
+
+            .team-preview-logo-frame {
+                width: 88px;
+                height: 88px;
+                flex-basis: 88px;
+            }
+
             .team-preview-logo {
-                width: 68px;
-                height: 68px;
+                width: 66px;
+                height: 66px;
             }
+
             .team-preview-name {
-                max-width: 118px;
-                font-size: 0.9rem;
+                max-width: none;
             }
-            .team-player-chip {
-                min-height: 34px;
-                padding: 6px 9px;
+
+            .team-preview-roster {
+                padding: 19px 18px 18px;
             }
-            .team-player-icon {
-                width: 21px;
-                height: 21px;
-                flex-basis: 21px;
+
+            .team-player-list {
+                grid-template-columns: 1fr;
+            }
+
+            .team-preview-footer {
+                padding: 0 18px 17px;
             }
         }
-        
+
+        @media (max-width: 430px) {
+            .team-preview-identity {
+                gap: 13px;
+                padding: 19px 16px;
+            }
+
+            .team-preview-logo-frame {
+                width: 74px;
+                height: 74px;
+                flex-basis: 74px;
+            }
+
+            .team-preview-logo {
+                width: 55px;
+                height: 55px;
+            }
+
+            .team-preview-roster {
+                padding: 17px 14px;
+            }
+
+            .team-player-chip {
+                min-height: 45px;
+            }
+
+            .team-preview-footer {
+                padding: 0 14px 15px;
+            }
+        }
+
         .loader {
             border: 4px solid rgba(255, 255, 255, 0.1);
             border-top: 4px solid #e8b033;
@@ -389,52 +730,98 @@
             dadosEquipes.forEach(eq => {
                 const logoSrc = processarLinkDrive(eq.logo);
                 const membros = Array.isArray(eq.membros) ? eq.membros : [];
+                const jogadores = membros.filter(m => String(m.tipo || '').toLowerCase() !== 'coach');
+                const staff = membros.filter(m => String(m.tipo || '').toLowerCase() === 'coach');
 
-                const jogadoresHtml = membros.length
-                    ? membros.map(membro => {
+                const rosterHtml = membros.length
+                    ? membros.map((membro, index) => {
                         const funcao = String(membro.funcao || '').trim().toUpperCase();
                         const icone = iconesFuncoes[funcao] || '';
                         const nome = String(membro.nick || 'Jogador').trim();
+                        const isCoach = String(membro.tipo || '').toLowerCase() === 'coach';
 
                         const iconeHtml = icone
-                            ? `<img src="${icone}" alt="${escaparHtml(funcao)}" title="${escaparHtml(funcao)}" class="team-player-icon object-contain">`
-                            : `<span class="team-player-icon flex items-center justify-center text-sm text-gray-500" title="Função não cadastrada">•</span>`;
+                            ? `<img src="${icone}" alt="${escaparHtml(funcao)}" title="${escaparHtml(funcao)}" class="team-player-icon">`
+                            : `<span class="team-player-icon flex items-center justify-center rounded-md border border-white/5 bg-black/10 text-[10px] text-gray-500" title="${isCoach ? 'Coach' : 'Função não cadastrada'}">${isCoach ? '★' : '•'}</span>`;
+
+                        const roleLabel = isCoach
+                            ? 'COACH'
+                            : (funcao || 'FUNÇÃO NÃO DEFINIDA');
+
+                        const uidHtml = membro.uid
+                            ? `<span class="team-player-uid">UID ${escaparHtml(membro.uid)}</span>`
+                            : '';
 
                         return `
-                            <div class="team-player-chip rounded-lg px-3 py-2 flex items-center gap-2 transition" title="${escaparHtml(funcao ? `${nome} — ${funcao}` : nome)}">
-                                ${iconeHtml}
-                                <span class="text-sm text-gray-200 font-medium truncate">${escaparHtml(nome)}</span>
+                            <div class="team-player-chip" title="${escaparHtml(funcao ? `${nome} — ${funcao}` : `${nome} — ${roleLabel}`)}">
+                                <span class="team-player-index">${String(index + 1).padStart(2, '0')}</span>
+                                <div class="team-player-info">
+                                    <div class="team-player-main">
+                                        ${iconeHtml}
+                                        <span class="team-player-nick">${escaparHtml(nome)}</span>
+                                        ${uidHtml}
+                                    </div>
+                                    <span class="team-player-role">${escaparHtml(roleLabel)}</span>
+                                </div>
                             </div>
                         `;
                     }).join('')
-                    : `<div class="text-sm text-gray-500 py-2">Nenhum jogador cadastrado.</div>`;
+                    : `<div class="team-player-empty">Nenhum membro cadastrado nesta equipe.</div>`;
+
+                const rosterCount = jogadores.length;
+                const staffCount = staff.length;
+
+                const staffText = staffCount
+                    ? ` • ${staffCount} ${staffCount === 1 ? 'staff' : 'staffs'}`
+                    : '';
 
                 container.innerHTML += `
-                    <div onclick="abrirEquipe('${escaparHtml(eq.id)}')" class="team-preview-card col-span-full bg-[#161624] border border-[#2a2a3f] p-5 md:p-6 rounded-xl shadow-md cursor-pointer card-hover transition">
-                        <div class="flex items-center gap-5 md:gap-7 w-full">
+                    <article onclick="abrirEquipe('${escaparHtml(eq.id)}')" class="team-preview-card col-span-full cursor-pointer" aria-label="Abrir ${escaparHtml(eq.nome)}">
+                        <div class="team-preview-shell">
 
-                            <!-- Logo + nome da equipe -->
-                            <div class="team-preview-left shrink-0 flex flex-col items-center justify-center text-center">
-                                <div class="team-preview-logo flex items-center justify-center mb-3">
-                                    <img src="${logoSrc}" alt="${escaparHtml(eq.nome)}" class="max-h-full max-w-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
+                            <section class="team-preview-identity">
+                                <div class="team-preview-logo-frame">
+                                    <img
+                                        src="${logoSrc}"
+                                        alt="${escaparHtml(eq.nome)}"
+                                        class="team-preview-logo"
+                                        onerror="this.src='info-ffws/logoffws.png'"
+                                    >
                                 </div>
-                                <h2 class="team-preview-name font-bold text-white text-base md:text-lg">${escaparHtml(eq.nome)}</h2>
-                            </div>
 
-                            <!-- Jogadores + função -->
-                            <div class="team-player-list flex-1 min-w-0 border-l border-[#2a2a3f] pl-4 md:pl-6">
-                                <div class="text-[10px] uppercase tracking-[0.18em] text-gray-500 font-medium mb-3">JOGADORES</div>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                                    ${jogadoresHtml}
+                                <div class="team-preview-identity-copy">
+                                    <div class="team-preview-kicker">TEAM PROFILE</div>
+                                    <h2 class="team-preview-name">${escaparHtml(eq.nome)}</h2>
+                                    <div class="team-preview-meta">
+                                        ROSTER ${String(rosterCount).padStart(2, '0')} PLAYERS${staffText}
+                                    </div>
+                                    <span class="team-preview-access">
+                                        Ver media da equipe <span aria-hidden="true">↗</span>
+                                    </span>
                                 </div>
-                            </div>
+                            </section>
 
+                            <section class="team-preview-roster">
+                                <div class="team-preview-roster-head">
+                                    <div>
+                                        <div class="team-preview-roster-title">ROSTER / LINE-UP</div>
+                                        <div class="team-preview-roster-subtitle">Jogadores e funções cadastradas</div>
+                                    </div>
+                                    <span class="team-preview-count">${String(membros.length).padStart(2, '0')}</span>
+                                </div>
+
+                                <div class="team-player-list">
+                                    ${rosterHtml}
+                                </div>
+                            </section>
                         </div>
 
-                        <div class="mt-4 pt-3 border-t border-[#2a2a3f] text-center">
-                            <span class="text-xs md:text-sm accent-purple font-semibold">Ver pastas de estilos →</span>
+                        <div class="team-preview-footer">
+                            <span class="text-[9px] uppercase tracking-[0.18em] text-gray-600 font-bold">
+                                Media Lobby • ${escaparHtml(eq.id)}
+                            </span>
                         </div>
-                    </div>
+                    </article>
                 `;
             });
 
