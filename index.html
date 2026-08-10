@@ -70,6 +70,14 @@
                     msgStatus.innerText = "LOGIN AUTORIZADO";
                     sessionStorage.setItem('autenticado', 'true');
                     sessionStorage.setItem('user_scope', user.scope);
+                    sessionStorage.setItem('user_type', user.tipo || (user.scope === 'player' ? 'player' : 'standard'));
+
+                    if (user.scope === 'player') {
+                        sessionStorage.setItem('player_id', user.playerId || '');
+                    } else {
+                        sessionStorage.removeItem('player_id');
+                    }
+
                     setTimeout(() => window.location.href = 'painel.html', 1000);
                 } else {
                     msgStatus.className = "text-red-400 text-sm mb-4 text-center font-bold";

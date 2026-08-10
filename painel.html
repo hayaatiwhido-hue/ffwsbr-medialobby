@@ -105,11 +105,14 @@
     <script src="dados.js"></script>
 
     <script>
-        let nivelAtual = 'equipes'; 
+        let nivelAtual = 'equipes';
         let equipeSelecionada = null;
         let estiloSelecionado = null;
 
         const scope = sessionStorage.getItem('user_scope');
+        const userType = sessionStorage.getItem('user_type') || 'standard';
+        const playerId = sessionStorage.getItem('player_id') || '';
+
         const container = document.getElementById('conteudo-painel');
         const titulo = document.getElementById('titulo-pagina');
         const subtitulo = document.getElementById('subtitulo-pagina');
@@ -117,6 +120,14 @@
         const btnVoltar = document.getElementById('btn-voltar');
         const btnInicio = document.getElementById('btn-inicio');
         const btnSair = document.getElementById('btn-sair');
+
+        const iconesFuncoes = {
+            RUSHER: 'info-ffws/rusher.png',
+            SNIPER: 'info-ffws/sniper.png',
+            SUPPORT: 'info-ffws/support.png',
+            BOMBER: 'info-ffws/bomber.png',
+            RIFLER: 'info-ffws/rifler.png'
+        };
 
         function irParaTopo() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -126,12 +137,50 @@
             return texto.toLowerCase().replace(/(^|\s)\S/g, l => l.toUpperCase());
         }
 
+        function escaparHtml(texto) {
+            return String(texto ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // Mantém acentos e caracteres especiais do nick.
+        // Troca somente o primeiro espaço, que separa TAG e Nick, por ".".
+        // Apenas caracteres proibidos pelo sistema de arquivos são tratados.
+        function nomeArquivoJogador(nick, siglaEstilo) {
+            const partes = String(nick || '').trim().split(/\s+/);
+
+            let base = partes.length > 1
+                ? `${partes[0]}.${partes.slice(1).join(' ')}`
+                : (partes[0] || 'Jogador');
+
+            base = base.replace(/[\\/:*?"<>|]/g, '-');
+
+            return `${base}_${siglaEstilo}.png`;
+        }
+
+        function nomeArquivoGenerico(nomeItem, extensao = 'png') {
+            const base = String(nomeItem || 'arquivo')
+                .trim()
+                .replace(/[\\/:*?"<>|]/g, '-');
+
+            return `${base}.${extensao}`;
+        }
+
         function sair() {
             sessionStorage.clear();
             window.location.href = 'index.html';
         }
 
         function voltarNivel() {
+            if (userType === 'player') {
+                const acesso = localizarJogador();
+                if (acesso) abrirEquipeJogador(acesso.equipe, acesso.membro);
+                return;
+            }
+
             if (equipeSelecionada) {
                 abrirEquipe(equipeSelecionada.id);
             } else {
@@ -139,59 +188,125 @@
             }
         }
 
+        function localizarJogador() {
+            if (!playerId) return null;
+
+            for (const equipe of dadosEquipes) {
+                const membro = (equipe.membros || []).find(m => m.playerId === playerId);
+
+                if (membro) {
+                    return { equipe, membro };
+                }
+            }
+
+            return null;
+        }
+
         function inicializarPainel() {
+            if (userType === 'player') {
+                const acesso = localizarJogador();
+
+                if (acesso) {
+                    equipeSelecionada = acesso.equipe;
+                    btnSair.classList.remove('hidden');
+                    btnInicio.classList.add('hidden');
+                    abrirEquipeJogador(acesso.equipe, acesso.membro);
+                } else {
+                    btnSair.classList.remove('hidden');
+
+                    titulo.innerText = 'ACESSO NÃO CONFIGURADO';
+                    subtitulo.innerText = 'O jogador vinculado a este login não foi encontrado no dados.js.';
+
+                    container.innerHTML = `
+                        <div class="col-span-full bg-[#161624] border border-red-500/30 p-8 rounded-xl text-center">
+                            <div class="text-5xl mb-4">⚠️</div>
+                            <h2 class="text-xl font-bold text-white mb-2">Jogador não encontrado</h2>
+                            <p class="text-gray-300 text-sm">
+                                Verifique o <b>playerId</b> deste login na listaUsuarios.
+                            </p>
+                        </div>
+                    `;
+                }
+
+                return;
+            }
+
             if (scope === 'all') {
                 btnSair.classList.remove('hidden');
                 renderizarEquipes();
             } else {
                 const eq = dadosEquipes.find(e => e.id === scope);
+
                 if (eq) {
+                    btnSair.classList.remove('hidden');
                     abrirEquipe(eq.id);
                 } else {
+                    btnSair.classList.remove('hidden');
                     renderizarEquipes();
                 }
             }
         }
 
-        // Função auxiliar para converter link ou ID do Google Drive em link direto de imagem
         function processarLinkDrive(idOuUrl) {
             if (!idOuUrl) return '';
+
             let limpo = idOuUrl.trim();
+
             if (limpo.includes('drive.google.com') || limpo.includes('id=')) {
                 const match = limpo.match(/id=([a-zA-Z0-9_-]+)/);
+
                 if (match && match[1]) {
                     limpo = match[1];
                 } else {
                     const match2 = limpo.match(/\/d\/([a-zA-Z0-9_-]+)/);
-                    if (match2 && match2[1]) limpo = match2[1];
+
+                    if (match2 && match2[1]) {
+                        limpo = match2[1];
+                    }
                 }
             }
+
             if (limpo.length > 20 && !limpo.includes('/')) {
                 return `https://lh3.googleusercontent.com/d/${limpo}`;
             }
+
             return limpo;
         }
 
-        // Nova função para realizar o download direto do arquivo sem redirecionar para o Drive
         async function baixarArquivo(url, nomeArquivo) {
             try {
                 const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
                 const blob = await response.blob();
                 const blobUrl = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
+
                 a.style.display = 'none';
                 a.href = blobUrl;
+
+                // O nome é definido diretamente em Unicode.
+                // Ex.: LPS.Pão7_FBB.png
                 a.download = nomeArquivo;
+
                 document.body.appendChild(a);
                 a.click();
-                window.URL.revokeObjectURL(blobUrl);
-                document.body.removeChild(a);
+
+                setTimeout(() => {
+                    window.URL.revokeObjectURL(blobUrl);
+                    document.body.removeChild(a);
+                }, 100);
             } catch (error) {
-                // Fallback caso ocorra restrição de CORS
+                // Fallback caso ocorra restrição de CORS.
                 const a = document.createElement('a');
+
                 a.href = url;
                 a.target = '_blank';
                 a.download = nomeArquivo;
+
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -200,38 +315,48 @@
 
         function renderizarEquipes() {
             nivelAtual = 'equipes';
+
             titulo.innerText = "EQUIPES - MEDIA LOBBY";
             subtitulo.innerText = "Selecione uma equipe para acessar as pastas de fotos.";
+
             logoCabecalho.classList.add('hidden');
             btnVoltar.classList.add('hidden');
             btnInicio.classList.add('hidden');
+
             container.innerHTML = '';
 
             dadosEquipes.forEach(eq => {
-                let logoSrc = processarLinkDrive(eq.logo);
+                const logoSrc = processarLinkDrive(eq.logo);
+
                 container.innerHTML += `
-                    <div onclick="abrirEquipe('${eq.id}')" class="bg-[#161624] border border-[#2a2a3f] p-6 rounded-xl shadow-md cursor-pointer card-hover transition flex flex-col items-center text-center">
+                    <div onclick="abrirEquipe('${escaparHtml(eq.id)}')" class="bg-[#161624] border border-[#2a2a3f] p-6 rounded-xl shadow-md cursor-pointer card-hover transition flex flex-col items-center text-center">
                         <div class="w-24 h-24 flex items-center justify-center mb-4">
-                            <img src="${logoSrc}" alt="${eq.nome}" class="max-h-full max-w-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
+                            <img src="${logoSrc}" alt="${escaparHtml(eq.nome)}" class="max-h-full max-w-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
                         </div>
-                        <h2 class="font-bold text-white text-base">${eq.nome}</h2>
+                        <h2 class="font-bold text-white text-base">${escaparHtml(eq.nome)}</h2>
                         <span class="text-xs accent-purple font-semibold mt-2">Ver pastas de estilos →</span>
                     </div>
                 `;
             });
+
             irParaTopo();
         }
 
         function abrirEquipe(idEquipe) {
             equipeSelecionada = dadosEquipes.find(e => e.id === idEquipe);
+
+            if (!equipeSelecionada) return;
+
             nivelAtual = 'estilos';
+
             titulo.innerText = equipeSelecionada.nome;
             subtitulo.innerText = "Selecione a pasta desejada:";
-            
+
             logoCabecalho.src = processarLinkDrive(equipeSelecionada.logo);
             logoCabecalho.classList.remove('hidden');
 
             btnVoltar.classList.add('hidden');
+
             if (scope === 'all') {
                 btnInicio.classList.remove('hidden');
             } else {
@@ -240,7 +365,6 @@
 
             container.innerHTML = '';
 
-            // 1. Logotipos
             container.innerHTML += `
                 <div onclick="abrirPastaLogosEBrasoes('Logotipos')" class="bg-[#161624] border border-[#2a2a3f] p-6 rounded-xl shadow-md cursor-pointer card-hover transition flex flex-col items-center text-center border-amber-500/40">
                     <div class="text-4xl mb-3">📁</div>
@@ -249,7 +373,6 @@
                 </div>
             `;
 
-            // 2. Brasões
             container.innerHTML += `
                 <div onclick="abrirPastaLogosEBrasoes('Brasões')" class="bg-[#161624] border border-[#2a2a3f] p-6 rounded-xl shadow-md cursor-pointer card-hover transition flex flex-col items-center text-center border-amber-500/40">
                     <div class="text-4xl mb-3">📁</div>
@@ -258,32 +381,131 @@
                 </div>
             `;
 
-            // 3. Demais estilos de fotos
             listaEstilos.forEach((estilo, index) => {
                 const nomeFormatado = formatarTitulo(estilo.nomeEstilo);
+
                 container.innerHTML += `
                     <div onclick="abrirEstilo(${index})" class="bg-[#161624] border border-[#2a2a3f] p-6 rounded-xl shadow-md cursor-pointer card-hover transition flex flex-col items-center text-center">
                         <div class="text-4xl mb-3">📁</div>
-                        <h2 class="font-bold text-white text-base">${nomeFormatado}</h2>
+                        <h2 class="font-bold text-white text-base">${escaparHtml(nomeFormatado)}</h2>
                         <span class="text-xs accent-purple font-semibold mt-2">Abrir pasta</span>
                     </div>
                 `;
             });
+
+            irParaTopo();
+        }
+
+        // Acesso de jogador: não exibe equipes, logos ou brasões.
+        // Mostra somente as fotos do próprio jogador.
+        function abrirEquipeJogador(equipe, membro) {
+            equipeSelecionada = equipe;
+            nivelAtual = 'player';
+
+            titulo.innerText = membro.nick;
+            subtitulo.innerText = `${equipe.nome} - Fotos do jogador`;
+
+            logoCabecalho.src = processarLinkDrive(equipe.logo);
+            logoCabecalho.classList.remove('hidden');
+
+            btnVoltar.classList.add('hidden');
+            btnInicio.classList.add('hidden');
+
+            const funcao = String(membro.funcao || '').trim().toUpperCase();
+            const icone = iconesFuncoes[funcao] || '';
+
+            const infoFuncao = funcao && icone
+                ? `<div class="flex items-center gap-2 text-sm text-amber-400 font-semibold">
+                        <img src="${icone}" alt="${escaparHtml(funcao)}" class="w-7 h-7 object-contain">
+                        <span>${escaparHtml(funcao)}</span>
+                   </div>`
+                : `<div class="text-sm text-gray-400">Função: não cadastrada</div>`;
+
+            const infoUid = membro.uid
+                ? `<div class="text-xs text-gray-300 mt-1">UID: <span class="text-white font-semibold">${escaparHtml(membro.uid)}</span></div>`
+                : `<div class="text-xs text-gray-500 mt-1">UID: não cadastrado</div>`;
+
+            container.innerHTML = `
+                <div class="col-span-full bg-[#161624] border border-[#2a2a3f] rounded-xl p-5 mb-2">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div>
+                            <h2 class="text-xl font-bold text-white">${escaparHtml(membro.nick)}</h2>
+                            ${infoUid}
+                        </div>
+                        ${infoFuncao}
+                    </div>
+                </div>
+            `;
+
+            let htmlCards = '';
+            let contadorEncontrados = 0;
+
+            listaEstilos.forEach((estilo) => {
+                const siglaEstilo = estilo.sigla;
+                const fileId = membro.fotos ? membro.fotos[siglaEstilo] : null;
+
+                if (fileId && fileId.trim() !== "") {
+                    contadorEncontrados++;
+
+                    const urlDriveImg = processarLinkDrive(fileId);
+                    const nomeArquivo = nomeArquivoJogador(membro.nick, siglaEstilo);
+                    const nomeFormatado = formatarTitulo(estilo.nomeEstilo);
+
+                    htmlCards += `
+                        <div class="bg-[#161624] border border-[#2a2a3f] p-4 rounded-xl shadow-md flex flex-col justify-between">
+                            <div>
+                                <div class="w-full h-48 bg-black/40 rounded mb-3 border border-[#2a2a3f] flex items-center justify-center overflow-hidden p-2">
+                                    <img src="${urlDriveImg}" alt="${escaparHtml(membro.nick)}" class="w-full h-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
+                                </div>
+
+                                <h2 class="font-bold text-white text-sm truncate mb-1" title="${escaparHtml(membro.nick)}">${escaparHtml(membro.nick)}</h2>
+
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                                    <span class="text-xs text-amber-400 font-semibold">${escaparHtml(nomeFormatado)} · ${siglaEstilo}</span>
+                                </div>
+                            </div>
+
+                            <button
+                                data-download-url="${encodeURIComponent(urlDriveImg)}"
+                                data-download-name="${encodeURIComponent(nomeArquivo)}"
+                                class="btn-download w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
+                                Baixar Foto
+                            </button>
+                        </div>
+                    `;
+                }
+            });
+
+            if (contadorEncontrados === 0) {
+                container.innerHTML += `
+                    <div class="col-span-full bg-[#161624] border border-[#2a2a3f] p-8 rounded-xl text-center shadow-md">
+                        <div class="text-5xl mb-4">📂</div>
+                        <h2 class="text-xl font-bold text-white mb-2">Nenhuma foto cadastrada</h2>
+                        <p class="text-gray-300 text-sm">Ainda não há fotos disponíveis para este jogador.</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML += htmlCards;
+            }
+
             irParaTopo();
         }
 
         function abrirPastaLogosEBrasoes(tipo) {
             nivelAtual = 'generica';
+
             titulo.innerText = `${equipeSelecionada.nome} - ${tipo}`;
             subtitulo.innerText = `Pasta: ${tipo}`;
-            
+
             btnVoltar.classList.remove('hidden');
             btnVoltar.innerText = "← Voltar para a Pasta de Poses";
+
             if (scope === 'all') {
                 btnInicio.classList.remove('hidden');
             }
 
             let itens = [];
+
             if (tipo === 'Logotipos') {
                 itens = equipeSelecionada.logos || [];
             } else {
@@ -303,28 +525,37 @@
                         <p class="text-gray-300 text-sm mb-4">Insira os IDs do Google Drive no arquivo dados.js para esta equipe.</p>
                     </div>
                 `;
+
                 irParaTopo();
                 return;
             }
 
             let htmlCards = '';
+
             itensValidos.forEach((item, idx) => {
-                let valorBruto = typeof item === 'string' ? item : (item.id || item.link);
-                let nomeItem = typeof item === 'object' && item.nome ? item.nome : `${tipo.slice(0, -1)} ${idx + 1}`;
-                
-                let urlDriveImg = processarLinkDrive(valorBruto);
-                let nomeArquivoSeguro = `${nomeItem.replace(/[^a-zA-Z0-9-_]/g, '_')}.png`;
+                const valorBruto = typeof item === 'string' ? item : (item.id || item.link);
+                const nomeItem = typeof item === 'object' && item.nome
+                    ? item.nome
+                    : `${tipo.slice(0, -1)} ${idx + 1}`;
+
+                const urlDriveImg = processarLinkDrive(valorBruto);
+                const nomeArquivo = nomeArquivoGenerico(nomeItem);
 
                 htmlCards += `
                     <div class="bg-[#161624] border border-[#2a2a3f] p-4 rounded-xl shadow-md flex flex-col justify-between">
                         <div>
                             <div class="w-full h-48 bg-black/40 rounded mb-3 border border-[#2a2a3f] flex items-center justify-center overflow-hidden p-2">
-                                <img src="${urlDriveImg}" alt="${nomeItem}" class="w-full h-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
+                                <img src="${urlDriveImg}" alt="${escaparHtml(nomeItem)}" class="w-full h-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
                             </div>
-                            <h2 class="font-bold text-white text-sm truncate mb-1" title="${nomeItem}">${nomeItem}</h2>
+
+                            <h2 class="font-bold text-white text-sm truncate mb-1" title="${escaparHtml(nomeItem)}">${escaparHtml(nomeItem)}</h2>
                             <p class="text-xs text-amber-400 font-medium mb-4">${tipo}</p>
                         </div>
-                        <button onclick="baixarArquivo('${urlDriveImg}', '${nomeArquivoSeguro}')" class="w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
+
+                        <button
+                            data-download-url="${encodeURIComponent(urlDriveImg)}"
+                            data-download-name="${encodeURIComponent(nomeArquivo)}"
+                            class="btn-download w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
                             Baixar Arquivo
                         </button>
                     </div>
@@ -338,16 +569,21 @@
         function abrirEstilo(indexEstilo) {
             estiloSelecionado = listaEstilos[indexEstilo];
             nivelAtual = 'fotos';
+
             const nomeFormatado = formatarTitulo(estiloSelecionado.nomeEstilo);
+
             titulo.innerText = `${equipeSelecionada.nome} - ${nomeFormatado}`;
             subtitulo.innerText = `Pasta: ${nomeFormatado}`;
-            
+
             btnVoltar.classList.remove('hidden');
             btnVoltar.innerText = "← Voltar para a Pasta de Poses";
+
             if (scope === 'all') {
                 btnInicio.classList.remove('hidden');
+            } else {
+                btnInicio.classList.add('hidden');
             }
-            
+
             container.innerHTML = `
                 <div class="col-span-full flex flex-col items-center justify-center p-16">
                     <div class="loader mb-4"></div>
@@ -359,6 +595,7 @@
                 setTimeout(() => {
                     container.innerHTML = `<p class="text-gray-400 col-span-full text-center">Nenhum membro cadastrado para esta equipe.</p>`;
                 }, 400);
+
                 irParaTopo();
                 return;
             }
@@ -372,19 +609,44 @@
 
                 if (fileId && fileId.trim() !== "") {
                     contadorEncontrados++;
-                    let urlDriveImg = processarLinkDrive(fileId);
-                    let nomeArquivoSeguro = `${membro.nick.replace(/[^a-zA-Z0-9-_]/g, '_')}_${siglaEstilo}.png`;
+
+                    const urlDriveImg = processarLinkDrive(fileId);
+                    const nomeArquivo = nomeArquivoJogador(membro.nick, siglaEstilo);
+                    const funcao = String(membro.funcao || '').trim().toUpperCase();
+                    const icone = iconesFuncoes[funcao] || '';
+
+                    const funcaoHtml = funcao && icone
+                        ? `<span class="flex items-center gap-1.5 text-xs text-amber-400 font-semibold">
+                               <img src="${icone}" alt="${escaparHtml(funcao)}" class="w-5 h-5 object-contain">
+                               <span>${escaparHtml(funcao)}</span>
+                           </span>`
+                        : '';
+
+                    const uidHtml = membro.uid
+                        ? `<span class="text-[11px] text-gray-400">UID: ${escaparHtml(membro.uid)}</span>`
+                        : '';
 
                     htmlCards += `
                         <div class="bg-[#161624] border border-[#2a2a3f] p-4 rounded-xl shadow-md flex flex-col justify-between">
                             <div>
                                 <div class="w-full h-48 bg-black/40 rounded mb-3 border border-[#2a2a3f] flex items-center justify-center overflow-hidden p-2">
-                                    <img src="${urlDriveImg}" alt="${membro.nick}" class="w-full h-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
+                                    <img src="${urlDriveImg}" alt="${escaparHtml(membro.nick)}" class="w-full h-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
                                 </div>
-                                <h2 class="font-bold text-white text-sm truncate mb-1" title="${membro.nick}">${membro.nick}</h2>
-                                <p class="text-xs text-amber-400 font-medium mb-4">${nomeFormatado}</p>
+
+                                <h2 class="font-bold text-white text-sm truncate mb-1" title="${escaparHtml(membro.nick)}">${escaparHtml(membro.nick)}</h2>
+
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                                    ${funcaoHtml}
+                                    ${uidHtml}
+                                </div>
+
+                                <p class="text-xs text-amber-400 font-medium mb-4">${escaparHtml(nomeFormatado)} · ${siglaEstilo}</p>
                             </div>
-                            <button onclick="baixarArquivo('${urlDriveImg}', '${nomeArquivoSeguro}')" class="w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
+
+                            <button
+                                data-download-url="${encodeURIComponent(urlDriveImg)}"
+                                data-download-name="${encodeURIComponent(nomeArquivo)}"
+                                class="btn-download w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
                                 Baixar Foto
                             </button>
                         </div>
@@ -408,6 +670,18 @@
 
             irParaTopo();
         }
+
+        // Delegação de eventos para evitar problemas com acentos, aspas e caracteres especiais.
+        document.addEventListener('click', function(event) {
+            const botao = event.target.closest('.btn-download');
+
+            if (!botao) return;
+
+            const url = decodeURIComponent(botao.dataset.downloadUrl || '');
+            const nome = decodeURIComponent(botao.dataset.downloadName || 'arquivo.png');
+
+            baixarArquivo(url, nome);
+        });
 
         window.onload = inicializarPainel;
     </script>
