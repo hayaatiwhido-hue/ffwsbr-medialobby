@@ -31,27 +31,27 @@ const listaUsuarios = [
 // O index.html lê esta lista automaticamente.
 // Cada domínio deve ser único e conter o @.
 const dominiosLogin = [
-    { dominio: "@dev.com", nome: "DEVELOPER" },
-    { dominio: "@medialobby.com", nome: "PARCEIROS" },
-    { dominio: "@novofuturo.com", nome: "FUTURY ESPORTS" },
-    { dominio: "@gmail.com", nome: "GMAIL" },
-    { dominio: "@esolid.com", nome: "ESOLID NEWS" },
-    { dominio: "@pixelbroadcast.com", nome: "PIXEL BROADCAST" },
-    { dominio: "@diretoria.com", nome: "DIRETORIA DE ESPORTS" },
+    { dominio: "@dev.com", nome: "Developer" },
+    { dominio: "@medialobby.com", nome: "Parceiros" },
+    { dominio: "@novofuturo.com", nome: "Futury Esports" },
+    { dominio: "@gmail.com", nome: "Gmail" },
+    { dominio: "@esolid.com", nome: "eSolid News" },
+    { dominio: "@pixelbroadcast.com", nome: "Pixel Broadcast" },
+    { dominio: "@diretoria.com", nome: "Diretoria de eSports" },
     { dominio: "@afrogames.com", nome: "AFROGAMES" ,
-    { dominio: "@alpha7gg.com", nome: "ALPHA 7" },
-    { dominio: "@cptvox.com", nome: "CPT VOX" },
-    { dominio: "@civis.com", nome: "CIVIS" },
-    { dominio: "@fluxow7m.com", nome: "FLUXO W7M" },
-    { dominio: "@influence.com", nome: "INFLUENCE RAGE" },
-    { dominio: "@intz.com", nome: "INTZ" },
-    { dominio: "@loops.com", nome: "LOOPS ESPORTS" },
-    { dominio: "@los.com", nome: "LOS" },
-    { dominio: "@loudsnickers.com", nome: "LOUD SNICKERS" },
-    { dominio: "@rise.com", nome: "RISE GAMING" },
-    { dominio: "@rush.com", nome: "RUSH GAMING" },
-    { dominio: "@sx.com", nome: "SX TET" },
-    { dominio: "@teamsolid.com", nome: "TEAM SOLID" }
+    { dominio: "@alpha7gg.com", nome: "Alpha 7" },
+    { dominio: "@cptvox.com", nome: "CPT Vox" },
+    { dominio: "@civis.com", nome: "Civis" },
+    { dominio: "@fluxow7m.com", nome: "Fluxo W7M" },
+    { dominio: "@influence.com", nome: "Influence Rage" },
+    { dominio: "@intz.com", nome: "Intz" },
+    { dominio: "@loops.com", nome: "Loops Esports" },
+    { dominio: "@los.com", nome: "Los" },
+    { dominio: "@loudsnickers.com", nome: "Loud Snickers" },
+    { dominio: "@rise.com", nome: "Rise Gaming" },
+    { dominio: "@rush.com", nome: "Rush Gaming" },
+    { dominio: "@sx.com", nome: "SX Tet" },
+    { dominio: "@teamsolid.com", nome: "Team Solid" }
 ];
 
 // LISTA DE PASTAS E SUAS RESPECTIVAS SIGLAS
