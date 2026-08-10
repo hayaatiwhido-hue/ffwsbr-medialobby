@@ -22,7 +22,9 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="flex min-h-screen items-center justify-center">
+<body class="flex flex-col min-h-screen items-center justify-between p-4">
+
+    <div></div> <!-- Elemento vazio para manter o card centralizado verticalmente -->
 
     <div class="bg-[#10101e]/90 p-8 rounded-xl shadow-2xl w-96 border border-[#e8b033]/50 backdrop-blur-sm">
         <div class="flex justify-center items-center gap-3 mb-4">
@@ -39,6 +41,12 @@
             <button type="submit" id="btn-entrar" class="w-full btn-primary p-3 rounded font-bold transition shadow-md">ACESSAR PAINEL</button>
         </form>
     </div>
+
+    <!-- Rodapé com as logos dos criadores lado a lado -->
+    <footer class="flex items-center justify-center gap-4 py-4">
+        <img src="info-ffws/logo-diretoria.png" alt="" class="h-8 object-contain opacity-80" onerror="this.style.display='none'">
+        <img src="info-ffws/logo-futury.png" alt="" class="h-8 object-contain opacity-80" onerror="this.style.display='none'">
+    </footer>
 
     <script src="dados.js"></script>
     <script>
