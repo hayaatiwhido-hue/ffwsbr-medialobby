@@ -34,8 +34,23 @@
         <p id="mensagem-status" class="hidden text-sm mb-4 text-center font-bold flex items-center justify-center gap-2"></p>
         
         <form id="login-form">
-            <input type="email" id="email" placeholder="Email@dominio.com" required class="w-full p-3 rounded bg-[#1a1a2e] border border-[#444] mb-3 text-white">
-            <input type="password" id="senha" placeholder="Senha" required class="w-full p-3 rounded bg-[#1a1a2e] border border-[#444] mb-4 text-white">
+            <!-- Filtro de domínio: os domínios são descobertos automaticamente em listaUsuarios (dados.js). -->
+            <label for="dominio" class="block text-sm font-semibold text-gray-300 mb-2">DOMÍNIO DO LOGIN</label>
+            <div class="relative mb-3">
+                <select id="dominio" required class="w-full appearance-none p-3 pr-10 rounded bg-[#1a1a2e] border border-[#444] text-white focus:outline-none focus:border-[#e8b033] focus:ring-1 focus:ring-[#e8b033] cursor-pointer">
+                    <option value="">Selecione a organização</option>
+                </select>
+                <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#e8b033]">⌄</span>
+            </div>
+
+            <!-- Somente a parte antes do @ é digitada pelo usuário. -->
+            <label for="email-prefix" class="block text-sm font-semibold text-gray-300 mb-2">ENDEREÇO DE EMAIL</label>
+            <div class="flex w-full mb-3">
+                <input type="text" id="email-prefix" placeholder="Digite seu login" autocomplete="username" required class="min-w-0 flex-1 p-3 rounded-l bg-[#1a1a2e] border border-[#444] border-r-0 text-white focus:outline-none focus:border-[#e8b033]">
+                <div id="dominio-selecionado" class="flex items-center px-3 rounded-r bg-[#252538] border border-[#444] text-[#e8b033] font-semibold text-sm whitespace-nowrap max-w-[48%] overflow-hidden">@dominio.com</div>
+            </div>
+
+            <input type="password" id="senha" placeholder="Senha" autocomplete="current-password" required class="w-full p-3 rounded bg-[#1a1a2e] border border-[#444] mb-4 text-white focus:outline-none focus:border-[#e8b033]">
             <button type="submit" id="btn-entrar" class="w-full btn-primary p-3 rounded font-bold transition shadow-md">ACESSAR PAINEL</button>
         </form>
 
@@ -51,12 +66,96 @@
         const logoDiretoriaEl = document.getElementById('logo-diretoria');
         if (typeof logoDiretoria !== 'undefined' && logoDiretoriaEl) logoDiretoriaEl.src = logoDiretoria;
 
+        /*
+         * ============================================================
+         * CONFIGURAÇÃO DOS NOMES EXIBIDOS NO FILTRO DE DOMÍNIO
+         * ============================================================
+         *
+         * Os domínios são descobertos automaticamente a partir dos
+         * emails existentes em listaUsuarios, no dados.js.
+         *
+         * Aqui você escolhe como cada domínio aparecerá visualmente.
+         * A chave precisa ser o domínio completo, incluindo @.
+         *
+         * Exemplo:
+         * '@influence.com': 'Influence Rage'
+         *
+         * Se um domínio não estiver nesta lista, o próprio domínio
+         * será usado como nome automaticamente.
+         */
+        const nomesDosDominios = {
+            '@medialobby.com': 'Media Lobby',
+            '@equipe.com': 'Equipes',
+            // '@influence.com': 'Influence Rage',
+            // '@outrodominio.com': 'Nome da Organização',
+        };
+
+        const dominioSelect = document.getElementById('dominio');
+        const dominioSelecionadoEl = document.getElementById('dominio-selecionado');
+        const emailPrefixEl = document.getElementById('email-prefix');
+
+        function extrairDominio(email) {
+            const valor = String(email || '').trim().toLowerCase();
+            const pos = valor.lastIndexOf('@');
+            return pos >= 0 ? valor.slice(pos) : '';
+        }
+
+        function nomeFallbackDominio(dominio) {
+            return dominio
+                .replace(/^@/, '')
+                .split('.')
+                .filter(Boolean)
+                .map(parte => parte.charAt(0).toUpperCase() + parte.slice(1))
+                .join('.');
+        }
+
+        function carregarDominios() {
+            const dominiosUnicos = [...new Set(
+                (Array.isArray(listaUsuarios) ? listaUsuarios : [])
+                    .map(usuario => extrairDominio(usuario.email))
+                    .filter(Boolean)
+            )].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+
+            dominioSelect.innerHTML = '<option value="">Selecione a organização</option>';
+
+            dominiosUnicos.forEach(dominio => {
+                const option = document.createElement('option');
+                option.value = dominio;
+                option.textContent = nomesDosDominios[dominio] || nomeFallbackDominio(dominio);
+                dominioSelect.appendChild(option);
+            });
+        }
+
+        function atualizarDominioVisual() {
+            const dominio = dominioSelect.value;
+            dominioSelecionadoEl.textContent = dominio || '@dominio.com';
+            dominioSelecionadoEl.classList.toggle('text-gray-500', !dominio);
+            dominioSelecionadoEl.classList.toggle('text-[#e8b033]', !!dominio);
+        }
+
+        carregarDominios();
+        atualizarDominioVisual();
+
+        dominioSelect.addEventListener('change', atualizarDominioVisual);
+
         document.getElementById('login-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            const emailInput = document.getElementById('email').value.trim().toLowerCase();
+
+            const usuarioInput = emailPrefixEl.value.trim().toLowerCase();
+            const dominioInput = dominioSelect.value;
+            const emailInput = dominioInput ? `${usuarioInput}${dominioInput}` : '';
             const passInput = document.getElementById('senha').value;
             const msgStatus = document.getElementById('mensagem-status');
             const btnEntrar = document.getElementById('btn-entrar');
+
+            if (!usuarioInput || !dominioInput) {
+                msgStatus.className = "text-red-400 text-sm mb-4 text-center font-bold";
+                msgStatus.innerText = !dominioInput
+                    ? "Selecione o domínio do seu login."
+                    : "Informe o usuário do seu email.";
+                msgStatus.classList.remove('hidden');
+                return;
+            }
 
             btnEntrar.disabled = true;
             msgStatus.className = "text-yellow-400 text-sm mb-4 text-center font-bold flex items-center justify-center gap-2";
@@ -64,7 +163,11 @@
             msgStatus.classList.remove('hidden');
 
             setTimeout(() => {
-                const user = listaUsuarios.find(u => u.email === emailInput && u.senha === passInput);
+                const user = listaUsuarios.find(u =>
+                    String(u.email || '').trim().toLowerCase() === emailInput &&
+                    u.senha === passInput
+                );
+
                 if (user) {
                     msgStatus.className = "text-green-500 text-sm mb-4 text-center font-bold";
                     msgStatus.innerText = "LOGIN AUTORIZADO";
