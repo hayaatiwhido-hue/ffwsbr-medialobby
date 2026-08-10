@@ -13,20 +13,9 @@ const listaUsuarios = [
     { email: "medialobby@medialobby.com", senha: "suasenhaglobal", scope: "all" },
     { email: "thallys@pixelbroadcast.com", senha: "AdmPixel1", scope: "all" },
 
-    { email: "afrogames@equipe.com", senha: "123", scope: "afrogames" },
-    { email: "alpha7@equipe.com", senha: "123", scope: "alpha-7" },
-    { email: "cptvox@equipe.com", senha: "123", scope: "cpt-vox" },
-    { email: "civis@equipe.com", senha: "123", scope: "civis" },
-    { email: "fluxow7m@equipe.com", senha: "123", scope: "fluxo-w7m" },
-    { email: "influencerage@equipe.com", senha: "123", scope: "influence-rage" },
-    { email: "intz@equipe.com", senha: "123", scope: "intz-esports" },
-    { email: "loops@equipe.com", senha: "123", scope: "loops-esports" },
-    { email: "los@equipe.com", senha: "123", scope: "los" },
-    { email: "loud@equipe.com", senha: "123", scope: "loud-snickers" },
-    { email: "risegaming@equipe.com", senha: "123", scope: "rise-gaming" },
-    { email: "rushgaming@equipe.com", senha: "123", scope: "rush-gaming" },
-    { email: "sxtet@equipe.com", senha: "123", scope: "sx-tet" },
-    { email: "teamsolid@equipe.com", senha: "123", scope: "team-solid" }
+    { email: "wf9@influence.com", senha: "WF9_Coach", scope: "influence-rage" }
+
+    
 ];
 
 // LISTA DE PASTAS E SUAS RESPECTIVAS SIGLAS
