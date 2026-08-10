@@ -21,7 +21,6 @@ const listaUsuarios = [
     { email: "saskito@influence.com", senha: "ManagerINF-2026", scope: "influence-rage" },
     { email: "igor@influence.com", senha: "10218211", scope: "player", playerId: "inf.igor7" },
     { email: "nepoign@influence.com", senha: "812813211", scope: "player", playerId: "inf.nepo" },
-    { email: "lyonrlq@influence.com", senha: "1759301816", scope: "player", playerId: "1759301816" }
 
     
 ];
@@ -31,26 +30,30 @@ const listaUsuarios = [
 // O index.html lê esta lista automaticamente.
 // Cada domínio deve ser único e conter o @.
 const dominiosLogin = [
-    { dominio: "@medialobby.com", nome: "Dev" },
-    { dominio: "@novofuturo.com", nome: "Futury Esports" },
+    { dominio: "@medialobby.com", nome: "Media Lobby" },
+    { dominio: "@novofuturo.com", nome: "Novo Futuro" },
     { dominio: "@gmail.com", nome: "Gmail" },
-    { dominio: "@esolid.com", nome: "eSolid News" },
+    { dominio: "@esolid.com", nome: "eSolid" },
     { dominio: "@pixelbroadcast.com", nome: "Pixel Broadcast" },
-    { dominio: "@diretoria.com", nome: "Diretoria de eSports" },
-    { dominio: "@afrogames.com", nome: "Afrogames" },
-    { dominio: "@alpha7.gg", nome: "Alpha 7" },
-    { dominio: "@cptvox.com", nome: "CPT Vox" },
-    { dominio: "@civis.com", nome: "Civis" },
-    { dominio: "@fluxow7m.com", nome: "FluxoW7M" },
-    { dominio: "@influence.com", nome: "Influence Rage" },
-    { dominio: "@intz.com", nome: "INTZ" },
-    { dominio: "@loops.com", nome: "Loops Esports" },
-    { dominio: "@los.com", nome: "Los" },
-    { dominio: "@loudsnickers.com", nome: "Loud Snickers" },
-    { dominio: "@rise.com", nome: "Rise Gaming" },
-    { dominio: "@rush.com", nome: "Rush Gaming" },
-    { dominio: "@sx.com", nome: "SX TET" },
-    { dominio: "@solid.com", nome: "Team Solid" }
+    { dominio: "@diretoria.com", nome: "Diretoria" },
+    { dominio: "@influence.com", nome: "Influence Rage" }
+];
+
+// ============================================================
+// CONFIGURAÇÕES DE SEGURANÇA, MONITORAMENTO E IDIOMAS
+// ============================================================
+const configuracaoSite = {
+    limiteDispositivos: 1,
+    monitorarAtividade: true,
+    // Preencha com a URL do backend para bloquear múltiplos celulares
+    // e receber notificações em tempo real.
+    apiSeguranca: '',
+    idiomas: ['pt', 'en', 'es']
+};
+
+// Apenas estes logins poderão visualizar usuários ativos e últimos acessos.
+const loginsComMonitoramento = [
+    // 'seu-email@dominio.com'
 ];
 
 // LISTA DE PASTAS E SUAS RESPECTIVAS SIGLAS
@@ -228,7 +231,7 @@ const dadosEquipes = [
         membros: [
             { nick: "INF nepoIGN", playerId: "inf.nepo", funcao: "RUSHER", uid: "179975953", fotos: { FCI: "", FBB: "https://drive.google.com/file/d/1RH16W4uoSTPfPbQ6-phnsrD41A0b6Lm5/view?usp=drivesdk", BPD: "", BPE: "", FBC: "https://drive.google.com/file/d/1zZmMJFHMqJ-4yReMT8P6eMKgPL07ISTe/view?usp=drivesdk", BCD: "https://drive.google.com/file/d/1x9Jy86pML3lzErrrKtZ27ZUKMM8n09-R/view?usp=drivesdk", BCE: "https://drive.google.com/file/d/1KSAt_pBAxNEGzlT7SXX2NYTq8-kA6Cl_/view?usp=drivesdk", PDB: "https://drive.google.com/file/d/1v8oDh-mnvilXt1Do9NjiQECpCcmibPxO/view?usp=drivesdk", MVP: "https://drive.google.com/file/d/1_AWdJFihTIOsyTSvTbcUZqwvQi3DhemO/view?usp=drivesdk", FUN1: "https://drive.google.com/file/d/1WjAEKDCwQN8DRqaWkmq_l86EbpSrVClf/view?usp=drivesdk", FUN2: "https://drive.google.com/file/d/1aarZAsq0ipbYHdhSfWslz73Yqh-jkfYQ/view?usp=drivesdk", FPG1: "https://drive.google.com/file/d/11HVub-s5K0Ey_C6tLKSsouEs29jofTDi/view?usp=drivesdk", FPG2: "", FPG3: "", CPD: "https://drive.google.com/file/d/1OgSUxYnFjnNWC5LWP2FQCa_RDjSLD9M_/view?usp=drivesdk", CPE: "https://drive.google.com/file/d/1kH35BbgkjsMo7ato-cWuQKb1scgbF-3e/view?usp=drivesdk", CDR: "https://drive.google.com/file/d/1uOQBG8d_6U3DQFD2S4dn0Cyq15ePODkN/view?usp=drivesdk" } },
             { nick: "INF IGOR7", playerId: "inf.igor7", funcao: "SNIPER", uid: "1881546279", fotos: { FCI: "", FBB: "https://drive.google.com/file/d/1OhxzWX-dcgvuCi5J6mNEvyIKrkp9jlnT/view?usp=drivesdk", BPD: "", BPE: "", FBC: "https://drive.google.com/file/d/169_F9UW6lF2uXQkFdc9A6SPx5ieYTn_0/view?usp=drivesdk", BCD: "https://drive.google.com/file/d/1b5BC7xH8JO88yaSuctOJrSBPsJGj3Naq/view?usp=drivesdk", BCE: "https://drive.google.com/file/d/1VHykrzmaSiJQ_HtmE67534JcvwNEpteS/view?usp=drivesdk", PDB: "https://drive.google.com/file/d/1htpi64X2C0CFQX_0PoH2fqe7Gvf4RwOC/view?usp=drivesdk", MVP: "https://drive.google.com/file/d/1KM03wWIMkaOlKLRVY_QgfmtoWZIuPqJR/view?usp=drivesdk", FUN1: "https://drive.google.com/file/d/1YsgGWfHc3F2MZwAKTsgd9k5QEH6Eqgf5/view?usp=drivesdk", FUN2: "https://drive.google.com/file/d/1XA1h1--SIfJWcNWBb6JTrN4sxLJigBK7/view?usp=drivesdk", FPG1: "https://drive.google.com/file/d/1P6hBARW-zM1irRiyuKkDlwK6u-pHRuzN/view?usp=drivesdk", FPG2: "", FPG3: "", CPD: "https://drive.google.com/file/d/1ME1yUy5-c8nK7LaktGACJSZ75vmPCbLv/view?usp=drivesdk", CPE: "https://drive.google.com/file/d/1aC9p62P_nBIDR6D07uyUgRHJhY36aJZb/view?usp=drivesdk", CDR: "https://drive.google.com/file/d/1EybQnrC7Cb9ky553QSldO31XWAytLdOe/view?usp=drivesdk" } },
-            { nick: "INF Lyon", playerId: "1759301816", funcao: "RUSHER", uid: "1759301816", fotos: { FCI: "", FBB: "https://drive.google.com/file/d/1P8R8WuHQpPe3dkNwloKSa9OrTH2gNsKq/view?usp=drivesdk", BPD: "", BPE: "", FBC: "https://drive.google.com/file/d/1sWVUlBvXvLQJvEVoUl1S-bMoMNJ7COju/view?usp=drivesdk", BCD: "https://drive.google.com/file/d/12BPvMB6VN5lBIXCyLYJGBANDrvgzEMFM/view?usp=drivesdk", BCE: "https://drive.google.com/file/d/1n1HoTZNK4l0EeJHosWxBJZ0-d_m-1KjE/view?usp=drivesdk", PDB: "https://drive.google.com/file/d/183nCV0ESYdb-dlAXDzOoCmPvJv6c1tH_/view?usp=drivesdk", MVP: "https://drive.google.com/file/d/1lJGmU4elUM3gk0CgRHJJzwiNViw0Wac-/view?usp=drivesdk", FUN1: "https://drive.google.com/file/d/1wzDbeyzaxpv_gv1Rs3qosPSreyx4bvG_/view?usp=drivesdk", FUN2: "https://drive.google.com/file/d/1TKedJggus9jvuWoYcGFpTkz53uLvVpS8/view?usp=drivesdk", FPG1: "https://drive.google.com/file/d/1rleHCV5qeHIDfjRmNVc3_lJNLkEAhMGi/view?usp=drivesdk", FPG2: "", FPG3: "", CPD: "https://drive.google.com/file/d/1ofO41BDOQ-JNlasmqNJKA8XeIGrjutQE/view?usp=drivesdk", CPE: "https://drive.google.com/file/d/1gKhUYFkz-EcnZzzbgSjVL--eCnbBR8lr/view?usp=drivesdk", CDR: "https://drive.google.com/file/d/116y57JTA1Pf4iazLKo464OP8qNzESH3U/view?usp=drivesdk" } },
+            { nick: "INF Lyon", playerId: "influence-rage-2", funcao: "RUSHER", uid: "1759301816", fotos: { FCI: "", FBB: "https://drive.google.com/file/d/1P8R8WuHQpPe3dkNwloKSa9OrTH2gNsKq/view?usp=drivesdk", BPD: "", BPE: "", FBC: "https://drive.google.com/file/d/1sWVUlBvXvLQJvEVoUl1S-bMoMNJ7COju/view?usp=drivesdk", BCD: "https://drive.google.com/file/d/12BPvMB6VN5lBIXCyLYJGBANDrvgzEMFM/view?usp=drivesdk", BCE: "https://drive.google.com/file/d/1n1HoTZNK4l0EeJHosWxBJZ0-d_m-1KjE/view?usp=drivesdk", PDB: "https://drive.google.com/file/d/183nCV0ESYdb-dlAXDzOoCmPvJv6c1tH_/view?usp=drivesdk", MVP: "https://drive.google.com/file/d/1lJGmU4elUM3gk0CgRHJJzwiNViw0Wac-/view?usp=drivesdk", FUN1: "https://drive.google.com/file/d/1wzDbeyzaxpv_gv1Rs3qosPSreyx4bvG_/view?usp=drivesdk", FUN2: "https://drive.google.com/file/d/1TKedJggus9jvuWoYcGFpTkz53uLvVpS8/view?usp=drivesdk", FPG1: "https://drive.google.com/file/d/1rleHCV5qeHIDfjRmNVc3_lJNLkEAhMGi/view?usp=drivesdk", FPG2: "", FPG3: "", CPD: "https://drive.google.com/file/d/1ofO41BDOQ-JNlasmqNJKA8XeIGrjutQE/view?usp=drivesdk", CPE: "https://drive.google.com/file/d/1gKhUYFkz-EcnZzzbgSjVL--eCnbBR8lr/view?usp=drivesdk", CDR: "https://drive.google.com/file/d/116y57JTA1Pf4iazLKo464OP8qNzESH3U/view?usp=drivesdk" } },
             { nick: "INF Lippe!", playerId: "influence-rage-3", funcao: "BOMBER", uid: "90685981", fotos: { FCI: "", FBB: "https://drive.google.com/file/d/1W5f7xQdzI4SFbtNCkHVeB99LTsStp6-D/view?usp=drivesdk", BPD: "", BPE: "", FBC: "https://drive.google.com/file/d/13QLjYNV0vL6vCNHGwoQLRs1wch71KU0T/view?usp=drivesdk", BCD: "https://drive.google.com/file/d/1RKpGHTIM2legWyBQC-zx1VlJDV6tGJJL/view?usp=drivesdk", BCE: "https://drive.google.com/file/d/1KaSuSonMXI-9cMe1NvBpp-bfpNS28TC2/view?usp=drivesdk", PDB: "https://drive.google.com/file/d/1Rou-0WDd5ldyaQKbF2mfi56jW8iOufQj/view?usp=drivesdk", MVP: "https://drive.google.com/file/d/12lpnRyqnCmcX5bwRmCcHUdNBr4RSiqLH/view?usp=drivesdk", FUN1: "https://drive.google.com/file/d/1hdNc4x1Eu52zrAtUI7BaymcYTVHTgJW-/view?usp=drivesdk", FUN2: "https://drive.google.com/file/d/1_20ndLpG5W-Vs_tkIXVDpE5WC79lAvns/view?usp=drivesdk", FPG1: "https://drive.google.com/file/d/1Wn9orYG5RMpHX5x4b9TEffu78vg1j2ja/view?usp=drivesdk", FPG2: "", FPG3: "", CPD: "https://drive.google.com/file/d/1-BmZG5QYOA15R68ka5ICfatkzI0WuDEe/view?usp=drivesdk", CPE: "https://drive.google.com/file/d/1ioq4qlpM5FL9Da96AXmhH3D9fBeVF2uF/view?usp=drivesdk", CDR: "https://drive.google.com/file/d/1Xk5xHYAEgrCU_ESrfVk94VZiKYAlfgON/view?usp=drivesdk" } },
             { nick: "INF Saskito!", playerId: "influence-rage-4", funcao: "SUPPORT", uid: "149908720", fotos: { FCI: "", FBB: "https://drive.google.com/file/d/1TF4qLxtCzFgT4AZ-T7lPTs7glLGEZWXq/view?usp=drivesdk", BPD: "", BPE: "", FBC: "https://drive.google.com/file/d/1CmEi0Jvzi_BmWo9YIP-2osXXMIuwx47R/view?usp=drivesdk", BCD: "https://drive.google.com/file/d/1lpynNMWLHxUU3QQ7d6PiQfL2SBNq0Txa/view?usp=drivesdk", BCE: "https://drive.google.com/file/d/1dEDRcRN5WvlGl6J62HelzS1Sq95oG30s/view?usp=drivesdk", PDB: "https://drive.google.com/file/d/1IZ3o-ZRlgiDheHhqahk_8JTaA_xbjnjl/view?usp=drivesdk", MVP: "https://drive.google.com/file/d/19ipx7-BiO5ZIKpHofrsGvDjkiklcllU1/view?usp=drivesdk", FUN1: "https://drive.google.com/file/d/1RcdM1NYQL_J_TACqZcmE8KslXYkXy3Lp/view?usp=drivesdk", FUN2: "https://drive.google.com/file/d/1zWK6-LzAQk87k2ycTpLmnNfcC4Xb8HL_/view?usp=drivesdk", FPG1: "", FPG2: "", FPG3: "", CPD: "https://drive.google.com/file/d/15jouN4SoOhyUbqBjlkMDHHZOwfzNtinL/view?usp=drivesdk", CPE: "https://drive.google.com/file/d/1x7-L3qyXefdoMsy0nzPi0TTjhDnHgUS4/view?usp=drivesdk", CDR: "https://drive.google.com/file/d/1g4MqP4BWuBLIAXrqhIVpzL1n5YwUTceN/view?usp=drivesdk" } },
             { nick: "INF WF9 (Coach)", playerId: "influence-rage-5", funcao: "", uid: "", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }

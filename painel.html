@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Lobby - FFWS</title>
+    <title>MEDIA LOBBY FFWS BRASIL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @font-face {
@@ -64,6 +64,12 @@
     </style>
 </head>
 <body class="min-h-screen text-gray-100 p-6">
+    <div id="seletor-idioma-painel" class="fixed top-3 right-3 z-50 flex gap-1 bg-[#161624]/90 border border-[#e8b033]/30 rounded-lg p-1 shadow-lg">
+        <button type="button" data-lang="pt" class="idioma-painel-btn px-2 py-1 rounded text-xs font-bold">PT</button>
+        <button type="button" data-lang="en" class="idioma-painel-btn px-2 py-1 rounded text-xs font-bold text-gray-400">EN</button>
+        <button type="button" data-lang="es" class="idioma-painel-btn px-2 py-1 rounded text-xs font-bold text-gray-400">ES</button>
+    </div>
+
 
     <script>
         if (sessionStorage.getItem('autenticado') !== 'true') {
@@ -92,6 +98,7 @@
                 <button id="btn-voltar" onclick="voltarNivel()" class="hidden bg-[#1a1a2e] border border-[#e8b033]/50 hover:bg-[#252538] text-gray-200 px-3 py-2 rounded text-sm transition font-medium cursor-pointer">
                     ← Voltar para a Pasta de Poses
                 </button>
+                <button id="btn-monitoramento" onclick="mostrarMonitoramento()" class="hidden bg-[#1a1a2e] border border-[#e8b033]/50 hover:bg-[#252538] text-gray-200 px-3 py-2 rounded text-sm transition font-medium shadow-md cursor-pointer">📊 Monitoramento</button>
                 <button id="btn-sair" onclick="sair()" class="hidden bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded text-sm transition font-medium shadow-md cursor-pointer">
                     Desconectar do Login
                 </button>
@@ -334,7 +341,13 @@
                             <img src="${logoSrc}" alt="${escaparHtml(eq.nome)}" class="max-h-full max-w-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
                         </div>
                         <h2 class="font-bold text-white text-base">${escaparHtml(eq.nome)}</h2>
-                        <span class="text-xs accent-purple font-semibold mt-2">Ver pastas de estilos →</span>
+                        <div class="w-full mt-3 text-left border-t border-[#2a2a3f] pt-3">
+                            <div class="text-[10px] uppercase tracking-wider text-gray-500 mb-2">Jogadores</div>
+                            <div class="flex flex-wrap gap-1.5">
+                                ${(eq.membros || []).map(m => `<span class="px-2 py-1 rounded bg-[#1a1a2e] border border-[#2a2a3f] text-[11px] text-gray-200">${escaparHtml(m.nick)}</span>`).join('') || '<span class="text-xs text-gray-500">Nenhum jogador cadastrado</span>'}
+                            </div>
+                        </div>
+                        <span class="text-xs accent-purple font-semibold mt-3">Ver pastas de estilos →</span>
                     </div>
                 `;
             });
@@ -684,6 +697,18 @@
         });
 
         window.onload = inicializarPainel;
-    </script>
+    
+        const traducoesPainel={pt:{teams:'EQUIPES - MEDIA LOBBY',select:'Selecione uma equipe para acessar as pastas de fotos.',active:'USUÁRIOS ATIVOS',recent:'ÚLTIMOS ACESSOS',monitor:'MONITORAMENTO',noAccess:'Você não possui permissão para visualizar o monitoramento.',noData:'Nenhuma atividade registrada neste dispositivo.'},en:{teams:'TEAMS - MEDIA LOBBY',select:'Select a team to access photo folders.',active:'ACTIVE USERS',recent:'RECENT ACCESS',monitor:'MONITORING',noAccess:'You do not have permission to view monitoring.',noData:'No activity recorded on this device.'},es:{teams:'EQUIPOS - MEDIA LOBBY',select:'Seleccione un equipo para acceder a las carpetas de fotos.',active:'USUARIOS ACTIVOS',recent:'ÚLTIMOS ACCESOS',monitor:'MONITOREO',noAccess:'No tienes permiso para ver el monitoreo.',noData:'No hay actividad registrada en este dispositivo.'}};
+        let idiomaPainel=localStorage.getItem('mediaLobbyIdioma')||'pt';
+        document.querySelectorAll('.idioma-painel-btn').forEach(b=>b.addEventListener('click',()=>{idiomaPainel=b.dataset.lang;localStorage.setItem('mediaLobbyIdioma',idiomaPainel);aplicarIdiomaPainel();}));
+        function aplicarIdiomaPainel(){document.querySelectorAll('.idioma-painel-btn').forEach(b=>{const a=b.dataset.lang===idiomaPainel;b.classList.toggle('bg-[#e8b033]',a);b.classList.toggle('text-[#161624]',a);b.classList.toggle('text-gray-400',!a);});if(nivelAtual==='equipes'){const t=traducoesPainel[idiomaPainel]||traducoesPainel.pt;titulo.innerText=t.teams;subtitulo.innerText=t.select;}}
+        function usuarioPodeMonitorar(){const email=sessionStorage.getItem('user_email')||'';return Array.isArray(loginsComMonitoramento)&&loginsComMonitoramento.some(x=>String(x).toLowerCase()===email.toLowerCase());}
+        function mostrarMonitoramento(){if(!usuarioPodeMonitorar()){container.innerHTML=`<div class="col-span-full bg-[#161624] border border-red-500/30 p-8 rounded-xl text-center"><div class="text-4xl mb-3">🔒</div><h2 class="text-xl font-bold text-white mb-2">${traducoesPainel[idiomaPainel].monitor}</h2><p class="text-gray-400">${traducoesPainel[idiomaPainel].noAccess}</p></div>`;return;}const a=JSON.parse(localStorage.getItem('mediaLobbyAcessos')||'[]');const t=traducoesPainel[idiomaPainel]||traducoesPainel.pt;container.innerHTML=`<div class="col-span-full grid grid-cols-1 lg:grid-cols-2 gap-6"><div class="bg-[#161624] border border-[#2a2a3f] rounded-xl p-5"><h2 class="font-bold text-white text-lg mb-4">${t.active}</h2>${a.length?a.filter(x=>Date.now()-new Date(x.data).getTime()<300000).map(x=>`<div class="border-b border-[#2a2a3f] py-3"><div class="text-white font-semibold">${escaparHtml(x.email)}</div><div class="text-xs text-gray-500">${new Date(x.data).toLocaleString()}</div></div>`).join(''):`<p class="text-gray-500">${t.noData}</p>`}</div><div class="bg-[#161624] border border-[#2a2a3f] rounded-xl p-5"><h2 class="font-bold text-white text-lg mb-4">${t.recent}</h2>${a.slice(0,20).map(x=>`<div class="border-b border-[#2a2a3f] py-3"><div class="text-white font-semibold">${escaparHtml(x.email)}</div><div class="text-xs text-gray-500">${new Date(x.data).toLocaleString()}</div></div>`).join('')||`<p class="text-gray-500">${t.noData}</p>`}</div></div>`;}
+        const btnMonitoramento=document.getElementById('btn-monitoramento');if(btnMonitoramento&&usuarioPodeMonitorar())btnMonitoramento.classList.remove('hidden');
+        aplicarIdiomaPainel();
+        function iniciarHeartbeat(){if(typeof configuracaoSite==='undefined'||!configuracaoSite.apiSeguranca)return;const email=sessionStorage.getItem('user_email');if(!email)return;const enviar=()=>fetch(configuracaoSite.apiSeguranca+'/session/heartbeat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,deviceId:localStorage.getItem('mediaLobbyDeviceId'),timestamp:new Date().toISOString()}),keepalive:true}).catch(()=>{});enviar();setInterval(enviar,30000);}
+        iniciarHeartbeat();
+
+</script>
 </body>
 </html>

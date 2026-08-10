@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Lobby - FFWS</title>
+    <title>Painel de Acesso - Media Lobby FFWS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @font-face { font-family: 'GFF-Latin'; src: url('fonts/GFF-LATIN-BLACK.woff2') format('woff2'); }
@@ -32,30 +32,36 @@
     </style>
 </head>
 <body class="flex min-h-screen items-center justify-center">
+    <div id="seletor-idioma" class="fixed top-3 right-3 z-50 flex gap-1 bg-[#161624]/90 border border-[#e8b033]/30 rounded-lg p-1 shadow-lg">
+        <button type="button" data-lang="pt" class="idioma-btn px-2 py-1 rounded text-xs font-bold">PT</button>
+        <button type="button" data-lang="en" class="idioma-btn px-2 py-1 rounded text-xs font-bold text-gray-400">EN</button>
+        <button type="button" data-lang="es" class="idioma-btn px-2 py-1 rounded text-xs font-bold text-gray-400">ES</button>
+    </div>
+
 
     <div class="bg-[#10101e]/90 p-8 rounded-xl shadow-2xl w-96 border border-[#e8b033]/50 backdrop-blur-sm">
         <div class="flex justify-center items-center gap-3 mb-4">
             <img src="info-ffws/logoffws.png" class="max-h-20" alt="Logo FFWS">
             <img id="logo-diretoria" src="" class="max-h-16 max-w-32 object-contain" alt="Logo Diretoria" onerror="this.style.display='none'">
         </div>
-        <h1 class="text-xl font-bold mb-6 text-center text-[#e8b033]">PAINEL DE ACESSO - MEDIA LOBBY</h1>
+        <h1 class="text-xl font-bold mb-6 text-center text-[#e8b033]"><span data-i18n="loginTitle">PAINEL DE ACESSO - MEDIA LOBBY</span></h1>
         
         <p id="mensagem-status" class="hidden text-sm mb-4 text-center font-bold flex items-center justify-center gap-2"></p>
         
         <form id="login-form">
-            <label for="email-input" class="block text-sm font-semibold text-gray-300 mb-2">ENDEREÇO DE EMAIL</label>
+            <label for="email-input" class="block text-sm font-semibold text-gray-300 mb-2"><span data-i18n="email">ENDEREÇO DE EMAIL</span></label>
             <div class="flex w-full mb-3">
                 <input type="text" id="email-input" placeholder="Email@dominio.com" autocomplete="username" required class="min-w-0 flex-1 p-3 rounded bg-[#1a1a2e] border border-[#444] text-white focus:outline-none focus:border-[#e8b033]">
                 <div id="dominio-selecionado" class="hidden items-center px-3 rounded-r bg-[#252538] border border-[#444] text-[#e8b033] font-semibold text-sm whitespace-nowrap max-w-[48%] overflow-hidden"></div>
             </div>
 
             <input type="password" id="senha" placeholder="Senha" autocomplete="current-password" required class="w-full p-3 rounded bg-[#1a1a2e] border border-[#444] mb-4 text-white focus:outline-none focus:border-[#e8b033]">
-            <button type="submit" id="btn-entrar" class="w-full btn-primary p-3 rounded font-bold transition shadow-md">ACESSAR PAINEL</button>
+            <button type="submit" id="btn-entrar" class="w-full btn-primary p-3 rounded font-bold transition shadow-md"><span data-i18n="access">ACESSAR PAINEL</span></button>
         </form>
 
         <!-- Filtro de domínio: fica abaixo do botão e acima das logos. -->
         <div class="mt-5">
-            <label class="block text-sm font-semibold text-gray-300 mb-2">Filtro de Organização</label>
+            <label class="block text-sm font-semibold text-gray-300 mb-2"><span data-i18n="organization">ORGANIZAÇÃO / DOMÍNIO</span></label>
             <div id="lista-dominios" class="w-full rounded bg-[#1a1a2e] border border-[#444] overflow-y-auto max-h-44 scrollbar-thin">
                 <!-- Os domínios são inseridos automaticamente a partir de dominiosLogin no dados.js. -->
             </div>
@@ -172,7 +178,7 @@
         carregarDominios();
         atualizarCampoEmail();
 
-        document.getElementById('login-form').addEventListener('submit', function(e) {
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const valorEmail = emailInputEl.value.trim().toLowerCase();
@@ -200,16 +206,25 @@
             msgStatus.innerHTML = `<div class="loader"></div> PROCESSANDO...`;
             msgStatus.classList.remove('hidden');
 
-            setTimeout(() => {
+            setTimeout(async () => {
                 const user = listaUsuarios.find(u =>
                     String(u.email || '').trim().toLowerCase() === emailInput &&
                     u.senha === passInput
                 );
 
                 if (user) {
+                    const verificacao = await verificarAcessoDispositivo(user);
+                    if (!verificacao.permitido) {
+                        msgStatus.className = "text-red-400 text-sm mb-4 text-center font-bold";
+                        msgStatus.innerText = (traducoesLogin[idiomaAtual] || traducoesLogin.pt).blocked;
+                        btnEntrar.disabled = false;
+                        return;
+                    }
+                    registrarAcessoLocal(user);
                     msgStatus.className = "text-green-500 text-sm mb-4 text-center font-bold";
-                    msgStatus.innerText = "LOGIN AUTORIZADO";
+                    msgStatus.innerText = (traducoesLogin[idiomaAtual] || traducoesLogin.pt).authorized;
                     sessionStorage.setItem('autenticado', 'true');
+                    sessionStorage.setItem('user_email', user.email);
                     sessionStorage.setItem('user_scope', user.scope);
                     sessionStorage.setItem('user_type', user.tipo || (user.scope === 'player' ? 'player' : 'standard'));
 
@@ -227,6 +242,20 @@
                 }
             }, 1500);
         });
-    </script>
+    
+        const traducoesLogin = {
+            pt:{loginTitle:'PAINEL DE ACESSO - MEDIA LOBBY',organization:'ORGANIZAÇÃO / DOMÍNIO',email:'ENDEREÇO DE EMAIL',access:'ACESSAR PAINEL',fullEmail:'Usar email completo',emailFull:'Email@dominio.com',emailPrefix:'Digite somente seu login',processing:'PROCESSANDO...',authorized:'LOGIN AUTORIZADO',invalid:'Credenciais de Acesso Incorretas!',chooseDomain:'Selecione o domínio do seu login.',blocked:'Este acesso foi bloqueado por limite de dispositivos.'},
+            en:{loginTitle:'MEDIA LOBBY - ACCESS PANEL',organization:'ORGANIZATION / DOMAIN',email:'EMAIL ADDRESS',access:'ACCESS PANEL',fullEmail:'Use full email',emailFull:'Email@domain.com',emailPrefix:'Enter only your login',processing:'PROCESSING...',authorized:'LOGIN AUTHORIZED',invalid:'Incorrect Access Credentials!',chooseDomain:'Select your login domain.',blocked:'This access was blocked because the device limit was reached.'},
+            es:{loginTitle:'PANEL DE ACCESO - MEDIA LOBBY',organization:'ORGANIZACIÓN / DOMINIO',email:'DIRECCIÓN DE EMAIL',access:'ACCEDER AL PANEL',fullEmail:'Usar email completo',emailFull:'Email@dominio.com',emailPrefix:'Digite solo su usuario',processing:'PROCESANDO...',authorized:'ACCESO AUTORIZADO',invalid:'Credenciales de acceso incorrectas!',chooseDomain:'Seleccione el dominio de su login.',blocked:'Este acceso fue bloqueado por el límite de dispositivos.'}
+        };
+        let idiomaAtual=localStorage.getItem('mediaLobbyIdioma')||'pt';
+        function aplicarIdiomaLogin(){const t=traducoesLogin[idiomaAtual]||traducoesLogin.pt;document.querySelectorAll('[data-i18n]').forEach(el=>{if(t[el.dataset.i18n])el.textContent=t[el.dataset.i18n];});document.querySelectorAll('.idioma-btn').forEach(b=>{const a=b.dataset.lang===idiomaAtual;b.classList.toggle('bg-[#e8b033]',a);b.classList.toggle('text-[#161624]',a);b.classList.toggle('text-gray-400',!a);});if(typeof emailInputEl!=='undefined'&&emailInputEl)emailInputEl.placeholder=dominioAtual?t.emailPrefix:t.emailFull;}
+        document.querySelectorAll('.idioma-btn').forEach(b=>b.addEventListener('click',()=>{idiomaAtual=b.dataset.lang;localStorage.setItem('mediaLobbyIdioma',idiomaAtual);aplicarIdiomaLogin();if(typeof carregarDominios==='function')carregarDominios();if(typeof atualizarCampoEmail==='function')atualizarCampoEmail();}));
+        aplicarIdiomaLogin();
+        function gerarDeviceId(){let id=localStorage.getItem('mediaLobbyDeviceId');if(!id){id=(crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(36).slice(2));localStorage.setItem('mediaLobbyDeviceId',id);}return id;}
+        async function verificarAcessoDispositivo(user){if(typeof configuracaoSite==='undefined'||!configuracaoSite.apiSeguranca)return{permitido:true,modo:'frontend'};try{const r=await fetch(configuracaoSite.apiSeguranca+'/session/check',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:user.email,deviceId:gerarDeviceId(),limite:configuracaoSite.limiteDispositivos,developer:user.tipo==='developer'})});return r.ok?await r.json():{permitido:false};}catch(e){return{permitido:false};}}
+        function registrarAcessoLocal(user){const a=JSON.parse(localStorage.getItem('mediaLobbyAcessos')||'[]');a.unshift({email:user.email,data:new Date().toISOString(),deviceId:gerarDeviceId()});localStorage.setItem('mediaLobbyAcessos',JSON.stringify(a.slice(0,100)));}
+
+</script>
 </body>
 </html>
