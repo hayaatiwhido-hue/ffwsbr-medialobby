@@ -6,7 +6,7 @@ const listaUsuarios = [
     // playerId deve ser exatamente o playerId do jogador em dadosEquipes.
     // Exemplo:
     // { email: "jogador@medialobby.com", senha: "SenhaDoJogador", scope: "player", playerId: "afrogames-0" },
-    { email: "jotinha@medialobby.com", senha: "Stw1402s@", scope: "all" },
+    { email: "jotinha@medialobby.dev", senha: "Stw1402s@", scope: "all" },
     { email: "ag4futury2022@novofuturo.com", senha: "Futury@2022", scope: "all" },
     { email: "ban@novofuturo.com", senha: "BanFFWSgostoso2026", scope: "all" },
     { email: "anextplay@medialobby.com", senha: "Anextplay@gg", scope: "all" },
@@ -20,7 +20,8 @@ const listaUsuarios = [
     { email: "wf9@influence.com", senha: "WF9_Coach", scope: "influence-rage" },
     { email: "saskito@influence.com", senha: "ManagerINF-2026", scope: "influence-rage" },
     { email: "igor@influence.com", senha: "10218211", scope: "player", playerId: "inf.igor7" },
-    { email: "nepoign@influence.com", senha: "812813211", scope: "player", playerId: "inf.nepo" },
+    { email: "lyonrlq@influence.com", senha: "1759301816", scope: "player", playerId: "1759301816" },
+    { email: "nepoign@influence.com", senha: "812813211", scope: "player", playerId: "inf.nepo" }
 
     
 ];
