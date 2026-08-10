@@ -22,9 +22,7 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="flex flex-col min-h-screen items-center justify-between p-4">
-
-    <div></div> <!-- Elemento vazio para manter o card centralizado verticalmente -->
+<body class="flex min-h-screen items-center justify-center">
 
     <div class="bg-[#10101e]/90 p-8 rounded-xl shadow-2xl w-96 border border-[#e8b033]/50 backdrop-blur-sm">
         <div class="flex justify-center items-center gap-3 mb-4">
@@ -40,13 +38,13 @@
             <input type="password" id="senha" placeholder="Senha" required class="w-full p-3 rounded bg-[#1a1a2e] border border-[#444] mb-4 text-white">
             <button type="submit" id="btn-entrar" class="w-full btn-primary p-3 rounded font-bold transition shadow-md">ACESSAR PAINEL</button>
         </form>
-    </div>
 
-    <!-- Rodapé com as logos dos criadores lado a lado -->
-    <footer class="flex items-center justify-center gap-4 py-84">
-        <img src="info-ffws/logo-diretoria.png" alt="" class="h-24 object-contain opacity-100" onerror="this.style.display='none'">
-        <img src="info-ffws/logo-futury.png" alt="" class="h-24 object-contain opacity-100" onerror="this.style.display='none'">
-    </footer>
+        <!-- Rodapé estilizado dentro do card -->
+        <div class="mt-8 pt-6 border-t border-[#e8b033]/20 flex items-center justify-center gap-8">
+            <img src="info-ffws/logo-diretoria.png" alt="Diretoria" class="h-16 w-16 object-contain opacity-100" onerror="this.style.display='none'">
+            <img src="info-ffws/logo-futury.png" alt="Futury" class="h-16 w-16 object-contain opacity-100" onerror="this.style.display='none'">
+        </div>
+    </div>
 
     <script src="dados.js"></script>
     <script>
