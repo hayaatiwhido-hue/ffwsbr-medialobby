@@ -20,7 +20,7 @@ const listaUsuarios = [
     { email: "wf9@influence.com", senha: "WF9_Coach", scope: "influence-rage" },
     { email: "saskito@influence.com", senha: "ManagerINF-2026", scope: "influence-rage" },
     { email: "igor@influence.com", senha: "10218211", scope: "player", playerId: "inf.igor7" },
-    { email: "nepoign@influence.com", senha: "812813211", scope: "player", playerId: "inf.nepo" },
+    { email: "nepoign@influence.com", senha: "812813211", scope: "player", playerId: "inf.nepo" }
 
     
 ];
@@ -30,13 +30,26 @@ const listaUsuarios = [
 // O index.html lê esta lista automaticamente.
 // Cada domínio deve ser único e conter o @.
 const dominiosLogin = [
-    { dominio: "@medialobby.com", nome: "Media Lobby" },
-    { dominio: "@novofuturo.com", nome: "Novo Futuro" },
+    { dominio: "@medialobby.com", nome: "Dev" },
+    { dominio: "@novofuturo.com", nome: "Futury Esports" },
     { dominio: "@gmail.com", nome: "Gmail" },
-    { dominio: "@esolid.com", nome: "eSolid" },
+    { dominio: "@esolid.com", nome: "eSolid News" },
     { dominio: "@pixelbroadcast.com", nome: "Pixel Broadcast" },
-    { dominio: "@diretoria.com", nome: "Diretoria" },
-    { dominio: "@influence.com", nome: "Influence Rage" }
+    { dominio: "@diretoria.com", nome: "Diretoria de eSports" },
+    { dominio: "@afrogames.com", nome: "Afrogames" },
+    { dominio: "@alpha7.gg", nome: "Alpha 7" },
+    { dominio: "@cptvox.com", nome: "CPT Vox" },
+    { dominio: "@civis.com", nome: "Civis" },
+    { dominio: "@fluxow7m.com", nome: "FluxoW7M" },
+    { dominio: "@influence.com", nome: "Influence Rage" },
+    { dominio: "@intz.com", nome: "INTZ" },
+    { dominio: "@loops.com", nome: "Loops Esports" },
+    { dominio: "@los.com", nome: "Los" },
+    { dominio: "@loudsnickers.com", nome: "Loud Snickers" },
+    { dominio: "@rise.com", nome: "Rise Gaming" },
+    { dominio: "@rush.com", nome: "Rush Gaming" },
+    { dominio: "@sx.com", nome: "SX TET" },
+    { dominio: "@solid.com", nome: "Team Solid" }
 ];
 
 // LISTA DE PASTAS E SUAS RESPECTIVAS SIGLAS
