@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Downloads - Media Day FFWS</title>
+    <title>MEDIA LOBBY FFWS BRASIL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @font-face {
@@ -40,7 +40,7 @@
         body {
             font-family: 'GFF-Latin', sans-serif;
             font-weight: 400;
-            background-image: url('info-ffws/backgroundpainel.png');
+            background-image: url('info-ffws/backgroundpainel2type.png');
             background-position: center center;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -51,220 +51,168 @@
         .btn-primary { background-color: #e8b033; color: #1a1a1a; }
         .btn-primary:hover { background-color: #f74afe; color: #fff; }
         .card-hover:hover { border-color: #f74afe; box-shadow: 0 4px 20px rgba(247, 74, 254, 0.2); }
+
+        /* Prévia das equipes na tela inicial */
+        .team-preview-card {
+            width: 100%;
+            min-height: 170px;
+        }
+        .team-preview-left {
+            width: 150px;
+            min-width: 150px;
+        }
+        .team-preview-logo {
+            width: 82px;
+            height: 82px;
+        }
+        .team-preview-name {
+            line-height: 1.1;
+            max-width: 145px;
+        }
+        .team-player-list {
+            min-width: 0;
+        }
+        .team-player-chip {
+            background: rgba(26, 26, 46, 0.92);
+            border: 1px solid #2a2a3f;
+            min-height: 38px;
+        }
+        .team-player-chip:hover {
+            border-color: rgba(247, 74, 254, 0.65);
+            background: rgba(37, 37, 56, 0.95);
+        }
+        .team-player-icon {
+            width: 24px;
+            height: 24px;
+            flex: 0 0 24px;
+        }
+        @media (max-width: 640px) {
+            .team-preview-card {
+                min-height: 150px;
+            }
+            .team-preview-left {
+                width: 118px;
+                min-width: 118px;
+            }
+            .team-preview-logo {
+                width: 68px;
+                height: 68px;
+            }
+            .team-preview-name {
+                max-width: 118px;
+                font-size: 0.9rem;
+            }
+            .team-player-chip {
+                min-height: 34px;
+                padding: 6px 9px;
+            }
+            .team-player-icon {
+                width: 21px;
+                height: 21px;
+                flex-basis: 21px;
+            }
+        }
         
-
-        /* =========================================================
-           CARDS PROFISSIONAIS DE PASTAS / ESTILOS
-           ========================================================= */
-        .media-folder-card {
+        /* Pastas de poses dentro da equipe — biblioteca de mídia profissional */
+        .pose-folder-card {
             position: relative;
-            min-height: 218px;
-            padding: 22px;
             overflow: hidden;
-            isolation: isolate;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            border: 1px solid rgba(255,255,255,.07);
-            border-radius: 18px;
-            background:
-                radial-gradient(circle at 15% 10%, rgba(232,176,51,.075), transparent 32%),
-                linear-gradient(145deg, rgba(25,25,42,.98), rgba(15,15,28,.98));
-            box-shadow: 0 16px 36px rgba(0,0,0,.25);
-            cursor: pointer;
-            transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+            min-height: 214px;
+            background: linear-gradient(145deg, rgba(24,24,40,.98), rgba(15,15,29,.98));
+            border: 1px solid #2a2a3f;
+            box-shadow: 0 10px 28px rgba(0,0,0,.18);
         }
-
-        .media-folder-card::before {
-            content: "";
+        .pose-folder-card::before {
+            content: '';
             position: absolute;
-            width: 190px;
-            height: 190px;
-            right: -105px;
-            top: -100px;
-            border-radius: 50%;
-            border: 1px solid rgba(232,176,51,.10);
-            box-shadow:
-                0 0 0 22px rgba(232,176,51,.025),
-                0 0 0 44px rgba(247,74,254,.018);
-            z-index: -1;
+            inset: 0 auto 0 0;
+            width: 3px;
+            background: linear-gradient(180deg, #e8b033, #f74afe);
+            opacity: .9;
         }
-
-        .media-folder-card::after {
-            content: "";
+        .pose-folder-card::after {
+            content: '';
             position: absolute;
-            left: 22px;
-            right: 22px;
-            bottom: 0;
-            height: 2px;
-            border-radius: 4px 4px 0 0;
-            background: linear-gradient(90deg, #e8b033, #f74afe);
-            opacity: .45;
-            transition: opacity .25s ease;
+            width: 170px;
+            height: 170px;
+            right: -90px;
+            top: -95px;
+            border-radius: 999px;
+            background: rgba(247,74,254,.08);
+            pointer-events: none;
         }
-
-        .media-folder-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(247,74,254,.38);
-            box-shadow:
-                0 22px 46px rgba(0,0,0,.38),
-                0 0 30px rgba(247,74,254,.07);
+        .pose-folder-card:hover {
+            border-color: rgba(247,74,254,.7);
+            transform: translateY(-3px);
+            box-shadow: 0 14px 32px rgba(247,74,254,.12);
         }
-
-        .media-folder-card:hover::after {
-            opacity: 1;
+        .pose-folder-topline {
+            letter-spacing: .2em;
+            font-size: 9px;
+            color: #77778b;
+            font-weight: 500;
         }
-
-        .media-folder-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 14px;
-        }
-
-        .media-folder-icon {
-            position: relative;
-            width: 66px;
-            height: 56px;
+        .pose-folder-code {
+            min-width: 44px;
+            height: 44px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 14px;
-            border: 1px solid rgba(232,176,51,.18);
-            background: rgba(232,176,51,.045);
+            background: rgba(232,176,51,.08);
+            border: 1px solid rgba(232,176,51,.28);
             color: #e8b033;
-            box-shadow: inset 0 0 18px rgba(232,176,51,.035);
-        }
-
-        .media-folder-icon svg {
-            width: 36px;
-            height: 36px;
-            filter: drop-shadow(0 5px 8px rgba(0,0,0,.3));
-        }
-
-        .media-folder-code {
-            padding: 5px 8px;
-            border: 1px solid rgba(255,255,255,.065);
-            border-radius: 7px;
-            color: #777789;
-            background: rgba(0,0,0,.14);
-            font-size: 8px;
-            font-weight: 800;
-            letter-spacing: .14em;
-        }
-
-        .media-folder-content {
-            margin-top: 18px;
-        }
-
-        .media-folder-eyebrow {
-            margin-bottom: 7px;
-            color: #777789;
-            font-size: 8px;
-            font-weight: 800;
-            letter-spacing: .18em;
-            text-transform: uppercase;
-        }
-
-        .media-folder-title {
-            margin: 0;
-            color: #f5f5f7;
-            font-size: 17px;
-            line-height: 1.08;
-            font-weight: 900;
-            letter-spacing: .01em;
-        }
-
-        .media-folder-direction {
-            margin-top: 7px;
-            color: #e8b033;
-            font-size: 10px;
-            font-weight: 800;
+            font-size: 11px;
+            font-weight: 700;
             letter-spacing: .08em;
-            text-transform: uppercase;
         }
-
-        .media-folder-description {
-            margin-top: 9px;
-            max-width: 300px;
-            color: #6f6f80;
-            font-size: 10px;
-            line-height: 1.45;
+        .pose-folder-direction {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #b5b5c4;
+            font-size: 11px;
+            font-weight: 500;
         }
-
-        .media-folder-bottom {
+        .pose-folder-direction::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            border-radius: 999px;
+            background: #f74afe;
+            box-shadow: 0 0 10px rgba(247,74,254,.65);
+        }
+        .pose-folder-action {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 12px;
-            margin-top: 22px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255,255,255,.055);
+            margin-top: 18px;
+            padding-top: 13px;
+            border-top: 1px solid #29293b;
         }
-
-        .media-folder-open {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
+        .pose-folder-open {
             color: #f74afe;
-            font-size: 10px;
-            font-weight: 900;
-            letter-spacing: .04em;
-            transition: gap .2s ease, color .2s ease;
+            font-size: 12px;
+            font-weight: 700;
+            transition: transform .2s ease;
         }
-
-        .media-folder-card:hover .media-folder-open {
-            gap: 11px;
-            color: #ff83ff;
+        .pose-folder-card:hover .pose-folder-open {
+            transform: translateX(3px);
         }
-
-        .media-folder-status {
-            color: #4f4f61;
-            font-size: 8px;
-            font-weight: 800;
-            letter-spacing: .13em;
+        .pose-folder-meta {
+            color: #626276;
+            font-size: 9px;
+            letter-spacing: .12em;
             text-transform: uppercase;
         }
-
-        .media-folder-card--featured {
-            border-color: rgba(232,176,51,.28);
-            background:
-                radial-gradient(circle at 15% 10%, rgba(232,176,51,.11), transparent 32%),
-                linear-gradient(145deg, rgba(30,29,43,.99), rgba(15,15,28,.99));
-        }
-
-        .media-folder-card--featured .media-folder-title {
-            color: #e8b033;
-        }
-
         @media (max-width: 640px) {
-            .media-folder-card {
-                min-height: 196px;
-                padding: 18px;
-                border-radius: 16px;
+            .pose-folder-card {
+                min-height: 190px;
             }
-
-            .media-folder-icon {
-                width: 58px;
-                height: 50px;
-            }
-
-            .media-folder-icon svg {
-                width: 31px;
-                height: 31px;
-            }
-
-            .media-folder-title {
-                font-size: 15px;
-            }
-
-            .media-folder-description {
-                font-size: 9px;
-            }
-
-            .media-folder-card::after {
-                left: 18px;
-                right: 18px;
+            .pose-folder-code {
+                min-width: 40px;
+                height: 40px;
             }
         }
 
@@ -295,7 +243,7 @@
                 </div>
                 <div>
                     <div class="flex items-center gap-3 flex-wrap">
-                        <h1 id="titulo-pagina" class="text-3xl font-bold text-[#e8b033]">Equipes - Media Day FFWS</h1>
+                        <h1 id="titulo-pagina" class="text-3xl font-bold text-[#e8b033]">EQUIPES - MEDIA LOBBY</h1>
                         <img id="logo-cabecalho" src="" alt="" class="h-10 max-w-[100px] object-contain hidden filter drop-shadow" onerror="this.classList.add('hidden')">
                     </div>
                     <p id="subtitulo-pagina" class="text-gray-300 text-sm">Selecione uma equipe para acessar as pastas de fotos.</p>
@@ -321,11 +269,14 @@
     <script src="dados.js"></script>
 
     <script>
-        let nivelAtual = 'equipes'; 
+        let nivelAtual = 'equipes';
         let equipeSelecionada = null;
         let estiloSelecionado = null;
 
         const scope = sessionStorage.getItem('user_scope');
+        const userType = sessionStorage.getItem('user_type') || 'standard';
+        const playerId = sessionStorage.getItem('player_id') || '';
+
         const container = document.getElementById('conteudo-painel');
         const titulo = document.getElementById('titulo-pagina');
         const subtitulo = document.getElementById('subtitulo-pagina');
@@ -334,98 +285,109 @@
         const btnInicio = document.getElementById('btn-inicio');
         const btnSair = document.getElementById('btn-sair');
 
+        const iconesFuncoes = {
+            RUSHER: 'info-ffws/rusher.png',
+            SNIPER: 'info-ffws/sniper.png',
+            SUPPORT: 'info-ffws/support.png',
+            BOMBER: 'info-ffws/bomber.png',
+            RIFLER: 'info-ffws/rifler.png'
+        };
+
         function irParaTopo() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-
-        function formatarNomePastaMedia(nomeOriginal) {
-            const bruto = String(nomeOriginal || '').trim();
-            const normalizado = bruto
-                .normalize('NFD')
-                .replace(/[\u0300-\u036f]/g, '')
-                .toUpperCase();
-
-            // Padrões de poses com braços.
-            const matchSolto = normalizado.match(/^BRA[CÇ]O\s+SOLTO\s*-\s*(FRENTE|DIREITA|ESQUERDA)$/);
-            if (matchSolto) {
-                return {
-                    titulo: 'Fotos com Braços Soltos',
-                    direcao: 'Direção: ' + matchSolto[1].charAt(0) + matchSolto[1].slice(1).toLowerCase(),
-                    descricao: 'Retratos oficiais com os braços em posição solta.'
-                };
-            }
-
-            const matchCruzado = normalizado.match(/^BRA[CÇ]O\s+CRUZADO\s*-\s*(FRENTE|DIREITA|ESQUERDA)$/);
-            if (matchCruzado) {
-                return {
-                    titulo: 'Fotos com Braços Cruzados',
-                    direcao: 'Direção: ' + matchCruzado[1].charAt(0) + matchCruzado[1].slice(1).toLowerCase(),
-                    descricao: 'Retratos oficiais com os braços cruzados.'
-                };
-            }
-
-            if (normalizado === 'FOTO DE IDENTIFICACAO') {
-                return {
-                    titulo: 'Foto de Identificação',
-                    direcao: '',
-                    descricao: 'Retrato principal utilizado para identificação do atleta.'
-                };
-            }
-
-            if (normalizado === 'POSE DE BOOYAH') {
-                return {
-                    titulo: 'Pose de Booyah',
-                    direcao: '',
-                    descricao: 'Registro especial do jogador em pose comemorativa.'
-                };
-            }
-
-            if (normalizado === 'POSE DE MVP') {
-                return {
-                    titulo: 'Pose de MVP',
-                    direcao: '',
-                    descricao: 'Registro especial destinado às imagens de MVP.'
-                };
-            }
-
-            if (normalizado.startsWith('FOTO DIVERTIDA')) {
-                const numero = bruto.match(/\d+/)?.[0] || '';
-                return {
-                    titulo: numero ? `Foto Divertida ${numero}` : 'Fotos Divertidas',
-                    direcao: '',
-                    descricao: 'Registro descontraído e alternativo do jogador.'
-                };
-            }
-
-            return {
-                titulo: formatarTitulo(bruto),
-                direcao: '',
-                descricao: 'Fotos oficiais disponíveis nesta categoria.'
-            };
-        }
-
-        function iconePastaMedia(tipo = 'foto') {
-            if (tipo === 'marca') {
-                return `
-                    <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                        <path d="M6 12.5C6 10.015 8.015 8 10.5 8h9l4 4h14C39.985 12 42 14.015 42 16.5v20C42 38.985 39.985 41 37.5 41h-27C8.015 41 6 38.985 6 36.5v-24Z" fill="currentColor" opacity=".22"/>
-                        <path d="M6 16h36v20.5c0 2.485-2.015 4.5-4.5 4.5h-27C8.015 41 6 38.985 6 36.5V16Z" fill="currentColor" opacity=".9"/>
-                        <path d="M6 16h36" stroke="#161624" stroke-width="2"/>
-                    </svg>`;
-            }
-
-            return `
-                <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                    <path d="M5 12.5C5 10.015 7.015 8 9.5 8h9.2l4 4H38.5c2.485 0 4.5 2.015 4.5 4.5v19c0 2.485-2.015 4.5-4.5 4.5h-29C7.015 40 5 37.985 5 35.5v-23Z" fill="currentColor" opacity=".95"/>
-                    <path d="M5 15h38" stroke="#161624" stroke-width="2.5"/>
-                    <path d="M9 8h10l4 4H9.5A4.5 4.5 0 0 1 5 16.5v-4A4.5 4.5 0 0 1 9 8Z" fill="currentColor"/>
-                    <path d="M15 25h18M15 30h12" stroke="#161624" stroke-width="2" stroke-linecap="round" opacity=".55"/>
-                </svg>`;
-        }
-
         function formatarTitulo(texto) {
             return texto.toLowerCase().replace(/(^|\s)\S/g, l => l.toUpperCase());
+        }
+
+        // Apenas a apresentação das pastas de poses é tratada aqui.
+        // As siglas e os dados originais continuam vindo do dados.js.
+        function obterInfoPastaPose(estilo) {
+            const sigla = String(estilo.sigla || '').toUpperCase();
+            const nome = String(estilo.nomeEstilo || '').toUpperCase();
+
+            const direcoes = {
+                FRENTE: 'Frente',
+                DIREITA: 'Direita',
+                ESQUERDA: 'Esquerda',
+                DIREITO: 'Direito',
+                ESQUERDO: 'Esquerdo'
+            };
+
+            let titulo = formatarTitulo(estilo.nomeEstilo || 'Pasta de fotos');
+            let direcao = '';
+            let descricao = 'Retratos oficiais preparados para uso em materiais de transmissão, imprensa e conteúdo digital.';
+
+            if (nome.includes('BRAÇO SOLTO')) {
+                titulo = 'Fotos com Braços Soltos';
+                direcao = nome.includes('FRENTE') ? 'Frente' : nome.includes('DIREITA') ? 'Direita' : 'Esquerda';
+                descricao = 'Retratos oficiais com os braços em posição solta, organizados por direção para facilitar a seleção da mídia.';
+            } else if (nome.includes('BRAÇO CRUZADO')) {
+                titulo = 'Fotos com Braços Cruzados';
+                direcao = nome.includes('FRENTE') ? 'Frente' : nome.includes('DIREITA') ? 'Direita' : 'Esquerda';
+                descricao = 'Retratos oficiais com os braços cruzados, separados por direção para uso rápido em peças e conteúdos editoriais.';
+            } else if (nome.includes('FOTO DE IDENTIFICAÇÃO')) {
+                titulo = 'Foto de Identificação';
+                descricao = 'Retrato principal de identificação do jogador, ideal para perfis, escalações e materiais oficiais.';
+            } else if (nome.includes('POSE DE BOOYAH')) {
+                titulo = 'Pose de Booyah';
+                descricao = 'Registro oficial da pose de celebração, preparado para destaques, conteúdos competitivos e materiais de vitória.';
+            } else if (nome.includes('POSE DE MVP')) {
+                titulo = 'Pose de MVP';
+                descricao = 'Retrato especial de destaque do jogador, indicado para conteúdos de MVP e peças de reconhecimento.';
+            } else if (nome.includes('FOTO DIVERTIDA')) {
+                titulo = 'Fotos Divertidas';
+                const numero = nome.match(/\d+/);
+                direcao = numero ? `Variação ${numero[0]}` : '';
+                descricao = 'Registro descontraído do jogador para conteúdos sociais, bastidores e materiais especiais.';
+            } else if (nome.includes('FOTO GIF')) {
+                titulo = 'Fotos para GIF';
+                const numero = nome.match(/\d+/);
+                direcao = numero ? `Variação ${numero[0]}` : '';
+                descricao = 'Material fotográfico destinado a animações, GIFs e conteúdos digitais de alta dinâmica.';
+            } else if (nome.includes('CLOSE DE PERFIL')) {
+                titulo = 'Close de Perfil';
+                direcao = nome.includes('DIREITO') ? 'Direito' : 'Esquerdo';
+                descricao = 'Enquadramento fechado de perfil, ideal para composições editoriais e materiais de apresentação.';
+            } else if (nome.includes('CLOSE DO ROSTO')) {
+                titulo = 'Close do Rosto';
+                descricao = 'Enquadramento fechado do rosto para materiais de apresentação, identidade visual e conteúdos editoriais.';
+            }
+
+            return { codigo: sigla || 'POSE', titulo, direcao, descricao };
+        }
+
+        function escaparHtml(texto) {
+            return String(texto ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // Mantém acentos e caracteres especiais do nick.
+        // Troca somente o primeiro espaço, que separa TAG e Nick, por ".".
+        // Apenas caracteres proibidos pelo sistema de arquivos são tratados.
+        function nomeArquivoJogador(nick, siglaEstilo) {
+            const partes = String(nick || '').trim().split(/\s+/);
+
+            let base = partes.length > 1
+                ? `${partes[0]}.${partes.slice(1).join(' ')}`
+                : (partes[0] || 'Jogador');
+
+            base = base.replace(/[\\/:*?"<>|]/g, '-');
+
+            return `${base}_${siglaEstilo}.png`;
+        }
+
+        function nomeArquivoGenerico(nomeItem, extensao = 'png') {
+            const base = String(nomeItem || 'arquivo')
+                .trim()
+                .replace(/[\\/:*?"<>|]/g, '-');
+
+            return `${base}.${extensao}`;
         }
 
         function sair() {
@@ -434,6 +396,12 @@
         }
 
         function voltarNivel() {
+            if (userType === 'player') {
+                const acesso = localizarJogador();
+                if (acesso) abrirEquipeJogador(acesso.equipe, acesso.membro);
+                return;
+            }
+
             if (equipeSelecionada) {
                 abrirEquipe(equipeSelecionada.id);
             } else {
@@ -441,53 +409,213 @@
             }
         }
 
+        function localizarJogador() {
+            if (!playerId) return null;
+
+            for (const equipe of dadosEquipes) {
+                const membro = (equipe.membros || []).find(m => m.playerId === playerId);
+
+                if (membro) {
+                    return { equipe, membro };
+                }
+            }
+
+            return null;
+        }
+
         function inicializarPainel() {
+            if (userType === 'player') {
+                const acesso = localizarJogador();
+
+                if (acesso) {
+                    equipeSelecionada = acesso.equipe;
+                    btnSair.classList.remove('hidden');
+                    btnInicio.classList.add('hidden');
+                    abrirEquipeJogador(acesso.equipe, acesso.membro);
+                } else {
+                    btnSair.classList.remove('hidden');
+
+                    titulo.innerText = 'ACESSO NÃO CONFIGURADO';
+                    subtitulo.innerText = 'O jogador vinculado a este login não foi encontrado no dados.js.';
+
+                    container.innerHTML = `
+                        <div class="col-span-full bg-[#161624] border border-red-500/30 p-8 rounded-xl text-center">
+                            <div class="text-5xl mb-4">⚠️</div>
+                            <h2 class="text-xl font-bold text-white mb-2">Jogador não encontrado</h2>
+                            <p class="text-gray-300 text-sm">
+                                Verifique o <b>playerId</b> deste login na listaUsuarios.
+                            </p>
+                        </div>
+                    `;
+                }
+
+                return;
+            }
+
             if (scope === 'all') {
                 btnSair.classList.remove('hidden');
                 renderizarEquipes();
             } else {
                 const eq = dadosEquipes.find(e => e.id === scope);
+
                 if (eq) {
+                    btnSair.classList.remove('hidden');
                     abrirEquipe(eq.id);
                 } else {
+                    btnSair.classList.remove('hidden');
                     renderizarEquipes();
                 }
             }
         }
 
+        function processarLinkDrive(idOuUrl) {
+            if (!idOuUrl) return '';
+
+            let limpo = idOuUrl.trim();
+
+            if (limpo.includes('drive.google.com') || limpo.includes('id=')) {
+                const match = limpo.match(/id=([a-zA-Z0-9_-]+)/);
+
+                if (match && match[1]) {
+                    limpo = match[1];
+                } else {
+                    const match2 = limpo.match(/\/d\/([a-zA-Z0-9_-]+)/);
+
+                    if (match2 && match2[1]) {
+                        limpo = match2[1];
+                    }
+                }
+            }
+
+            if (limpo.length > 20 && !limpo.includes('/')) {
+                return `https://lh3.googleusercontent.com/d/${limpo}`;
+            }
+
+            return limpo;
+        }
+
+        async function baixarArquivo(url, nomeArquivo) {
+            try {
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+
+                a.style.display = 'none';
+                a.href = blobUrl;
+
+                // O nome é definido diretamente em Unicode.
+                // Ex.: LPS.Pão7_FBB.png
+                a.download = nomeArquivo;
+
+                document.body.appendChild(a);
+                a.click();
+
+                setTimeout(() => {
+                    window.URL.revokeObjectURL(blobUrl);
+                    document.body.removeChild(a);
+                }, 100);
+            } catch (error) {
+                // Fallback caso ocorra restrição de CORS.
+                const a = document.createElement('a');
+
+                a.href = url;
+                a.target = '_blank';
+                a.download = nomeArquivo;
+
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+        }
+
         function renderizarEquipes() {
             nivelAtual = 'equipes';
+
             titulo.innerText = "EQUIPES - MEDIA LOBBY";
             subtitulo.innerText = "Selecione uma equipe para acessar as pastas de fotos.";
+
             logoCabecalho.classList.add('hidden');
             btnVoltar.classList.add('hidden');
             btnInicio.classList.add('hidden');
+
             container.innerHTML = '';
 
             dadosEquipes.forEach(eq => {
+                const logoSrc = processarLinkDrive(eq.logo);
+                const membros = Array.isArray(eq.membros) ? eq.membros : [];
+
+                const jogadoresHtml = membros.length
+                    ? membros.map(membro => {
+                        const funcao = String(membro.funcao || '').trim().toUpperCase();
+                        const icone = iconesFuncoes[funcao] || '';
+                        const nome = String(membro.nick || 'Jogador').trim();
+
+                        const iconeHtml = icone
+                            ? `<img src="${icone}" alt="${escaparHtml(funcao)}" title="${escaparHtml(funcao)}" class="team-player-icon object-contain">`
+                            : `<span class="team-player-icon flex items-center justify-center text-sm text-gray-500" title="Função não cadastrada">•</span>`;
+
+                        return `
+                            <div class="team-player-chip rounded-lg px-3 py-2 flex items-center gap-2 transition" title="${escaparHtml(funcao ? `${nome} — ${funcao}` : nome)}">
+                                ${iconeHtml}
+                                <span class="text-sm text-gray-200 font-medium truncate">${escaparHtml(nome)}</span>
+                            </div>
+                        `;
+                    }).join('')
+                    : `<div class="text-sm text-gray-500 py-2">Nenhum jogador cadastrado.</div>`;
+
                 container.innerHTML += `
-                    <div onclick="abrirEquipe('${eq.id}')" class="bg-[#161624] border border-[#2a2a3f] p-6 rounded-xl shadow-md cursor-pointer card-hover transition flex flex-col items-center text-center">
-                        <div class="w-24 h-24 flex items-center justify-center mb-4">
-                            <img src="${eq.logo}" alt="${eq.nome}" class="max-h-full max-w-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
+                    <div onclick="abrirEquipe('${escaparHtml(eq.id)}')" class="team-preview-card col-span-full bg-[#161624] border border-[#2a2a3f] p-5 md:p-6 rounded-xl shadow-md cursor-pointer card-hover transition">
+                        <div class="flex items-center gap-5 md:gap-7 w-full">
+
+                            <!-- Logo + nome da equipe -->
+                            <div class="team-preview-left shrink-0 flex flex-col items-center justify-center text-center">
+                                <div class="team-preview-logo flex items-center justify-center mb-3">
+                                    <img src="${logoSrc}" alt="${escaparHtml(eq.nome)}" class="max-h-full max-w-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
+                                </div>
+                                <h2 class="team-preview-name font-bold text-white text-base md:text-lg">${escaparHtml(eq.nome)}</h2>
+                            </div>
+
+                            <!-- Jogadores + função -->
+                            <div class="team-player-list flex-1 min-w-0 border-l border-[#2a2a3f] pl-4 md:pl-6">
+                                <div class="text-[10px] uppercase tracking-[0.18em] text-gray-500 font-medium mb-3">JOGADORES</div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                                    ${jogadoresHtml}
+                                </div>
+                            </div>
+
                         </div>
-                        <h2 class="font-bold text-white text-base">${eq.nome}</h2>
-                        <span class="text-xs accent-purple font-semibold mt-2">Ver pastas de estilos →</span>
+
+                        <div class="mt-4 pt-3 border-t border-[#2a2a3f] text-center">
+                            <span class="text-xs md:text-sm accent-purple font-semibold">Ver pastas de estilos →</span>
+                        </div>
                     </div>
                 `;
             });
+
             irParaTopo();
         }
 
         function abrirEquipe(idEquipe) {
             equipeSelecionada = dadosEquipes.find(e => e.id === idEquipe);
-            nivelAtual = 'estilos';
-            titulo.innerText = equipeSelecionada.nome;
-            subtitulo.innerText = "Selecione a categoria de mídia que deseja acessar:";
 
-            logoCabecalho.src = equipeSelecionada.logo;
+            if (!equipeSelecionada) return;
+
+            nivelAtual = 'estilos';
+
+            titulo.innerText = equipeSelecionada.nome;
+            subtitulo.innerText = "Selecione a pasta desejada:";
+
+            logoCabecalho.src = processarLinkDrive(equipeSelecionada.logo);
             logoCabecalho.classList.remove('hidden');
 
             btnVoltar.classList.add('hidden');
+
             if (scope === 'all') {
                 btnInicio.classList.remove('hidden');
             } else {
@@ -496,76 +624,43 @@
 
             container.innerHTML = '';
 
-            // Pastas institucionais
             container.innerHTML += `
-                <div onclick="abrirPastaCentralLogosBrasoes('Logotipos', 'imagens/logos/', ['${equipeSelecionada.nome.toUpperCase()}', '${equipeSelecionada.id.toUpperCase()}'])"
-                     class="media-folder-card media-folder-card--featured col-span-full sm:col-span-1">
-                    <div>
-                        <div class="media-folder-top">
-                            <div class="media-folder-icon">${iconePastaMedia('marca')}</div>
-                            <span class="media-folder-code">BRAND</span>
-                        </div>
-                        <div class="media-folder-content">
-                            <div class="media-folder-eyebrow">Identidade visual</div>
-                            <h2 class="media-folder-title">Logotipos</h2>
-                            <div class="media-folder-direction">Arquivos oficiais da equipe</div>
-                            <p class="media-folder-description">Variações de logo preparadas para uso editorial, imprensa e materiais oficiais.</p>
-                        </div>
-                    </div>
-                    <div class="media-folder-bottom">
-                        <span class="media-folder-status">Media assets</span>
-                        <span class="media-folder-open">Abrir pasta <span>↗</span></span>
-                    </div>
+                <div onclick="abrirPastaLogosEBrasoes('Logotipos')" class="bg-[#161624] border border-[#2a2a3f] p-6 rounded-xl shadow-md cursor-pointer card-hover transition flex flex-col items-center text-center border-amber-500/40">
+                    <div class="text-4xl mb-3">📁</div>
+                    <h2 class="font-bold text-amber-400 text-base">Logotipos</h2>
+                    <span class="text-xs accent-purple font-semibold mt-2">Abrir pasta</span>
                 </div>
             `;
 
             container.innerHTML += `
-                <div onclick="abrirPastaCentralLogosBrasoes('Brasões', 'imagens/brasoes/', ['${equipeSelecionada.nome.toUpperCase()}', '${equipeSelecionada.id.toUpperCase()}'])"
-                     class="media-folder-card media-folder-card--featured col-span-full sm:col-span-1">
-                    <div>
-                        <div class="media-folder-top">
-                            <div class="media-folder-icon">${iconePastaMedia('marca')}</div>
-                            <span class="media-folder-code">CREST</span>
-                        </div>
-                        <div class="media-folder-content">
-                            <div class="media-folder-eyebrow">Identidade competitiva</div>
-                            <h2 class="media-folder-title">Brasões</h2>
-                            <div class="media-folder-direction">Escudos oficiais da equipe</div>
-                            <p class="media-folder-description">Arquivos de brasões e símbolos oficiais para aplicações de transmissão e conteúdo.</p>
-                        </div>
-                    </div>
-                    <div class="media-folder-bottom">
-                        <span class="media-folder-status">Media assets</span>
-                        <span class="media-folder-open">Abrir pasta <span>↗</span></span>
-                    </div>
+                <div onclick="abrirPastaLogosEBrasoes('Brasões')" class="bg-[#161624] border border-[#2a2a3f] p-6 rounded-xl shadow-md cursor-pointer card-hover transition flex flex-col items-center text-center border-amber-500/40">
+                    <div class="text-4xl mb-3">📁</div>
+                    <h2 class="font-bold text-amber-400 text-base">Brasões</h2>
+                    <span class="text-xs accent-purple font-semibold mt-2">Abrir pasta</span>
                 </div>
             `;
 
-            // Categorias de fotos
             listaEstilos.forEach((estilo, index) => {
-                const info = formatarNomePastaMedia(estilo.nomeEstilo);
-                const isArm = /BRAÇO|BRACO/i.test(estilo.nomeEstilo);
-                const codigo = String(estilo.sigla || `CAT-${index + 1}`).toUpperCase();
+                const info = obterInfoPastaPose(estilo);
 
                 container.innerHTML += `
-                    <div onclick="abrirEstilo(${index})" class="media-folder-card col-span-full sm:col-span-1">
-                        <div>
-                            <div class="media-folder-top">
-                                <div class="media-folder-icon">${iconePastaMedia('foto')}</div>
-                                <span class="media-folder-code">${codigo}</span>
+                    <div onclick="abrirEstilo(${index})" class="pose-folder-card p-5 md:p-6 rounded-xl shadow-md cursor-pointer transition">
+                        <div class="relative z-10 flex flex-col h-full">
+                            <div class="flex items-center justify-between gap-3 mb-5">
+                                <span class="pose-folder-topline">MEDIA ASSET / ${escaparHtml(info.codigo)}</span>
+                                <span class="pose-folder-code">${escaparHtml(info.codigo)}</span>
                             </div>
 
-                            <div class="media-folder-content">
-                                <div class="media-folder-eyebrow">${isArm ? 'Retrato oficial' : 'Categoria de fotos'}</div>
-                                <h2 class="media-folder-title">${info.titulo}</h2>
-                                ${info.direcao ? `<div class="media-folder-direction">${info.direcao}</div>` : ''}
-                                <p class="media-folder-description">${info.descricao}</p>
+                            <div class="flex-1">
+                                <h2 class="font-bold text-white text-lg md:text-xl leading-tight mb-2">${escaparHtml(info.titulo)}</h2>
+                                ${info.direcao ? `<div class="pose-folder-direction mb-3">Direção: ${escaparHtml(info.direcao)}</div>` : ''}
+                                <p class="text-xs md:text-sm text-gray-400 leading-relaxed max-w-[34rem]">${escaparHtml(info.descricao)}</p>
                             </div>
-                        </div>
 
-                        <div class="media-folder-bottom">
-                            <span class="media-folder-status">Photo collection</span>
-                            <span class="media-folder-open">Abrir pasta <span>↗</span></span>
+                            <div class="pose-folder-action">
+                                <span class="pose-folder-meta">Coleção fotográfica</span>
+                                <span class="pose-folder-open">Abrir pasta ↗</span>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -574,143 +669,166 @@
             irParaTopo();
         }
 
-        function abrirPastaCentralLogosBrasoes(nomePasta, caminhoBase, termosBusca) {
+        // Acesso de jogador: não exibe equipes, logos ou brasões.
+        // Mostra somente as fotos do próprio jogador.
+        function abrirEquipeJogador(equipe, membro) {
+            equipeSelecionada = equipe;
+            nivelAtual = 'player';
+
+            titulo.innerText = membro.nick;
+            subtitulo.innerText = `${equipe.nome} - Fotos do jogador`;
+
+            logoCabecalho.src = processarLinkDrive(equipe.logo);
+            logoCabecalho.classList.remove('hidden');
+
+            btnVoltar.classList.add('hidden');
+            btnInicio.classList.add('hidden');
+
+            const funcao = String(membro.funcao || '').trim().toUpperCase();
+            const icone = iconesFuncoes[funcao] || '';
+
+            const infoFuncao = funcao && icone
+                ? `<div class="flex items-center gap-2 text-sm text-amber-400 font-semibold">
+                        <img src="${icone}" alt="${escaparHtml(funcao)}" class="w-7 h-7 object-contain">
+                        <span>${escaparHtml(funcao)}</span>
+                   </div>`
+                : `<div class="text-sm text-gray-400">Função: não cadastrada</div>`;
+
+            const infoUid = membro.uid
+                ? `<div class="text-xs text-gray-300 mt-1">UID: <span class="text-white font-semibold">${escaparHtml(membro.uid)}</span></div>`
+                : `<div class="text-xs text-gray-500 mt-1">UID: não cadastrado</div>`;
+
+            container.innerHTML = `
+                <div class="col-span-full bg-[#161624] border border-[#2a2a3f] rounded-xl p-5 mb-2">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div>
+                            <h2 class="text-xl font-bold text-white">${escaparHtml(membro.nick)}</h2>
+                            ${infoUid}
+                        </div>
+                        ${infoFuncao}
+                    </div>
+                </div>
+            `;
+
+            let htmlCards = '';
+            let contadorEncontrados = 0;
+
+            listaEstilos.forEach((estilo) => {
+                const siglaEstilo = estilo.sigla;
+                const fileId = membro.fotos ? membro.fotos[siglaEstilo] : null;
+
+                if (fileId && fileId.trim() !== "") {
+                    contadorEncontrados++;
+
+                    const urlDriveImg = processarLinkDrive(fileId);
+                    const nomeArquivo = nomeArquivoJogador(membro.nick, siglaEstilo);
+                    const nomeFormatado = formatarTitulo(estilo.nomeEstilo);
+
+                    htmlCards += `
+                        <div class="bg-[#161624] border border-[#2a2a3f] p-4 rounded-xl shadow-md flex flex-col justify-between">
+                            <div>
+                                <div class="w-full h-48 bg-black/40 rounded mb-3 border border-[#2a2a3f] flex items-center justify-center overflow-hidden p-2">
+                                    <img src="${urlDriveImg}" alt="${escaparHtml(membro.nick)}" class="w-full h-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
+                                </div>
+
+                                <h2 class="font-bold text-white text-sm truncate mb-1" title="${escaparHtml(membro.nick)}">${escaparHtml(membro.nick)}</h2>
+
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                                    <span class="text-xs text-amber-400 font-semibold">${escaparHtml(nomeFormatado)} · ${siglaEstilo}</span>
+                                </div>
+                            </div>
+
+                            <button
+                                data-download-url="${encodeURIComponent(urlDriveImg)}"
+                                data-download-name="${encodeURIComponent(nomeArquivo)}"
+                                class="btn-download w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
+                                Baixar Foto
+                            </button>
+                        </div>
+                    `;
+                }
+            });
+
+            if (contadorEncontrados === 0) {
+                container.innerHTML += `
+                    <div class="col-span-full bg-[#161624] border border-[#2a2a3f] p-8 rounded-xl text-center shadow-md">
+                        <div class="text-5xl mb-4">📂</div>
+                        <h2 class="text-xl font-bold text-white mb-2">Nenhuma foto cadastrada</h2>
+                        <p class="text-gray-300 text-sm">Ainda não há fotos disponíveis para este jogador.</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML += htmlCards;
+            }
+
+            irParaTopo();
+        }
+
+        function abrirPastaLogosEBrasoes(tipo) {
             nivelAtual = 'generica';
-            titulo.innerText = `${equipeSelecionada.nome} - ${nomePasta}`;
-            subtitulo.innerText = `Pasta: ${nomePasta}`;
-            
+
+            titulo.innerText = `${equipeSelecionada.nome} - ${tipo}`;
+            subtitulo.innerText = `Pasta: ${tipo}`;
+
             btnVoltar.classList.remove('hidden');
             btnVoltar.innerText = "← Voltar para a Pasta de Poses";
+
             if (scope === 'all') {
                 btnInicio.classList.remove('hidden');
             }
-            
-            container.innerHTML = `
-                <div class="col-span-full flex flex-col items-center justify-center p-16">
-                    <div class="loader mb-4"></div>
-                    <p class="text-gray-400">Buscando ${nomePasta.toLowerCase()} da equipe...</p>
-                </div>
-            `;
 
-            let variacoesNomes = [];
-            
-            termosBusca.forEach(termo => {
-                let tClean = termo.replace(/\s+/g, ' ').trim();
-                let tSemEspaco = tClean.replace(/\s+/g, '');
+            let itens = [];
 
-                if (nomePasta === 'Logotipos') {
-                    variacoesNomes.push(
-                        `${tClean} LOGO BRANCA 1500X1500`,
-                        `${tClean} LOGO COLORIDA 1 1500X1500`,
-                        `${tClean} LOGO COLORIDA 1500X1500`,
-                        `${tClean} LOGO PRETA 1500X1500`,
-                        `${tClean} LOGO PRETA E BRANCA 1500X1500`,
-                        `${tClean} LOGO BRANCA LARANJA 1500X1500`,
-                        `${tClean} LOGO PRETA LARANJA 1500X1500`,
-                        `${tClean} E-SPORTS LOGO 1500X1500`,
-                        `${tClean} 1 LOGO 1500X1500`,
-                        `${tClean} 2 LOGO 1500X1500`,
-                        `${tClean} CONTORNO BRANCO 1500X1500`,
-                        `${tClean} CONTORNO PRETA 1500X1500`,
-                        `${tClean} LOGO ESCRITA BRANCA 1500X1500`,
-                        `${tClean} LOGO ESCRITA PRETA 1500X1500`,
-                        `${tClean} LOGO ESCRITA VERDE 1500X1500`,
-                        `${tClean} LOGO HORIZONTAL BRANCA 1500X1500`,
-                        `${tClean} LOGO HORIZONTAL PRETA 1500X1500`,
-                        `${tClean} LOGO HORIZONTAL VERDE 1500X1500`,
-                        `${tClean} LOGO SIMBOLO BRANCA 1500X1500`,
-                        `${tClean} LOGO SIMBOLO PRETA 1500X1500`,
-                        `${tClean} LOGO SIMBOLO VERDE 1500X1500`,
-                        `${tClean} BRANCA LOGO 1500X1500`,
-                        `${tClean} PRETA LOGO 1500X1500`
-                    );
-                } else {
-                    for (let i = 1; i <= 6; i++) {
-                        variacoesNomes.push(
-                            `${tClean}_BRASÃO${i}`,
-                            `${tSemEspaco}_BRASÃO${i}`,
-                            `${tClean}_BRASAO${i}`,
-                            `${tSemEspaco}_BRASAO${i}`
-                        );
-                    }
-                }
-            });
-
-            let encontrados = [];
-            let checagensRestantes = variacoesNomes.length;
-
-            if (variacoesNomes.length === 0) {
-                container.innerHTML = `<p class="text-gray-400 col-span-full text-center">Nenhum termo de busca configurado.</p>`;
-                return;
+            if (tipo === 'Logotipos') {
+                itens = equipeSelecionada.logos || [];
+            } else {
+                itens = equipeSelecionada.brasoes || [];
             }
 
-            variacoesNomes.forEach(nomeArquivo => {
-                const urlArquivo = `${caminhoBase}${nomeArquivo}.png`;
-                
-                const imgTest = new Image();
-                imgTest.src = urlArquivo;
-                imgTest.onload = function() {
-                    if (!encontrados.includes(urlArquivo)) {
-                        encontrados.push(urlArquivo);
-                    }
-                    finalizarBuscaCentral();
-                };
-                imgTest.onerror = function() {
-                    const urlJpg = `${caminhoBase}${nomeArquivo}.jpg`;
-                    const imgJpg = new Image();
-                    imgJpg.src = urlJpg;
-                    imgJpg.onload = function() {
-                        if (!encontrados.includes(urlJpg)) {
-                            encontrados.push(urlJpg);
-                        }
-                        finalizarBuscaCentral();
-                    };
-                    imgJpg.onerror = function() {
-                        finalizarBuscaCentral();
-                    };
-                };
+            const itensValidos = itens.filter(item => {
+                const val = typeof item === 'string' ? item : (item.id || item.link);
+                return val && val.trim() !== "" && !val.includes("SEU_ID");
             });
 
-            function finalizarBuscaCentral() {
-                checagensRestantes--;
-                if (checagensRestantes <= 0) {
-                    renderizarImagensEncontradas(encontrados, nomePasta);
-                }
-            }
-
-            irParaTopo();
-        }
-
-        function renderizarImagensEncontradas(listaImagens, nomePasta) {
-            if (nivelAtual !== 'generica') return;
-
-            if (listaImagens.length === 0) {
+            if (itensValidos.length === 0) {
                 container.innerHTML = `
                     <div class="col-span-full bg-[#161624] border border-[#2a2a3f] p-8 rounded-xl text-center shadow-md">
                         <div class="text-5xl mb-4">📂</div>
-                        <h2 class="text-xl font-bold text-white mb-2">Nenhum arquivo encontrado nesta pasta</h2>
-                        <p class="text-gray-300 text-sm mb-4">Verifique se as pastas "imagens/logos/" e "imagens/brasoes/" contêm os arquivos com os nomes corretos.</p>
+                        <h2 class="text-xl font-bold text-white mb-2">Nenhum ${tipo.slice(0, -1).toLowerCase()} cadastrado com ID do Drive</h2>
+                        <p class="text-gray-300 text-sm mb-4">Insira os IDs do Google Drive no arquivo dados.js para esta equipe.</p>
                     </div>
                 `;
+
+                irParaTopo();
                 return;
             }
 
             let htmlCards = '';
-            listaImagens.forEach((urlImg) => {
-                let partesUrl = urlImg.split('/');
-                let nomeArquivoCompleto = partesUrl[partesUrl.length - 1];
-                let nomeBase = nomeArquivoCompleto.substring(0, nomeArquivoCompleto.lastIndexOf('.'));
+
+            itensValidos.forEach((item, idx) => {
+                const valorBruto = typeof item === 'string' ? item : (item.id || item.link);
+                const nomeItem = typeof item === 'object' && item.nome
+                    ? item.nome
+                    : `${tipo.slice(0, -1)} ${idx + 1}`;
+
+                const urlDriveImg = processarLinkDrive(valorBruto);
+                const nomeArquivo = nomeArquivoGenerico(nomeItem);
 
                 htmlCards += `
                     <div class="bg-[#161624] border border-[#2a2a3f] p-4 rounded-xl shadow-md flex flex-col justify-between">
                         <div>
                             <div class="w-full h-48 bg-black/40 rounded mb-3 border border-[#2a2a3f] flex items-center justify-center overflow-hidden p-2">
-                                <img src="${urlImg}" alt="${nomeBase}" class="w-full h-full object-contain filter drop-shadow">
+                                <img src="${urlDriveImg}" alt="${escaparHtml(nomeItem)}" class="w-full h-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
                             </div>
-                            <h2 class="font-bold text-white text-sm truncate mb-1" title="${nomeArquivoCompleto}">${nomeArquivoCompleto}</h2>
-                            <p class="text-xs text-amber-400 font-medium mb-4">${nomePasta}</p>
+
+                            <h2 class="font-bold text-white text-sm truncate mb-1" title="${escaparHtml(nomeItem)}">${escaparHtml(nomeItem)}</h2>
+                            <p class="text-xs text-amber-400 font-medium mb-4">${tipo}</p>
                         </div>
-                        <button onclick="baixarDireto('${urlImg}', '${nomeBase}')" class="w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md cursor-pointer">
+
+                        <button
+                            data-download-url="${encodeURIComponent(urlDriveImg)}"
+                            data-download-name="${encodeURIComponent(nomeArquivo)}"
+                            class="btn-download w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
                             Baixar Arquivo
                         </button>
                     </div>
@@ -718,51 +836,27 @@
             });
 
             container.innerHTML = htmlCards;
-        }
-
-        function verificarImagemExiste(caminhoPng, caminhoJpg, callbackSucesso, callbackErro, callbackFinal) {
-            const imgPng = new Image();
-            imgPng.src = caminhoPng;
-            imgPng.onload = function() {
-                callbackSucesso(caminhoPng);
-                callbackFinal();
-            };
-            imgPng.onerror = function() {
-                const imgJpg = new Image();
-                imgJpg.src = caminhoJpg;
-                imgJpg.onload = function() {
-                    callbackSucesso(caminhoJpg);
-                    callbackFinal();
-                };
-                imgJpg.onerror = function() {
-                    callbackErro();
-                    callbackFinal();
-                };
-            };
-        }
-
-        function baixarDireto(url, nomeBase) {
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = nomeBase;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            irParaTopo();
         }
 
         function abrirEstilo(indexEstilo) {
             estiloSelecionado = listaEstilos[indexEstilo];
             nivelAtual = 'fotos';
+
             const nomeFormatado = formatarTitulo(estiloSelecionado.nomeEstilo);
+
             titulo.innerText = `${equipeSelecionada.nome} - ${nomeFormatado}`;
             subtitulo.innerText = `Pasta: ${nomeFormatado}`;
-            
+
             btnVoltar.classList.remove('hidden');
             btnVoltar.innerText = "← Voltar para a Pasta de Poses";
+
             if (scope === 'all') {
                 btnInicio.classList.remove('hidden');
+            } else {
+                btnInicio.classList.add('hidden');
             }
-            
+
             container.innerHTML = `
                 <div class="col-span-full flex flex-col items-center justify-center p-16">
                     <div class="loader mb-4"></div>
@@ -770,66 +864,97 @@
                 </div>
             `;
 
-            if (!equipeSelecionada.jogadores || equipeSelecionada.jogadores.length === 0) {
+            if (!equipeSelecionada.membros || equipeSelecionada.membros.length === 0) {
                 setTimeout(() => {
-                    container.innerHTML = `<p class="text-gray-400 col-span-full text-center">Nenhum membro cadastrado para esta equipe no dados.js</p>`;
+                    container.innerHTML = `<p class="text-gray-400 col-span-full text-center">Nenhum membro cadastrado para esta equipe.</p>`;
                 }, 400);
+
                 irParaTopo();
                 return;
             }
 
-            let contadorExibidos = 0;
             let htmlCards = '';
-            let processados = 0;
+            let contadorEncontrados = 0;
 
-            equipeSelecionada.jogadores.forEach(membro => {
-                let baseNome = "";
-                let subTextoID = "";
+            equipeSelecionada.membros.forEach((membro) => {
+                const siglaEstilo = estiloSelecionado.sigla;
+                const fileId = membro.fotos ? membro.fotos[siglaEstilo] : null;
 
-                if (membro.tipo === "coach") {
-                    baseNome = `${membro.nick}_${estiloSelecionado.sigla}`;
-                    subTextoID = "Cargo: Coach";
-                } else {
-                    baseNome = `${membro.uid}-${membro.nick}_${estiloSelecionado.sigla}`;
-                    subTextoID = `UID: ${membro.uid}`;
-                }
+                if (fileId && fileId.trim() !== "") {
+                    contadorEncontrados++;
 
-                const caminhoPng = `imagens/jogadores/${equipeSelecionada.id}/${estiloSelecionado.nomeEstilo}/${baseNome}.png`;
-                const caminhoJpg = `imagens/jogadores/${equipeSelecionada.id}/${estiloSelecionado.nomeEstilo}/${baseNome}.jpg`;
+                    const urlDriveImg = processarLinkDrive(fileId);
+                    const nomeArquivo = nomeArquivoJogador(membro.nick, siglaEstilo);
+                    const funcao = String(membro.funcao || '').trim().toUpperCase();
+                    const icone = iconesFuncoes[funcao] || '';
 
-                verificarImagemExiste(caminhoPng, caminhoJpg, (urlValida) => {
-                    contadorExibidos++;
+                    const funcaoHtml = funcao && icone
+                        ? `<span class="flex items-center gap-1.5 text-xs text-amber-400 font-semibold">
+                               <img src="${icone}" alt="${escaparHtml(funcao)}" class="w-5 h-5 object-contain">
+                               <span>${escaparHtml(funcao)}</span>
+                           </span>`
+                        : '';
+
+                    const uidHtml = membro.uid
+                        ? `<span class="text-[11px] text-gray-400">UID: ${escaparHtml(membro.uid)}</span>`
+                        : '';
+
                     htmlCards += `
                         <div class="bg-[#161624] border border-[#2a2a3f] p-4 rounded-xl shadow-md flex flex-col justify-between">
                             <div>
-                                <div class="w-full h-56 bg-black rounded mb-3 border border-[#2a2a3f] flex items-center justify-center overflow-hidden">
-                                    <img src="${urlValida}" alt="${membro.nick}" class="w-full h-full object-contain">
+                                <div class="w-full h-48 bg-black/40 rounded mb-3 border border-[#2a2a3f] flex items-center justify-center overflow-hidden p-2">
+                                    <img src="${urlDriveImg}" alt="${escaparHtml(membro.nick)}" class="w-full h-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
                                 </div>
-                                <h2 class="font-bold text-white">${membro.nick}</h2>
-                                <p class="text-xs text-gray-400 mb-1">${subTextoID}</p>
-                                <p class="text-xs accent-purple font-semibold mb-4">${estiloSelecionado.sigla}</p>
+
+                                <h2 class="font-bold text-white text-sm truncate mb-1" title="${escaparHtml(membro.nick)}">${escaparHtml(membro.nick)}</h2>
+
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                                    ${funcaoHtml}
+                                    ${uidHtml}
+                                </div>
+
+                                <p class="text-xs text-amber-400 font-medium mb-4">${escaparHtml(nomeFormatado)} · ${siglaEstilo}</p>
                             </div>
-                            <button onclick="baixarDireto('${urlValida}', '${baseNome}')" class="w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md cursor-pointer">
+
+                            <button
+                                data-download-url="${encodeURIComponent(urlDriveImg)}"
+                                data-download-name="${encodeURIComponent(nomeArquivo)}"
+                                class="btn-download w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
                                 Baixar Foto
                             </button>
                         </div>
                     `;
-                }, () => {
-                    // Erro ao carregar imagem individual
-                }, () => {
-                    processados++;
-                    if (processados === equipeSelecionada.jogadores.length) {
-                        if (contadorExibidos > 0) {
-                            container.innerHTML = htmlCards;
-                        } else {
-                            container.innerHTML = `<p class="text-gray-400 col-span-full text-center">Nenhuma foto carregada para os membros nesta pasta ainda.</p>`;
-                        }
-                    }
-                });
+                }
             });
+
+            setTimeout(() => {
+                if (contadorEncontrados === 0) {
+                    container.innerHTML = `
+                        <div class="col-span-full bg-[#161624] border border-[#2a2a3f] p-8 rounded-xl text-center shadow-md">
+                            <div class="text-5xl mb-4">📂</div>
+                            <h2 class="text-xl font-bold text-white mb-2">Nenhuma foto cadastrada nesta pasta</h2>
+                            <p class="text-gray-300 text-sm mb-4">Adicione os IDs do Google Drive correspondentes aos membros no arquivo de dados.</p>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = htmlCards;
+                }
+            }, 300);
 
             irParaTopo();
         }
+
+        // Delegação de eventos para evitar problemas com acentos, aspas e caracteres especiais.
+        document.addEventListener('click', function(event) {
+            const botao = event.target.closest('.btn-download');
+
+            if (!botao) return;
+
+            const url = decodeURIComponent(botao.dataset.downloadUrl || '');
+            const nome = decodeURIComponent(botao.dataset.downloadName || 'arquivo.png');
+
+            baixarArquivo(url, nome);
+        });
 
         window.onload = inicializarPainel;
     </script>
