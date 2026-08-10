@@ -53,7 +53,7 @@ const configuracaoSite = {
 
 // Apenas estes logins poderão visualizar usuários ativos e últimos acessos.
 const loginsComMonitoramento = [
-    // 'seu-email@dominio.com'
+    // 'jotinha@medialobby.com'
 ];
 
 // LISTA DE PASTAS E SUAS RESPECTIVAS SIGLAS
