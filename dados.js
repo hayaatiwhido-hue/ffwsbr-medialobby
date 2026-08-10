@@ -22,6 +22,13 @@ const listaUsuarios = [
     { email: "igor@influence.com", senha: "10218211", scope: "player", playerId: "inf.igor7" },
     { email: "lyonrlq@influence.com", senha: "1759301816", scope: "player", playerId: "1759301816" },
     { email: "nepoign@influence.com", senha: "812813211", scope: "player", playerId: "inf.nepo" },
+    { email: "dressalinda@afrogames.com", senha: "11092025", scope: "afrogames" },
+    { email: "peter@afrogames.com", senha: "677943449", scope: "player", playerId: "Player-AFG.Peter" },
+    { email: "dnsetzz@afrogames.com", senha: "217618100", scope: "player", playerId: "Player-AFG.Dnsetzz" },
+    { email: "nielffx@afrogames.com", senha: "111420295", scope: "player", playerId: "Player-AFG.Nielffx" },
+    { email: "braboxx7@afrogames.com", senha: "247890207", scope: "player", playerId: "Player-AFG.BRABOXX7" },
+    { email: "sant10@afrogames.com", senha: "1130977672", scope: "player", playerId: "Player-AFG.Sant10$" },
+    { email: "gbzinn7@afrogames.com", senha: "21550867", scope: "player", playerId: "Player-AFG.gbzinn7$" }
 
     
 ];
