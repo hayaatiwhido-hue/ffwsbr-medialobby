@@ -31,12 +31,12 @@ const listaUsuarios = [
 // O index.html lê esta lista automaticamente.
 // Cada domínio deve ser único e conter o @.
 const dominiosLogin = [
-    { dominio: "@medialobby.com", nome: "Media Lobby" },
-    { dominio: "@novofuturo.com", nome: "Novo Futuro" },
+    { dominio: "@medialobby.dev", nome: "Developer" },
+    { dominio: "@novofuturo.com", nome: "Futury" },
     { dominio: "@gmail.com", nome: "Gmail" },
-    { dominio: "@esolid.com", nome: "eSolid" },
+    { dominio: "@esolid.com", nome: "eSolid News" },
     { dominio: "@pixelbroadcast.com", nome: "Pixel Broadcast" },
-    { dominio: "@diretoria.com", nome: "Diretoria" },
+    { dominio: "@diretoria.com", nome: "Diretoria de eSports" },
     { dominio: "@influence.com", nome: "Influence Rage" }
 ];
 
