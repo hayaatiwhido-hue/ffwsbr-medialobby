@@ -284,9 +284,9 @@ const dadosEquipes = [
         nome: "LOUD SNICKERS",
         logo: "https://drive.google.com/file/d/12-OgkD0hxZaBMMWwFuItzPz6A6vg_gLg/view?usp=drivesdk",
         logos: [
-            { nome: "Logo 1", id: "https://drive.google.com/file/d/1MQfqoKBUU_qJDK5PVIj7xqbOjpF62I1k/view?usp=drivesdk" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
-            { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
-            { nome: "Logo 7", id: "" }, { nome: "Logo 8", id: "" }, { nome: "Logo 9", id: "" },
+            { nome: "LOGO ESCRITA VERDE", id: "https://drive.google.com/file/d/1MQfqoKBUU_qJDK5PVIj7xqbOjpF62I1k/view?usp=drivesdk" }, { nome: "LOGO SIMBOLO VERDE", id: "https://drive.google.com/file/d/12-OgkD0hxZaBMMWwFuItzPz6A6vg_gLg/view?usp=drivesdk" }, { nome: "LOGO HORIZONTAL VERDE", id: "https://drive.google.com/file/d/1hWVVI0sXhn-K18NxLWp9MYSymFhwAeTM/view?usp=drivesdk" },
+            { nome: "LOGO ESCRITA BRANCA", id: "https://drive.google.com/file/d/1xYQl0J-NbEpikSkjEi6OjGGN4ZtPToaE/view?usp=drivesdk" }, { nome: "LOGO SIMBOLO BRANCO", id: "https://drive.google.com/file/d/1FhAahkOrQlH3BPWLq6KY40P90_4elV99/view?usp=drivesdk" }, { nome: "LOGO HORIZONTAL BRANCA", id: "https://drive.google.com/file/d/1Nx42caTDCEUeLYB4ow4Gc8AGcLImegiE/view?usp=drivesdk" },
+            { nome: "LOGO ESCRITA PRETA", id: "https://drive.google.com/file/d/1qmRQCZb_urQFVV1aEiCziR5VUwwAzSK-/view?usp=drivesdk" }, { nome: "LOGO SIMBOLO PRETA", id: "https://drive.google.com/file/d/1-BT7cCnUzmabBLm2jx8uINai-mTseYdQ/view?usp=drivesdk" }, { nome: "LOGO HORIZONTAL PRETA", id: "https://drive.google.com/file/d/1J82k-yygTpodFgRxSCU5pNWVnoHP_na0/view?usp=drivesdk" },
             { nome: "Logo 10", id: "" }, { nome: "Logo 11", id: "" }, { nome: "Logo 12", id: "" },
             { nome: "Logo 13", id: "" }, { nome: "Logo 14", id: "" }, { nome: "Logo 15", id: "" }
         ],
