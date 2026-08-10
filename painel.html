@@ -64,12 +64,6 @@
     </style>
 </head>
 <body class="min-h-screen text-gray-100 p-6">
-    <div id="seletor-idioma-painel" class="fixed top-3 right-3 z-50 flex gap-1 bg-[#161624]/90 border border-[#e8b033]/30 rounded-lg p-1 shadow-lg">
-        <button type="button" data-lang="pt" class="idioma-painel-btn px-2 py-1 rounded text-xs font-bold">PT</button>
-        <button type="button" data-lang="en" class="idioma-painel-btn px-2 py-1 rounded text-xs font-bold text-gray-400">EN</button>
-        <button type="button" data-lang="es" class="idioma-painel-btn px-2 py-1 rounded text-xs font-bold text-gray-400">ES</button>
-    </div>
-
 
     <script>
         if (sessionStorage.getItem('autenticado') !== 'true') {
@@ -98,7 +92,6 @@
                 <button id="btn-voltar" onclick="voltarNivel()" class="hidden bg-[#1a1a2e] border border-[#e8b033]/50 hover:bg-[#252538] text-gray-200 px-3 py-2 rounded text-sm transition font-medium cursor-pointer">
                     ← Voltar para a Pasta de Poses
                 </button>
-                <button id="btn-monitoramento" onclick="mostrarMonitoramento()" class="hidden bg-[#1a1a2e] border border-[#e8b033]/50 hover:bg-[#252538] text-gray-200 px-3 py-2 rounded text-sm transition font-medium shadow-md cursor-pointer">📊 Monitoramento</button>
                 <button id="btn-sair" onclick="sair()" class="hidden bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded text-sm transition font-medium shadow-md cursor-pointer">
                     Desconectar do Login
                 </button>
@@ -112,14 +105,11 @@
     <script src="dados.js"></script>
 
     <script>
-        let nivelAtual = 'equipes';
+        let nivelAtual = 'equipes'; 
         let equipeSelecionada = null;
         let estiloSelecionado = null;
 
         const scope = sessionStorage.getItem('user_scope');
-        const userType = sessionStorage.getItem('user_type') || 'standard';
-        const playerId = sessionStorage.getItem('player_id') || '';
-
         const container = document.getElementById('conteudo-painel');
         const titulo = document.getElementById('titulo-pagina');
         const subtitulo = document.getElementById('subtitulo-pagina');
@@ -127,14 +117,6 @@
         const btnVoltar = document.getElementById('btn-voltar');
         const btnInicio = document.getElementById('btn-inicio');
         const btnSair = document.getElementById('btn-sair');
-
-        const iconesFuncoes = {
-            RUSHER: 'info-ffws/rusher.png',
-            SNIPER: 'info-ffws/sniper.png',
-            SUPPORT: 'info-ffws/support.png',
-            BOMBER: 'info-ffws/bomber.png',
-            RIFLER: 'info-ffws/rifler.png'
-        };
 
         function irParaTopo() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -144,50 +126,12 @@
             return texto.toLowerCase().replace(/(^|\s)\S/g, l => l.toUpperCase());
         }
 
-        function escaparHtml(texto) {
-            return String(texto ?? '')
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-        }
-
-        // Mantém acentos e caracteres especiais do nick.
-        // Troca somente o primeiro espaço, que separa TAG e Nick, por ".".
-        // Apenas caracteres proibidos pelo sistema de arquivos são tratados.
-        function nomeArquivoJogador(nick, siglaEstilo) {
-            const partes = String(nick || '').trim().split(/\s+/);
-
-            let base = partes.length > 1
-                ? `${partes[0]}.${partes.slice(1).join(' ')}`
-                : (partes[0] || 'Jogador');
-
-            base = base.replace(/[\\/:*?"<>|]/g, '-');
-
-            return `${base}_${siglaEstilo}.png`;
-        }
-
-        function nomeArquivoGenerico(nomeItem, extensao = 'png') {
-            const base = String(nomeItem || 'arquivo')
-                .trim()
-                .replace(/[\\/:*?"<>|]/g, '-');
-
-            return `${base}.${extensao}`;
-        }
-
         function sair() {
             sessionStorage.clear();
             window.location.href = 'index.html';
         }
 
         function voltarNivel() {
-            if (userType === 'player') {
-                const acesso = localizarJogador();
-                if (acesso) abrirEquipeJogador(acesso.equipe, acesso.membro);
-                return;
-            }
-
             if (equipeSelecionada) {
                 abrirEquipe(equipeSelecionada.id);
             } else {
@@ -195,181 +139,75 @@
             }
         }
 
-        function localizarJogador() {
-            if (!playerId) return null;
-
-            for (const equipe of dadosEquipes) {
-                const membro = (equipe.membros || []).find(m => m.playerId === playerId);
-
-                if (membro) {
-                    return { equipe, membro };
-                }
-            }
-
-            return null;
-        }
-
         function inicializarPainel() {
-            if (userType === 'player') {
-                const acesso = localizarJogador();
-
-                if (acesso) {
-                    equipeSelecionada = acesso.equipe;
-                    btnSair.classList.remove('hidden');
-                    btnInicio.classList.add('hidden');
-                    abrirEquipeJogador(acesso.equipe, acesso.membro);
-                } else {
-                    btnSair.classList.remove('hidden');
-
-                    titulo.innerText = 'ACESSO NÃO CONFIGURADO';
-                    subtitulo.innerText = 'O jogador vinculado a este login não foi encontrado no dados.js.';
-
-                    container.innerHTML = `
-                        <div class="col-span-full bg-[#161624] border border-red-500/30 p-8 rounded-xl text-center">
-                            <div class="text-5xl mb-4">⚠️</div>
-                            <h2 class="text-xl font-bold text-white mb-2">Jogador não encontrado</h2>
-                            <p class="text-gray-300 text-sm">
-                                Verifique o <b>playerId</b> deste login na listaUsuarios.
-                            </p>
-                        </div>
-                    `;
-                }
-
-                return;
-            }
-
             if (scope === 'all') {
                 btnSair.classList.remove('hidden');
                 renderizarEquipes();
             } else {
                 const eq = dadosEquipes.find(e => e.id === scope);
-
                 if (eq) {
-                    btnSair.classList.remove('hidden');
                     abrirEquipe(eq.id);
                 } else {
-                    btnSair.classList.remove('hidden');
                     renderizarEquipes();
                 }
             }
         }
 
+        // Função auxiliar para converter link ou ID do Google Drive em link direto de imagem
         function processarLinkDrive(idOuUrl) {
             if (!idOuUrl) return '';
-
             let limpo = idOuUrl.trim();
-
+            // Se já for uma URL completa do Google Drive ou lh3, extrai o ID se possível ou usa direto
             if (limpo.includes('drive.google.com') || limpo.includes('id=')) {
                 const match = limpo.match(/id=([a-zA-Z0-9_-]+)/);
-
                 if (match && match[1]) {
                     limpo = match[1];
                 } else {
                     const match2 = limpo.match(/\/d\/([a-zA-Z0-9_-]+)/);
-
-                    if (match2 && match2[1]) {
-                        limpo = match2[1];
-                    }
+                    if (match2 && match2[1]) limpo = match2[1];
                 }
             }
-
+            // Se parecer um ID puro do Drive
             if (limpo.length > 20 && !limpo.includes('/')) {
                 return `https://lh3.googleusercontent.com/d/${limpo}`;
             }
-
-            return limpo;
-        }
-
-        async function baixarArquivo(url, nomeArquivo) {
-            try {
-                const response = await fetch(url);
-
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-
-                const blob = await response.blob();
-                const blobUrl = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-
-                a.style.display = 'none';
-                a.href = blobUrl;
-
-                // O nome é definido diretamente em Unicode.
-                // Ex.: LPS.Pão7_FBB.png
-                a.download = nomeArquivo;
-
-                document.body.appendChild(a);
-                a.click();
-
-                setTimeout(() => {
-                    window.URL.revokeObjectURL(blobUrl);
-                    document.body.removeChild(a);
-                }, 100);
-            } catch (error) {
-                // Fallback caso ocorra restrição de CORS.
-                const a = document.createElement('a');
-
-                a.href = url;
-                a.target = '_blank';
-                a.download = nomeArquivo;
-
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            }
+            return limpo; // Retorna o original caso seja um link local ou externo padrão
         }
 
         function renderizarEquipes() {
             nivelAtual = 'equipes';
-
             titulo.innerText = "EQUIPES - MEDIA LOBBY";
             subtitulo.innerText = "Selecione uma equipe para acessar as pastas de fotos.";
-
             logoCabecalho.classList.add('hidden');
             btnVoltar.classList.add('hidden');
             btnInicio.classList.add('hidden');
-
             container.innerHTML = '';
 
             dadosEquipes.forEach(eq => {
-                const logoSrc = processarLinkDrive(eq.logo);
-
+                let logoSrc = processarLinkDrive(eq.logo);
                 container.innerHTML += `
-                    <div onclick="abrirEquipe('${escaparHtml(eq.id)}')" class="bg-[#161624] border border-[#2a2a3f] p-6 rounded-xl shadow-md cursor-pointer card-hover transition flex flex-col items-center text-center">
+                    <div onclick="abrirEquipe('${eq.id}')" class="bg-[#161624] border border-[#2a2a3f] p-6 rounded-xl shadow-md cursor-pointer card-hover transition flex flex-col items-center text-center">
                         <div class="w-24 h-24 flex items-center justify-center mb-4">
-                            <img src="${logoSrc}" alt="${escaparHtml(eq.nome)}" class="max-h-full max-w-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
+                            <img src="${logoSrc}" alt="${eq.nome}" class="max-h-full max-w-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
                         </div>
-                        <h2 class="font-bold text-white text-base">${escaparHtml(eq.nome)}</h2>
-                        <div class="w-full mt-3 text-left border-t border-[#2a2a3f] pt-3">
-                            <div class="text-[10px] uppercase tracking-wider text-gray-500 mb-2">Jogadores</div>
-                            <div class="flex flex-wrap gap-1.5">
-                                ${(eq.membros || []).map(m => `<span class="px-2 py-1 rounded bg-[#1a1a2e] border border-[#2a2a3f] text-[11px] text-gray-200">${escaparHtml(m.nick)}</span>`).join('') || '<span class="text-xs text-gray-500">Nenhum jogador cadastrado</span>'}
-                            </div>
-                        </div>
-                        <span class="text-xs accent-purple font-semibold mt-3">Ver pastas de estilos →</span>
+                        <h2 class="font-bold text-white text-base">${eq.nome}</h2>
+                        <span class="text-xs accent-purple font-semibold mt-2">Ver pastas de estilos →</span>
                     </div>
                 `;
             });
-
             irParaTopo();
         }
 
         function abrirEquipe(idEquipe) {
             equipeSelecionada = dadosEquipes.find(e => e.id === idEquipe);
-
-            if (!equipeSelecionada) return;
-
             nivelAtual = 'estilos';
-
             titulo.innerText = equipeSelecionada.nome;
             subtitulo.innerText = "Selecione a pasta desejada:";
-
+            
             logoCabecalho.src = processarLinkDrive(equipeSelecionada.logo);
             logoCabecalho.classList.remove('hidden');
 
             btnVoltar.classList.add('hidden');
-
             if (scope === 'all') {
                 btnInicio.classList.remove('hidden');
             } else {
@@ -378,6 +216,7 @@
 
             container.innerHTML = '';
 
+            // 1. Logotipos (Lendo o array de logos da equipe)
             container.innerHTML += `
                 <div onclick="abrirPastaLogosEBrasoes('Logotipos')" class="bg-[#161624] border border-[#2a2a3f] p-6 rounded-xl shadow-md cursor-pointer card-hover transition flex flex-col items-center text-center border-amber-500/40">
                     <div class="text-4xl mb-3">📁</div>
@@ -386,6 +225,7 @@
                 </div>
             `;
 
+            // 2. Brasões (Lendo o array de brasoes da equipe)
             container.innerHTML += `
                 <div onclick="abrirPastaLogosEBrasoes('Brasões')" class="bg-[#161624] border border-[#2a2a3f] p-6 rounded-xl shadow-md cursor-pointer card-hover transition flex flex-col items-center text-center border-amber-500/40">
                     <div class="text-4xl mb-3">📁</div>
@@ -394,137 +234,40 @@
                 </div>
             `;
 
+            // 3. Demais estilos de fotos dos jogadores
             listaEstilos.forEach((estilo, index) => {
                 const nomeFormatado = formatarTitulo(estilo.nomeEstilo);
-
                 container.innerHTML += `
                     <div onclick="abrirEstilo(${index})" class="bg-[#161624] border border-[#2a2a3f] p-6 rounded-xl shadow-md cursor-pointer card-hover transition flex flex-col items-center text-center">
                         <div class="text-4xl mb-3">📁</div>
-                        <h2 class="font-bold text-white text-base">${escaparHtml(nomeFormatado)}</h2>
+                        <h2 class="font-bold text-white text-base">${nomeFormatado}</h2>
                         <span class="text-xs accent-purple font-semibold mt-2">Abrir pasta</span>
                     </div>
                 `;
             });
-
-            irParaTopo();
-        }
-
-        // Acesso de jogador: não exibe equipes, logos ou brasões.
-        // Mostra somente as fotos do próprio jogador.
-        function abrirEquipeJogador(equipe, membro) {
-            equipeSelecionada = equipe;
-            nivelAtual = 'player';
-
-            titulo.innerText = membro.nick;
-            subtitulo.innerText = `${equipe.nome} - Fotos do jogador`;
-
-            logoCabecalho.src = processarLinkDrive(equipe.logo);
-            logoCabecalho.classList.remove('hidden');
-
-            btnVoltar.classList.add('hidden');
-            btnInicio.classList.add('hidden');
-
-            const funcao = String(membro.funcao || '').trim().toUpperCase();
-            const icone = iconesFuncoes[funcao] || '';
-
-            const infoFuncao = funcao && icone
-                ? `<div class="flex items-center gap-2 text-sm text-amber-400 font-semibold">
-                        <img src="${icone}" alt="${escaparHtml(funcao)}" class="w-7 h-7 object-contain">
-                        <span>${escaparHtml(funcao)}</span>
-                   </div>`
-                : `<div class="text-sm text-gray-400">Função: não cadastrada</div>`;
-
-            const infoUid = membro.uid
-                ? `<div class="text-xs text-gray-300 mt-1">UID: <span class="text-white font-semibold">${escaparHtml(membro.uid)}</span></div>`
-                : `<div class="text-xs text-gray-500 mt-1">UID: não cadastrado</div>`;
-
-            container.innerHTML = `
-                <div class="col-span-full bg-[#161624] border border-[#2a2a3f] rounded-xl p-5 mb-2">
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                        <div>
-                            <h2 class="text-xl font-bold text-white">${escaparHtml(membro.nick)}</h2>
-                            ${infoUid}
-                        </div>
-                        ${infoFuncao}
-                    </div>
-                </div>
-            `;
-
-            let htmlCards = '';
-            let contadorEncontrados = 0;
-
-            listaEstilos.forEach((estilo) => {
-                const siglaEstilo = estilo.sigla;
-                const fileId = membro.fotos ? membro.fotos[siglaEstilo] : null;
-
-                if (fileId && fileId.trim() !== "") {
-                    contadorEncontrados++;
-
-                    const urlDriveImg = processarLinkDrive(fileId);
-                    const nomeArquivo = nomeArquivoJogador(membro.nick, siglaEstilo);
-                    const nomeFormatado = formatarTitulo(estilo.nomeEstilo);
-
-                    htmlCards += `
-                        <div class="bg-[#161624] border border-[#2a2a3f] p-4 rounded-xl shadow-md flex flex-col justify-between">
-                            <div>
-                                <div class="w-full h-48 bg-black/40 rounded mb-3 border border-[#2a2a3f] flex items-center justify-center overflow-hidden p-2">
-                                    <img src="${urlDriveImg}" alt="${escaparHtml(membro.nick)}" class="w-full h-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
-                                </div>
-
-                                <h2 class="font-bold text-white text-sm truncate mb-1" title="${escaparHtml(membro.nick)}">${escaparHtml(membro.nick)}</h2>
-
-                                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                                    <span class="text-xs text-amber-400 font-semibold">${escaparHtml(nomeFormatado)} · ${siglaEstilo}</span>
-                                </div>
-                            </div>
-
-                            <button
-                                data-download-url="${encodeURIComponent(urlDriveImg)}"
-                                data-download-name="${encodeURIComponent(nomeArquivo)}"
-                                class="btn-download w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
-                                Baixar Foto
-                            </button>
-                        </div>
-                    `;
-                }
-            });
-
-            if (contadorEncontrados === 0) {
-                container.innerHTML += `
-                    <div class="col-span-full bg-[#161624] border border-[#2a2a3f] p-8 rounded-xl text-center shadow-md">
-                        <div class="text-5xl mb-4">📂</div>
-                        <h2 class="text-xl font-bold text-white mb-2">Nenhuma foto cadastrada</h2>
-                        <p class="text-gray-300 text-sm">Ainda não há fotos disponíveis para este jogador.</p>
-                    </div>
-                `;
-            } else {
-                container.innerHTML += htmlCards;
-            }
-
             irParaTopo();
         }
 
         function abrirPastaLogosEBrasoes(tipo) {
             nivelAtual = 'generica';
-
             titulo.innerText = `${equipeSelecionada.nome} - ${tipo}`;
             subtitulo.innerText = `Pasta: ${tipo}`;
-
+            
             btnVoltar.classList.remove('hidden');
             btnVoltar.innerText = "← Voltar para a Pasta de Poses";
-
             if (scope === 'all') {
                 btnInicio.classList.remove('hidden');
             }
 
+            // Garante compatibilidade caso o array venha estruturado como .logos/.brasoes ou como propriedades diretas
             let itens = [];
-
             if (tipo === 'Logotipos') {
                 itens = equipeSelecionada.logos || [];
             } else {
                 itens = equipeSelecionada.brasoes || [];
             }
 
+            // Filtra itens que possuem ID ou link válido preenchido
             const itensValidos = itens.filter(item => {
                 const val = typeof item === 'string' ? item : (item.id || item.link);
                 return val && val.trim() !== "" && !val.includes("SEU_ID");
@@ -538,39 +281,34 @@
                         <p class="text-gray-300 text-sm mb-4">Insira os IDs do Google Drive no arquivo dados.js para esta equipe.</p>
                     </div>
                 `;
-
                 irParaTopo();
                 return;
             }
 
             let htmlCards = '';
-
             itensValidos.forEach((item, idx) => {
-                const valorBruto = typeof item === 'string' ? item : (item.id || item.link);
-                const nomeItem = typeof item === 'object' && item.nome
-                    ? item.nome
-                    : `${tipo.slice(0, -1)} ${idx + 1}`;
-
-                const urlDriveImg = processarLinkDrive(valorBruto);
-                const nomeArquivo = nomeArquivoGenerico(nomeItem);
+                let valorBruto = typeof item === 'string' ? item : (item.id || item.link);
+                let nomeItem = typeof item === 'object' && item.nome ? item.nome : `${tipo.slice(0, -1)} ${idx + 1}`;
+                
+                let urlDriveImg = processarLinkDrive(valorBruto);
+                
+                // Extrai o ID limpo para o link de download direto do Google Drive se for o caso
+                let matchId = valorBruto.match(/id=([a-zA-Z0-9_-]+)/) || valorBruto.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                let idLimpo = matchId ? matchId[1] : (valorBruto.length > 20 && !valorBruto.includes('/') ? valorBruto : '');
+                let urlDriveDownload = idLimpo ? `https://drive.google.com/uc?export=download&id=${idLimpo}` : urlDriveImg;
 
                 htmlCards += `
                     <div class="bg-[#161624] border border-[#2a2a3f] p-4 rounded-xl shadow-md flex flex-col justify-between">
                         <div>
                             <div class="w-full h-48 bg-black/40 rounded mb-3 border border-[#2a2a3f] flex items-center justify-center overflow-hidden p-2">
-                                <img src="${urlDriveImg}" alt="${escaparHtml(nomeItem)}" class="w-full h-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
+                                <img src="${urlDriveImg}" alt="${nomeItem}" class="w-full h-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
                             </div>
-
-                            <h2 class="font-bold text-white text-sm truncate mb-1" title="${escaparHtml(nomeItem)}">${escaparHtml(nomeItem)}</h2>
+                            <h2 class="font-bold text-white text-sm truncate mb-1" title="${nomeItem}">${nomeItem}</h2>
                             <p class="text-xs text-amber-400 font-medium mb-4">${tipo}</p>
                         </div>
-
-                        <button
-                            data-download-url="${encodeURIComponent(urlDriveImg)}"
-                            data-download-name="${encodeURIComponent(nomeArquivo)}"
-                            class="btn-download w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
+                        <a href="${urlDriveDownload}" target="_blank" class="w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
                             Baixar Arquivo
-                        </button>
+                        </a>
                     </div>
                 `;
             });
@@ -579,135 +317,282 @@
             irParaTopo();
         }
 
-        function abrirEstilo(indexEstilo) {
+        async function listarFotosDaPastaDrive(linkPasta) {
+            const apiKey = (typeof GOOGLE_DRIVE_FOTOS !== "undefined" && GOOGLE_DRIVE_FOTOS.API_KEY) || "";
+            if (!apiKey) {
+                throw new Error("Configure GOOGLE_DRIVE_FOTOS.API_KEY no dados.js.");
+            }
+
+            const pastaId = extrairIdDrive(linkPasta);
+            if (!pastaId) throw new Error("Link da pasta do Google Drive inválido.");
+
+            const arquivos = [];
+            let pageToken = "";
+
+            // Uma única consulta paginada por vez, sem carregar a página HTML
+            // inteira do Drive. Isso é muito mais rápido.
+            do {
+                const params = new URLSearchParams({
+                    q: `'${pastaId}' in parents and trashed = false`,
+                    fields: "nextPageToken,files(id,name,mimeType,size)",
+                    pageSize: "1000",
+                    key: apiKey
+                });
+                if (pageToken) params.set("pageToken", pageToken);
+
+                const resp = await fetch(
+                    `https://www.googleapis.com/drive/v3/files?${params.toString()}`
+                );
+                if (!resp.ok) {
+                    throw new Error(`Google Drive API retornou ${resp.status}.`);
+                }
+
+                const data = await resp.json();
+
+                for (const file of (data.files || [])) {
+                    if (!file.mimeType || !file.mimeType.startsWith("image/")) continue;
+
+                    arquivos.push({
+                        id: file.id,
+                        nome: file.name,
+                        mimeType: file.mimeType,
+                        tamanho: file.size || "",
+                        imagem: `https://drive.google.com/uc?export=view&id=${encodeURIComponent(file.id)}`
+                    });
+                }
+
+                pageToken = data.nextPageToken || "";
+            } while (pageToken);
+
+            return arquivos;
+        }
+
+        function escaparHtml(texto) {
+            return String(texto ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        async function baixarFotoDrive(fileId, nomeArquivo, mimeType) {
+            const apiKey = (typeof GOOGLE_DRIVE_FOTOS !== "undefined" && GOOGLE_DRIVE_FOTOS.API_KEY) || "";
+            if (!apiKey || !fileId) {
+                alert("Não foi possível preparar o download desta foto.");
+                return;
+            }
+
+            const botao = event && event.currentTarget ? event.currentTarget : null;
+            const textoOriginal = botao ? botao.innerText : "Baixar Foto";
+            if (botao) {
+                botao.disabled = true;
+                botao.innerText = "Baixando...";
+            }
+
+            try {
+                // Baixa os bytes para o próprio navegador e cria um Blob local.
+                // Assim o clique não abre o Drive nem redireciona para ele.
+                const resp = await fetch(
+                    `https://www.googleapis.com/drive/v3/files/${encodeURIComponent(fileId)}?alt=media&key=${encodeURIComponent(apiKey)}`
+                );
+
+                if (!resp.ok) {
+                    throw new Error(`Não foi possível baixar o arquivo (${resp.status}).`);
+                }
+
+                const blob = await resp.blob();
+                const blobUrl = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = blobUrl;
+                a.download = nomeArquivo || "foto";
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+            } catch (erro) {
+                console.error("Download:", erro);
+                alert("Não foi possível baixar diretamente pelo site. Verifique a API_KEY e as permissões da pasta.");
+            } finally {
+                if (botao) {
+                    botao.disabled = false;
+                    botao.innerText = textoOriginal;
+                }
+            }
+        }
+
+        async function abrirEstilo(indexEstilo) {
             estiloSelecionado = listaEstilos[indexEstilo];
             nivelAtual = 'fotos';
 
             const nomeFormatado = formatarTitulo(estiloSelecionado.nomeEstilo);
-
             titulo.innerText = `${equipeSelecionada.nome} - ${nomeFormatado}`;
             subtitulo.innerText = `Pasta: ${nomeFormatado}`;
 
             btnVoltar.classList.remove('hidden');
             btnVoltar.innerText = "← Voltar para a Pasta de Poses";
-
-            if (scope === 'all') {
-                btnInicio.classList.remove('hidden');
-            } else {
-                btnInicio.classList.add('hidden');
-            }
+            if (scope === 'all') btnInicio.classList.remove('hidden');
 
             container.innerHTML = `
                 <div class="col-span-full flex flex-col items-center justify-center p-16">
                     <div class="loader mb-4"></div>
-                    <p class="text-gray-400">Buscando fotos disponíveis...</p>
+                    <p class="text-gray-400">Buscando todas as fotos da pasta do Google Drive...</p>
                 </div>
             `;
 
-            if (!equipeSelecionada.membros || equipeSelecionada.membros.length === 0) {
-                setTimeout(() => {
-                    container.innerHTML = `<p class="text-gray-400 col-span-full text-center">Nenhum membro cadastrado para esta equipe.</p>`;
-                }, 400);
+            try {
+                const linkPasta = pastasFotosDrive?.[estiloSelecionado.sigla] || "";
+                const arquivos = await listarFotosDaPastaDrive(linkPasta);
 
-                irParaTopo();
-                return;
-            }
+                if (!arquivos.length) {
+                    container.innerHTML = `
+                        <div class="col-span-full bg-[#161624] border border-[#2a2a3f] p-8 rounded-xl text-center shadow-md">
+                            <div class="text-5xl mb-4">📂</div>
+                            <h2 class="text-xl font-bold text-white mb-2">Nenhuma foto encontrada</h2>
+                            <p class="text-gray-300 text-sm">
+                                A pasta existe, mas nenhuma imagem foi encontrada.
+                            </p>
+                        </div>
+                    `;
+                    irParaTopo();
+                    return;
+                }
 
-            let htmlCards = '';
-            let contadorEncontrados = 0;
+                let htmlCards = "";
 
-            equipeSelecionada.membros.forEach((membro) => {
-                const siglaEstilo = estiloSelecionado.sigla;
-                const fileId = membro.fotos ? membro.fotos[siglaEstilo] : null;
-
-                if (fileId && fileId.trim() !== "") {
-                    contadorEncontrados++;
-
-                    const urlDriveImg = processarLinkDrive(fileId);
-                    const nomeArquivo = nomeArquivoJogador(membro.nick, siglaEstilo);
-                    const funcao = String(membro.funcao || '').trim().toUpperCase();
-                    const icone = iconesFuncoes[funcao] || '';
-
-                    const funcaoHtml = funcao && icone
-                        ? `<span class="flex items-center gap-1.5 text-xs text-amber-400 font-semibold">
-                               <img src="${icone}" alt="${escaparHtml(funcao)}" class="w-5 h-5 object-contain">
-                               <span>${escaparHtml(funcao)}</span>
-                           </span>`
-                        : '';
-
-                    const uidHtml = membro.uid
-                        ? `<span class="text-[11px] text-gray-400">UID: ${escaparHtml(membro.uid)}</span>`
-                        : '';
+                arquivos.forEach((arquivo, index) => {
+                    const nome = escaparHtml(arquivo.nome || `Foto ${index + 1}`);
+                    const imagem = escaparHtml(arquivo.imagem);
+                    const download = escaparHtml(arquivo.download);
 
                     htmlCards += `
                         <div class="bg-[#161624] border border-[#2a2a3f] p-4 rounded-xl shadow-md flex flex-col justify-between">
                             <div>
-                                <div class="w-full h-48 bg-black/40 rounded mb-3 border border-[#2a2a3f] flex items-center justify-center overflow-hidden p-2">
-                                    <img src="${urlDriveImg}" alt="${escaparHtml(membro.nick)}" class="w-full h-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
+                                <div class="w-full h-56 bg-black/40 rounded mb-3 border border-[#2a2a3f] flex items-center justify-center overflow-hidden p-2">
+                                    <img src="${imagem}" loading="lazy" decoding="async" alt="${nome}" class="w-full h-full object-contain filter drop-shadow"
+                                         onerror="this.src='info-ffws/logoffws.png'">
                                 </div>
 
-                                <h2 class="font-bold text-white text-sm truncate mb-1" title="${escaparHtml(membro.nick)}">${escaparHtml(membro.nick)}</h2>
+                                <h2 class="font-bold text-white text-sm truncate mb-1" title="${nome}">
+                                    ${nome}
+                                </h2>
 
-                                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                                    ${funcaoHtml}
-                                    ${uidHtml}
-                                </div>
-
-                                <p class="text-xs text-amber-400 font-medium mb-4">${escaparHtml(nomeFormatado)} · ${siglaEstilo}</p>
+                                <p class="text-xs text-amber-400 font-medium mb-4">
+                                    ${escaparHtml(nomeFormatado)}
+                                </p>
                             </div>
 
-                            <button
-                                data-download-url="${encodeURIComponent(urlDriveImg)}"
-                                data-download-name="${encodeURIComponent(nomeArquivo)}"
-                                class="btn-download w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
+                            <button type="button"
+                                onclick="baixarFotoDrive('${arquivo.id}', '${nome.replace("'", "\'")}', '${arquivo.mimeType || "image/jpeg"}')"
+                                class="w-full btn-primary py-2 rounded transition text-sm font-semibold shadow-md text-center cursor-pointer block">
                                 Baixar Foto
                             </button>
                         </div>
                     `;
-                }
-            });
+                });
 
-            setTimeout(() => {
-                if (contadorEncontrados === 0) {
-                    container.innerHTML = `
-                        <div class="col-span-full bg-[#161624] border border-[#2a2a3f] p-8 rounded-xl text-center shadow-md">
-                            <div class="text-5xl mb-4">📂</div>
-                            <h2 class="text-xl font-bold text-white mb-2">Nenhuma foto cadastrada nesta pasta</h2>
-                            <p class="text-gray-300 text-sm mb-4">Adicione os IDs do Google Drive correspondentes aos membros no arquivo de dados.</p>
-                        </div>
-                    `;
-                } else {
-                    container.innerHTML = htmlCards;
-                }
-            }, 300);
+                container.innerHTML = htmlCards;
+
+            } catch (erro) {
+                console.error("Erro ao carregar fotos do Drive:", erro);
+
+                container.innerHTML = `
+                    <div class="col-span-full bg-[#161624] border border-red-500/40 p-8 rounded-xl text-center shadow-md">
+                        <div class="text-5xl mb-4">⚠️</div>
+                        <h2 class="text-xl font-bold text-white mb-2">
+                            Não foi possível carregar as fotos
+                        </h2>
+                        <p class="text-gray-300 text-sm mb-2">
+                            ${escaparHtml(erro.message)}
+                        </p>
+                        <p class="text-gray-500 text-xs">
+                            Confira o link da pasta no dados.js e o compartilhamento da pasta no Google Drive.
+                        </p>
+                    </div>
+                `;
+            }
 
             irParaTopo();
         }
 
-        // Delegação de eventos para evitar problemas com acentos, aspas e caracteres especiais.
-        document.addEventListener('click', function(event) {
-            const botao = event.target.closest('.btn-download');
-
-            if (!botao) return;
-
-            const url = decodeURIComponent(botao.dataset.downloadUrl || '');
-            const nome = decodeURIComponent(botao.dataset.downloadName || 'arquivo.png');
-
-            baixarArquivo(url, nome);
-        });
-
         window.onload = inicializarPainel;
     
-        const traducoesPainel={pt:{teams:'EQUIPES - MEDIA LOBBY',select:'Selecione uma equipe para acessar as pastas de fotos.',active:'USUÁRIOS ATIVOS',recent:'ÚLTIMOS ACESSOS',monitor:'MONITORAMENTO',noAccess:'Você não possui permissão para visualizar o monitoramento.',noData:'Nenhuma atividade registrada neste dispositivo.'},en:{teams:'TEAMS - MEDIA LOBBY',select:'Select a team to access photo folders.',active:'ACTIVE USERS',recent:'RECENT ACCESS',monitor:'MONITORING',noAccess:'You do not have permission to view monitoring.',noData:'No activity recorded on this device.'},es:{teams:'EQUIPOS - MEDIA LOBBY',select:'Seleccione un equipo para acceder a las carpetas de fotos.',active:'USUARIOS ACTIVOS',recent:'ÚLTIMOS ACCESOS',monitor:'MONITOREO',noAccess:'No tienes permiso para ver el monitoreo.',noData:'No hay actividad registrada en este dispositivo.'}};
-        let idiomaPainel=localStorage.getItem('mediaLobbyIdioma')||'pt';
-        document.querySelectorAll('.idioma-painel-btn').forEach(b=>b.addEventListener('click',()=>{idiomaPainel=b.dataset.lang;localStorage.setItem('mediaLobbyIdioma',idiomaPainel);aplicarIdiomaPainel();}));
-        function aplicarIdiomaPainel(){document.querySelectorAll('.idioma-painel-btn').forEach(b=>{const a=b.dataset.lang===idiomaPainel;b.classList.toggle('bg-[#e8b033]',a);b.classList.toggle('text-[#161624]',a);b.classList.toggle('text-gray-400',!a);});if(nivelAtual==='equipes'){const t=traducoesPainel[idiomaPainel]||traducoesPainel.pt;titulo.innerText=t.teams;subtitulo.innerText=t.select;}}
-        function usuarioPodeMonitorar(){const email=sessionStorage.getItem('user_email')||'';return Array.isArray(loginsComMonitoramento)&&loginsComMonitoramento.some(x=>String(x).toLowerCase()===email.toLowerCase());}
-        function mostrarMonitoramento(){if(!usuarioPodeMonitorar()){container.innerHTML=`<div class="col-span-full bg-[#161624] border border-red-500/30 p-8 rounded-xl text-center"><div class="text-4xl mb-3">🔒</div><h2 class="text-xl font-bold text-white mb-2">${traducoesPainel[idiomaPainel].monitor}</h2><p class="text-gray-400">${traducoesPainel[idiomaPainel].noAccess}</p></div>`;return;}const a=JSON.parse(localStorage.getItem('mediaLobbyAcessos')||'[]');const t=traducoesPainel[idiomaPainel]||traducoesPainel.pt;container.innerHTML=`<div class="col-span-full grid grid-cols-1 lg:grid-cols-2 gap-6"><div class="bg-[#161624] border border-[#2a2a3f] rounded-xl p-5"><h2 class="font-bold text-white text-lg mb-4">${t.active}</h2>${a.length?a.filter(x=>Date.now()-new Date(x.data).getTime()<300000).map(x=>`<div class="border-b border-[#2a2a3f] py-3"><div class="text-white font-semibold">${escaparHtml(x.email)}</div><div class="text-xs text-gray-500">${new Date(x.data).toLocaleString()}</div></div>`).join(''):`<p class="text-gray-500">${t.noData}</p>`}</div><div class="bg-[#161624] border border-[#2a2a3f] rounded-xl p-5"><h2 class="font-bold text-white text-lg mb-4">${t.recent}</h2>${a.slice(0,20).map(x=>`<div class="border-b border-[#2a2a3f] py-3"><div class="text-white font-semibold">${escaparHtml(x.email)}</div><div class="text-xs text-gray-500">${new Date(x.data).toLocaleString()}</div></div>`).join('')||`<p class="text-gray-500">${t.noData}</p>`}</div></div>`;}
-        const btnMonitoramento=document.getElementById('btn-monitoramento');if(btnMonitoramento&&usuarioPodeMonitorar())btnMonitoramento.classList.remove('hidden');
-        aplicarIdiomaPainel();
-        function iniciarHeartbeat(){if(typeof configuracaoSite==='undefined'||!configuracaoSite.apiSeguranca)return;const email=sessionStorage.getItem('user_email');if(!email)return;const enviar=()=>fetch(configuracaoSite.apiSeguranca+'/session/heartbeat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,deviceId:localStorage.getItem('mediaLobbyDeviceId'),timestamp:new Date().toISOString()}),keepalive:true}).catch(()=>{});enviar();setInterval(enviar,30000);}
-        iniciarHeartbeat();
+        /* =========================================================
+           TENTATIVAS BLOQUEADAS — LOGIN IDENTIFICADO
+           =========================================================
+           Cada registro guarda o email completo que tentou acessar,
+           para o Developer saber exatamente qual login precisa ser
+           removido/revisado no banco.
+        */
+        function escaparHtmlMonitoramento(valor) {
+            return String(valor ?? '').replace(/[&<>"']/g, c => ({
+                '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;'
+            }[c]));
+        }
+
+        function registrarTentativaBloqueada(login, motivo = 'limite de dispositivos') {
+            const chave = 'mediaLobbyTentativasBloqueadas';
+            const lista = JSON.parse(localStorage.getItem(chave) || '[]');
+
+            lista.unshift({
+                login: String(login || '').toLowerCase(),
+                motivo,
+                data: new Date().toISOString(),
+                deviceId: localStorage.getItem('mediaLobbyDeviceId') || ''
+            });
+
+            localStorage.setItem(chave, JSON.stringify(lista.slice(0, 200)));
+        }
+
+        function obterTentativasBloqueadas() {
+            return JSON.parse(localStorage.getItem('mediaLobbyTentativasBloqueadas') || '[]');
+        }
+
+        function mostrarTentativasBloqueadas() {
+            const area = document.getElementById('painel-tentativas-bloqueadas');
+            const listaEl = document.getElementById('lista-tentativas-bloqueadas');
+            const contadorEl = document.getElementById('contador-tentativas-bloqueadas');
+
+            if (!area || !listaEl) return;
+
+            area.classList.remove('hidden');
+
+            const registros = obterTentativasBloqueadas();
+            if (contadorEl) contadorEl.textContent = registros.length;
+
+            if (!registros.length) {
+                listaEl.innerHTML = `
+                    <div class="rounded-lg border border-[#2a2a3f] bg-[#11111d] p-4 text-sm text-gray-500">
+                        Nenhuma tentativa bloqueada registrada.
+                    </div>`;
+                return;
+            }
+
+            listaEl.innerHTML = registros.map((item, index) => `
+                <div class="rounded-lg border border-red-500/20 bg-[#11111d] p-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                        <div>
+                            <div class="text-xs uppercase tracking-wider text-red-300/70 mb-1">LOGIN BLOQUEADO</div>
+                            <div class="font-bold text-white break-all">${escaparHtmlMonitoramento(item.login)}</div>
+                        </div>
+                        <div class="text-xs text-gray-500 sm:text-right">
+                            ${new Date(item.data).toLocaleString()}
+                        </div>
+                    </div>
+                    <div class="mt-2 text-xs text-gray-400">
+                        Motivo: <span class="text-red-300">${escaparHtmlMonitoramento(item.motivo)}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Função pública para a aba de monitoramento.
+        window.mostrarTentativasBloqueadas = mostrarTentativasBloqueadas;
+
+        // Quando o frontend detectar uma resposta de bloqueio, o login
+        // pode ser registrado aqui antes de retornar para a tela de acesso.
+        window.registrarBloqueioLogin = registrarTentativaBloqueada;
 
 </script>
 </body>

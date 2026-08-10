@@ -39,23 +39,6 @@ const dominiosLogin = [
     { dominio: "@influence.com", nome: "Influence Rage" }
 ];
 
-// ============================================================
-// CONFIGURAÇÕES DE SEGURANÇA, MONITORAMENTO E IDIOMAS
-// ============================================================
-const configuracaoSite = {
-    limiteDispositivos: 1,
-    monitorarAtividade: true,
-    // Preencha com a URL do backend para bloquear múltiplos celulares
-    // e receber notificações em tempo real.
-    apiSeguranca: '',
-    idiomas: ['pt', 'en', 'es']
-};
-
-// Apenas estes logins poderão visualizar usuários ativos e últimos acessos.
-const loginsComMonitoramento = [
-    // 'jotinha@medialobby.com'
-];
-
 // LISTA DE PASTAS E SUAS RESPECTIVAS SIGLAS
 const listaEstilos = [
     { nomeEstilo: "BRAÇO SOLTO - FRENTE", sigla: "FBB" },
