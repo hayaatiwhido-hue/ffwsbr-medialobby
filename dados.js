@@ -5,7 +5,7 @@ const listaUsuarios = [
     // Crie um registro para cada jogador liberado pelo Developer.
     // playerId deve ser exatamente o playerId do jogador em dadosEquipes.
     // Exemplo:
-    // { email: "jogador@medialobby.com", senha: "SenhaDoJogador", scope: "player", playerId: "afrogames-0" },
+    // { email: "jogador@dev.com", senha: "SenhaDoJogador", scope: "player", playerId: "afrogames-0" },
     { email: "jotinha@medialobby.dev", senha: "Stw1402s@", scope: "all" },
     { email: "ag4futury2022@novofuturo.com", senha: "Futury@2022", scope: "all" },
     { email: "ban@novofuturo.com", senha: "BanFFWSgostoso2026", scope: "all" },
@@ -31,7 +31,7 @@ const listaUsuarios = [
 // O index.html lê esta lista automaticamente.
 // Cada domínio deve ser único e conter o @.
 const dominiosLogin = [
-    { dominio: "@medialobby.dev", nome: "DEVELOPER" },
+    { dominio: "@dev.com", nome: "DEVELOPER" },
     { dominio: "@medialobby.com", nome: "PARCEIROS" },
     { dominio: "@novofuturo.com", nome: "FUTURY ESPORTS" },
     { dominio: "@gmail.com", nome: "GMAIL" },
