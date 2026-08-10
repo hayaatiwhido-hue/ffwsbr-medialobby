@@ -43,17 +43,17 @@
         <p id="mensagem-status" class="hidden text-sm mb-4 text-center font-bold flex items-center justify-center gap-2"></p>
         
         <form id="login-form">
-            <!-- O login começa como um email normal. O filtro abaixo só altera o campo quando um domínio é selecionado. -->
-            <label for="email-prefix" class="block text-sm font-semibold text-gray-300 mb-2">ENDEREÇO DE EMAIL</label>
-            <div id="campo-email" class="flex w-full mb-3">
-                <input type="text" id="email-prefix" placeholder="Email@dominio.com" autocomplete="username" required class="w-full p-3 rounded bg-[#1a1a2e] border border-[#444] text-white focus:outline-none focus:border-[#e8b033]">
-                <div id="dominio-selecionado" class="hidden items-center px-3 rounded-r bg-[#252538] border border-[#444] text-[#e8b033] font-semibold text-sm whitespace-nowrap max-w-[48%] overflow-hidden"></div>
-            </div>
-
-            <!-- Configuração de domínio fica abaixo do campo de email. -->
-            <label class="block text-sm font-semibold text-gray-300 mb-2">ORGANIZAÇÃO / DOMÍNIO <span class="text-gray-500 font-normal">(opcional)</span></label>
+            <!-- Filtro de domínio: lista sempre aberta e configurada no dados.js. -->
+            <label class="block text-sm font-semibold text-gray-300 mb-2">ORGANIZAÇÃO / DOMÍNIO</label>
             <div id="lista-dominios" class="w-full mb-4 rounded bg-[#1a1a2e] border border-[#444] overflow-y-auto max-h-44 scrollbar-thin">
                 <!-- Os domínios são inseridos automaticamente a partir de dominiosLogin no dados.js. -->
+            </div>
+
+            <!-- Somente a parte antes do @ é digitada pelo usuário. -->
+            <label for="email-prefix" class="block text-sm font-semibold text-gray-300 mb-2">ENDEREÇO DE EMAIL</label>
+            <div class="flex w-full mb-3">
+                <input type="text" id="email-prefix" placeholder="Digite somente seu login" autocomplete="username" required class="min-w-0 flex-1 p-3 rounded-l bg-[#1a1a2e] border border-[#444] border-r-0 text-white focus:outline-none focus:border-[#e8b033]">
+                <div id="dominio-selecionado" class="flex items-center px-3 rounded-r bg-[#252538] border border-[#444] text-gray-500 font-semibold text-sm whitespace-nowrap max-w-[48%] overflow-hidden">@dominio.com</div>
             </div>
 
             <input type="password" id="senha" placeholder="Senha" autocomplete="current-password" required class="w-full p-3 rounded bg-[#1a1a2e] border border-[#444] mb-4 text-white focus:outline-none focus:border-[#e8b033]">
@@ -79,7 +79,6 @@
         const listaDominiosEl = document.getElementById('lista-dominios');
         const dominioSelecionadoEl = document.getElementById('dominio-selecionado');
         const emailPrefixEl = document.getElementById('email-prefix');
-        const campoEmailEl = document.getElementById('campo-email');
 
         let dominioAtual = '';
 
@@ -105,7 +104,6 @@
 
                 botao.innerHTML = `
                     <span class="font-semibold">${escaparHtml(nome)}</span>
-                    <span class="text-xs text-gray-400">${escaparHtml(dominio)}</span>
                 `;
 
                 botao.addEventListener('click', () => selecionarDominio(dominio, botao));
@@ -131,11 +129,6 @@
         }
 
         function selecionarDominio(dominio, elemento) {
-            // Guarda o que o usuário já digitou antes de mudar para o modo prefixo.
-            const valorAtual = emailPrefixEl.value.trim();
-            const eraEmailCompleto = valorAtual.includes('@');
-            const prefixo = eraEmailCompleto ? valorAtual.split('@')[0] : valorAtual;
-
             dominioAtual = dominio;
 
             document.querySelectorAll('.dominio-item').forEach(item => {
@@ -144,42 +137,27 @@
 
             if (elemento) elemento.classList.add('selecionado');
 
-            // Somente agora o campo passa a aceitar apenas a parte antes do @.
-            emailPrefixEl.value = prefixo;
-            emailPrefixEl.placeholder = 'Digite somente seu login';
-            emailPrefixEl.type = 'text';
-            emailPrefixEl.classList.remove('rounded');
-            emailPrefixEl.classList.add('rounded-l', 'border-r-0');
-
             dominioSelecionadoEl.textContent = dominio;
-            dominioSelecionadoEl.classList.remove('hidden');
-            dominioSelecionadoEl.classList.add('flex');
+            dominioSelecionadoEl.classList.remove('text-gray-500');
+            dominioSelecionadoEl.classList.add('text-[#e8b033]');
         }
 
         carregarDominios();
         document.getElementById('login-form').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const valorLogin = emailPrefixEl.value.trim().toLowerCase();
+            const usuarioInput = emailPrefixEl.value.trim().toLowerCase();
+            const dominioInput = dominioAtual;
+            const emailInput = dominioInput ? `${usuarioInput}${dominioInput}` : '';
             const passInput = document.getElementById('senha').value;
-            const emailInput = dominioAtual
-                ? `${valorLogin}${dominioAtual}`
-                : valorLogin;
             const msgStatus = document.getElementById('mensagem-status');
             const btnEntrar = document.getElementById('btn-entrar');
 
-            if (!valorLogin) {
+            if (!usuarioInput || !dominioInput) {
                 msgStatus.className = "text-red-400 text-sm mb-4 text-center font-bold";
-                msgStatus.innerText = "Informe seu endereço de email.";
-                msgStatus.classList.remove('hidden');
-                return;
-            }
-
-            // Sem selecionar domínio, o usuário pode entrar normalmente com email completo.
-            // Com domínio selecionado, somente a parte antes do @ é usada.
-            if (!dominioAtual && !valorLogin.includes('@')) {
-                msgStatus.className = "text-red-400 text-sm mb-4 text-center font-bold";
-                msgStatus.innerText = "Digite o email completo ou selecione um domínio abaixo.";
+                msgStatus.innerText = !dominioInput
+                    ? "Selecione o domínio do seu login."
+                    : "Informe o usuário do seu email.";
                 msgStatus.classList.remove('hidden');
                 return;
             }
