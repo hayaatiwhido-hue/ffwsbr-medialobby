@@ -14,7 +14,7 @@ const configuracaoSite = {
 // Você pode adicionar/remover emails aqui sem mexer no restante dos jogadores/equipes.
 const loginsComMonitoramento = [
     // "seu-email@dominio.com"
-   "jotinha@medialobby.com
+   "jotinha@medialobby.com"
 ];
 
 // Ícones das funções ficam na pasta info-ffws.
