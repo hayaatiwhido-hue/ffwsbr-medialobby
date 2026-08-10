@@ -20,6 +20,15 @@
             animation: spin 1s linear infinite;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .dominio-item { transition: background-color .15s ease, border-color .15s ease; }
+        .dominio-item:hover { background-color: #252538; }
+        .dominio-item.selecionado { background-color: rgba(232, 176, 51, 0.12); border-left-color: #e8b033; }
+        #lista-dominios::-webkit-scrollbar { width: 7px; }
+        #lista-dominios::-webkit-scrollbar-track { background: #10101e; }
+        #lista-dominios::-webkit-scrollbar-thumb { background: #555; border-radius: 8px; }
+        #lista-dominios::-webkit-scrollbar-thumb:hover { background: #e8b033; }
+
+
     </style>
 </head>
 <body class="flex min-h-screen items-center justify-center">
@@ -34,20 +43,17 @@
         <p id="mensagem-status" class="hidden text-sm mb-4 text-center font-bold flex items-center justify-center gap-2"></p>
         
         <form id="login-form">
-            <!-- Filtro de domínio: os domínios são descobertos automaticamente em listaUsuarios (dados.js). -->
-            <label for="dominio" class="block text-sm font-semibold text-gray-300 mb-2">DOMÍNIO DO LOGIN</label>
-            <div class="relative mb-3">
-                <select id="dominio" required class="w-full appearance-none p-3 pr-10 rounded bg-[#1a1a2e] border border-[#444] text-white focus:outline-none focus:border-[#e8b033] focus:ring-1 focus:ring-[#e8b033] cursor-pointer">
-                    <option value="">Selecione a organização</option>
-                </select>
-                <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#e8b033]">⌄</span>
+            <!-- Filtro de domínio: lista sempre aberta e configurada no dados.js. -->
+            <label class="block text-sm font-semibold text-gray-300 mb-2">ORGANIZAÇÃO / DOMÍNIO</label>
+            <div id="lista-dominios" class="w-full mb-4 rounded bg-[#1a1a2e] border border-[#444] overflow-y-auto max-h-44 scrollbar-thin">
+                <!-- Os domínios são inseridos automaticamente a partir de dominiosLogin no dados.js. -->
             </div>
 
             <!-- Somente a parte antes do @ é digitada pelo usuário. -->
             <label for="email-prefix" class="block text-sm font-semibold text-gray-300 mb-2">ENDEREÇO DE EMAIL</label>
             <div class="flex w-full mb-3">
-                <input type="text" id="email-prefix" placeholder="Digite seu login" autocomplete="username" required class="min-w-0 flex-1 p-3 rounded-l bg-[#1a1a2e] border border-[#444] border-r-0 text-white focus:outline-none focus:border-[#e8b033]">
-                <div id="dominio-selecionado" class="flex items-center px-3 rounded-r bg-[#252538] border border-[#444] text-[#e8b033] font-semibold text-sm whitespace-nowrap max-w-[48%] overflow-hidden">@dominio.com</div>
+                <input type="text" id="email-prefix" placeholder="Digite somente seu login" autocomplete="username" required class="min-w-0 flex-1 p-3 rounded-l bg-[#1a1a2e] border border-[#444] border-r-0 text-white focus:outline-none focus:border-[#e8b033]">
+                <div id="dominio-selecionado" class="flex items-center px-3 rounded-r bg-[#252538] border border-[#444] text-gray-500 font-semibold text-sm whitespace-nowrap max-w-[48%] overflow-hidden">@dominio.com</div>
             </div>
 
             <input type="password" id="senha" placeholder="Senha" autocomplete="current-password" required class="w-full p-3 rounded bg-[#1a1a2e] border border-[#444] mb-4 text-white focus:outline-none focus:border-[#e8b033]">
@@ -67,82 +73,82 @@
         if (typeof logoDiretoria !== 'undefined' && logoDiretoriaEl) logoDiretoriaEl.src = logoDiretoria;
 
         /*
-         * ============================================================
-         * CONFIGURAÇÃO DOS NOMES EXIBIDOS NO FILTRO DE DOMÍNIO
-         * ============================================================
-         *
-         * Os domínios são descobertos automaticamente a partir dos
-         * emails existentes em listaUsuarios, no dados.js.
-         *
-         * Aqui você escolhe como cada domínio aparecerá visualmente.
-         * A chave precisa ser o domínio completo, incluindo @.
-         *
-         * Exemplo:
-         * '@influence.com': 'Influence Rage'
-         *
-         * Se um domínio não estiver nesta lista, o próprio domínio
-         * será usado como nome automaticamente.
+         * Os domínios e os nomes exibidos são configurados diretamente
+         * no dados.js, na constante "dominiosLogin".
          */
-        const nomesDosDominios = {
-            '@medialobby.com': 'Media Lobby',
-            '@equipe.com': 'Equipes',
-            // '@influence.com': 'Influence Rage',
-            // '@outrodominio.com': 'Nome da Organização',
-        };
-
-        const dominioSelect = document.getElementById('dominio');
+        const listaDominiosEl = document.getElementById('lista-dominios');
         const dominioSelecionadoEl = document.getElementById('dominio-selecionado');
         const emailPrefixEl = document.getElementById('email-prefix');
 
-        function extrairDominio(email) {
-            const valor = String(email || '').trim().toLowerCase();
-            const pos = valor.lastIndexOf('@');
-            return pos >= 0 ? valor.slice(pos) : '';
-        }
-
-        function nomeFallbackDominio(dominio) {
-            return dominio
-                .replace(/^@/, '')
-                .split('.')
-                .filter(Boolean)
-                .map(parte => parte.charAt(0).toUpperCase() + parte.slice(1))
-                .join('.');
-        }
+        let dominioAtual = '';
 
         function carregarDominios() {
-            const dominiosUnicos = [...new Set(
-                (Array.isArray(listaUsuarios) ? listaUsuarios : [])
-                    .map(usuario => extrairDominio(usuario.email))
-                    .filter(Boolean)
-            )].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+            listaDominiosEl.innerHTML = '';
 
-            dominioSelect.innerHTML = '<option value="">Selecione a organização</option>';
+            const configurados = Array.isArray(dominiosLogin) ? dominiosLogin : [];
 
-            dominiosUnicos.forEach(dominio => {
-                const option = document.createElement('option');
-                option.value = dominio;
-                option.textContent = nomesDosDominios[dominio] || nomeFallbackDominio(dominio);
-                dominioSelect.appendChild(option);
+            // Evita duplicação mesmo se o mesmo domínio for cadastrado duas vezes.
+            const vistos = new Set();
+
+            configurados.forEach(item => {
+                const dominio = String(item.dominio || '').trim().toLowerCase();
+                const nome = String(item.nome || dominio).trim();
+
+                if (!dominio || vistos.has(dominio)) return;
+                vistos.add(dominio);
+
+                const botao = document.createElement('button');
+                botao.type = 'button';
+                botao.className = 'dominio-item w-full text-left px-4 py-3 border-l-2 border-transparent border-b border-[#2d2d42] last:border-b-0 text-white cursor-pointer flex items-center justify-between gap-3';
+                botao.dataset.dominio = dominio;
+
+                botao.innerHTML = `
+                    <span class="font-semibold">${escaparHtml(nome)}</span>
+                    <span class="text-xs text-gray-400">${escaparHtml(dominio)}</span>
+                `;
+
+                botao.addEventListener('click', () => selecionarDominio(dominio, botao));
+                listaDominiosEl.appendChild(botao);
             });
+
+            if (!listaDominiosEl.children.length) {
+                listaDominiosEl.innerHTML = `
+                    <div class="px-4 py-3 text-sm text-gray-500">
+                        Nenhum domínio configurado no dados.js.
+                    </div>
+                `;
+            }
         }
 
-        function atualizarDominioVisual() {
-            const dominio = dominioSelect.value;
-            dominioSelecionadoEl.textContent = dominio || '@dominio.com';
-            dominioSelecionadoEl.classList.toggle('text-gray-500', !dominio);
-            dominioSelecionadoEl.classList.toggle('text-[#e8b033]', !!dominio);
+        function escaparHtml(texto) {
+            return String(texto ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function selecionarDominio(dominio, elemento) {
+            dominioAtual = dominio;
+
+            document.querySelectorAll('.dominio-item').forEach(item => {
+                item.classList.remove('selecionado');
+            });
+
+            if (elemento) elemento.classList.add('selecionado');
+
+            dominioSelecionadoEl.textContent = dominio;
+            dominioSelecionadoEl.classList.remove('text-gray-500');
+            dominioSelecionadoEl.classList.add('text-[#e8b033]');
         }
 
         carregarDominios();
-        atualizarDominioVisual();
-
-        dominioSelect.addEventListener('change', atualizarDominioVisual);
-
         document.getElementById('login-form').addEventListener('submit', function(e) {
             e.preventDefault();
 
             const usuarioInput = emailPrefixEl.value.trim().toLowerCase();
-            const dominioInput = dominioSelect.value;
+            const dominioInput = dominioAtual;
             const emailInput = dominioInput ? `${usuarioInput}${dominioInput}` : '';
             const passInput = document.getElementById('senha').value;
             const msgStatus = document.getElementById('mensagem-status');
