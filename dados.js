@@ -51,7 +51,7 @@ const dominiosLogin = [
     { dominio: "@rise.com", nome: "Rise Gaming" },
     { dominio: "@rush.com", nome: "Rush Gaming" },
     { dominio: "@sx.com", nome: "SX Tet" },
-    { dominio: "@teamsolid.com", nome: "Team Solid" }
+    { dominio: "@teamsolid.com", nome: "Team Solid" },
 ];
 
 // LISTA DE PASTAS E SUAS RESPECTIVAS SIGLAS
