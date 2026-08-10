@@ -13,7 +13,8 @@ const listaUsuarios = [
     { email: "medialobby@medialobby.com", senha: "suasenhaglobal", scope: "all" },
     { email: "thallys@pixelbroadcast.com", senha: "AdmPixel1", scope: "all" },
 
-    { email: "wf9@influence.com", senha: "WF9_Coach", scope: "influence-rage" }
+    { email: "wf9@influence.com", senha: "WF9_Coach", scope: "influence-rage" },
+    { email: "saskito@influence.com", senha: "ManagerINF-2026", scope: "influence-rage" }
 
     
 ];
