@@ -1,3 +1,31 @@
+// CONFIGURAÇÕES DE SEGURANÇA, MONITORAMENTO E LOGINS DE JOGADORES
+// ---------------------------------------------------------------
+// limiteDispositivos: quantidade máxima de aparelhos simultâneos por login comum.
+// Developer não entra nessa contagem.
+const configuracaoSite = {
+    limiteDispositivos: 1,
+    // Cole aqui a URL da sua API quando o backend estiver pronto.
+    // Ex.: https://seu-projeto.vercel.app/api
+    apiSeguranca: "",
+    apiMonitoramento: ""
+};
+
+// Quais logins podem abrir o painel de monitoramento.
+// Você pode adicionar/remover emails aqui sem mexer no restante dos jogadores/equipes.
+const loginsComMonitoramento = [
+    // "seu-email@dominio.com"
+   "jotinha@medialobby.com
+];
+
+// Ícones das funções ficam na pasta info-ffws.
+const iconesFuncoes = {
+    RUSHER: "info-ffws/rusher.png",
+    SNIPER: "info-ffws/sniper.png",
+    SUPPORT: "info-ffws/support.png",
+    BOMBER: "info-ffws/bomber.png",
+    RIFLER: "info-ffws/rifler.png"
+};
+
 // LISTA DE USUÁRIOS E PERMISSÕES DE ACESSO
 const listaUsuarios = [
 
