@@ -11,6 +11,7 @@ const listaUsuarios = [
     { email: "yuta@medialobby.com", senha: "YutaEventos2026", scope: "all" },
     { email: "pedrow@medialobby.com", senha: "infmeuamor", scope: "all" },
     { email: "medialobby@medialobby.com", senha: "suasenhaglobal", scope: "all" },
+    { email: "thallys@pixelbroadcast.com", senha: "AdmPixel1", scope: "all" },
 
     { email: "afrogames@equipe.com", senha: "123", scope: "afrogames" },
     { email: "alpha7@equipe.com", senha: "123", scope: "alpha-7" },
