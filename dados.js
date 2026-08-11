@@ -38,14 +38,13 @@ const listaUsuarios = [
 // O index.html lê esta lista automaticamente.
 // Cada domínio deve ser único e conter o @.
 const dominiosLogin = [
-    { dominio: "@medialobby.dev", nome: "Developer" },
-    { dominio: "@acessfull.com", nome: "Parceiros" },
-    { dominio: "@yutaeventos.com", nome: "Eventos Yuta" },
-    { dominio: "@novofuturo.com", nome: "Futury" },
-    { dominio: "@gmail.com", nome: "Gmail" },
-    { dominio: "@esolid.com", nome: "eSolid News" },
-    { dominio: "@pixelbroadcast.com", nome: "Pixel Broadcast" },
-    { dominio: "@diretoria.com", nome: "Diretoria de eSports" },
+    { dominio: "@medialobby.dev", nome: "DEVELOPER" },
+    { dominio: "@acessfull.com", nome: "PARCEIROS" },
+    { dominio: "@yutaeventos.com", nome: "EVENTOS YUTA" },
+    { dominio: "@novofuturo.com", nome: "FUTURY" },
+    { dominio: "@gmail.com", nome: "GMAIL" },
+    { dominio: "@pixelbroadcast.com", nome: "PIXEL BROADCAST" },
+    { dominio: "@diretoria.com", nome: "DIRETORIA DE ESPORTS" },
     { dominio: "@afrogames.com", nome: "Afrogames" },
     { dominio: "@alpha7.com", nome: "Alpha 7" },
     { dominio: "@cptvox.com", nome: "CPT Vox" },
