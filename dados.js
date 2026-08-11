@@ -17,6 +17,7 @@ const listaUsuarios = [
     { email: "thallys@pixelbroadcast.com", senha: "AdmPixel1", scope: "all" },
     { email: "oaspira@diretoria.com", senha: "Diretoria123", scope: "all" },
     { email: "jaya@los.com", senha: "LosJaya2026", scope: "all" },
+    { email: "joao@afrogames.com", senha: "12345678", scope: "all" },
 
     { email: "wf9@influence.com", senha: "WF9_Coach", scope: "influence-rage" },
     { email: "saskito@influence.com", senha: "ManagerINF-2026", scope: "influence-rage" },
