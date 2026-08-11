@@ -27,6 +27,15 @@
         #lista-dominios::-webkit-scrollbar-track { background: #10101e; }
         #lista-dominios::-webkit-scrollbar-thumb { background: #555; border-radius: 8px; }
         #lista-dominios::-webkit-scrollbar-thumb:hover { background: #e8b033; }
+        .login-voltar-wrap { display:none; }
+        body.login-filtro-ativo .filtros-titulo,
+        body.login-filtro-ativo #lista-dominios { display:none; }
+        body.login-filtro-ativo .login-voltar-wrap { display:block; }
+        .login-voltar { width:100%; margin-bottom:18px; padding:10px 14px; border:1px solid rgba(232,176,51,.25); border-radius:9px; background:rgba(232,176,51,.07); color:#e8b033; font-size:11px; font-weight:800; letter-spacing:.04em; transition:.2s ease; }
+        .login-voltar:hover { background:rgba(247,74,254,.12); border-color:rgba(247,74,254,.45); color:#fff; }
+        .login-transicao { animation:loginRefresh .28s ease; }
+        @keyframes loginRefresh { from { opacity:.35; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+
 
 
     </style>
@@ -45,17 +54,20 @@
         <form id="login-form">
             <label for="email-input" class="block text-sm font-semibold text-gray-300 mb-2">ENDEREÇO DE EMAIL</label>
             <div class="flex w-full mb-3">
-                <input type="text" id="email-input" placeholder="Email@dominio.com" autocomplete="username" required class="min-w-0 flex-1 p-3 rounded bg-[#1a1a2e] border border-[#444] text-white focus:outline-none focus:border-[#e8b033]">
-                <div id="dominio-selecionado" class="hidden items-center px-3 rounded-r bg-[#252538] border border-[#444] text-[#e8b033] font-semibold text-sm whitespace-nowrap max-w-[48%] overflow-hidden"></div>
+                <input type="text" id="email-input" placeholder="Email@dominio.com" autocomplete="username" required class="w-full p-3 rounded bg-[#1a1a2e] border border-[#444] text-white focus:outline-none focus:border-[#e8b033]">
             </div>
 
             <input type="password" id="senha" placeholder="Senha" autocomplete="current-password" required class="w-full p-3 rounded bg-[#1a1a2e] border border-[#444] mb-4 text-white focus:outline-none focus:border-[#e8b033]">
             <button type="submit" id="btn-entrar" class="w-full btn-primary p-3 rounded font-bold transition shadow-md">ACESSAR PAINEL</button>
         </form>
 
+        <div class="login-voltar-wrap">
+            <button type="button" id="btn-voltar-filtros" class="login-voltar">VOLTAR PARA SELEÇÃO DE DOMÍNIO</button>
+        </div>
+
         <!-- Filtro de domínio: fica abaixo do botão e acima das logos. -->
         <div class="mt-5">
-            <label class="block text-sm font-semibold text-gray-300 mb-2">ORGANIZAÇÃO / DOMÍNIO</label>
+            <label class="filtros-titulo block text-sm font-semibold text-gray-300 mb-2">ORGANIZAÇÃO / DOMÍNIO</label>
             <div id="lista-dominios" class="w-full rounded bg-[#1a1a2e] border border-[#444] overflow-y-auto max-h-44 scrollbar-thin">
                 <!-- Os domínios são inseridos automaticamente a partir de dominiosLogin no dados.js. -->
             </div>
@@ -78,7 +90,6 @@
          * no dados.js, na constante "dominiosLogin".
          */
         const listaDominiosEl = document.getElementById('lista-dominios');
-        const dominioSelecionadoEl = document.getElementById('dominio-selecionado');
         const emailInputEl = document.getElementById('email-input');
 
         let dominioAtual = '';
@@ -86,36 +97,36 @@
         function atualizarCampoEmail() {
             if (dominioAtual) {
                 const atual = emailInputEl.value.trim();
-                const prefixo = atual.includes('@') ? atual.split('@')[0] : atual;
-                emailInputEl.value = prefixo;
+                emailInputEl.value = atual.includes('@') ? atual.split('@')[0] : atual;
                 emailInputEl.placeholder = 'Digite somente seu login';
-                emailInputEl.classList.remove('rounded');
-                emailInputEl.classList.add('rounded-l', 'border-r-0');
-                dominioSelecionadoEl.textContent = dominioAtual;
-                dominioSelecionadoEl.classList.remove('hidden');
-                dominioSelecionadoEl.classList.add('flex');
             } else {
                 emailInputEl.placeholder = 'Email@dominio.com';
-                emailInputEl.classList.remove('rounded-l', 'border-r-0');
-                emailInputEl.classList.add('rounded');
-                dominioSelecionadoEl.textContent = '';
-                dominioSelecionadoEl.classList.add('hidden');
-                dominioSelecionadoEl.classList.remove('flex');
             }
+            emailInputEl.classList.remove('rounded-l', 'border-r-0');
+            emailInputEl.classList.add('rounded');
+        }
+
+        function ativarModoLoginFiltrado() {
+            document.body.classList.add('login-filtro-ativo');
+            document.querySelector('.bg-\\[#10101e\\]\\/90')?.classList.add('login-transicao');
+            setTimeout(() => document.querySelector('.bg-\\[#10101e\\]\\/90')?.classList.remove('login-transicao'), 300);
+            emailInputEl.focus();
+        }
+
+        function desativarModoLoginFiltrado() {
+            dominioAtual = '';
+            document.body.classList.remove('login-filtro-ativo');
+            document.querySelectorAll('.dominio-item').forEach(item => item.classList.remove('selecionado'));
+            emailInputEl.value = '';
+            atualizarCampoEmail();
+            document.querySelector('.bg-\\[#10101e\\]\\/90')?.classList.add('login-transicao');
+            setTimeout(() => document.querySelector('.bg-\\[#10101e\\]\\/90')?.classList.remove('login-transicao'), 300);
         }
 
         function carregarDominios() {
             listaDominiosEl.innerHTML = '';
 
             const configurados = Array.isArray(dominiosLogin) ? dominiosLogin : [];
-
-            // Opção padrão: não selecionar domínio e digitar o email completo.
-            const semDominio = document.createElement('button');
-            semDominio.type = 'button';
-            semDominio.className = 'dominio-item w-full text-left px-4 py-3 border-l-2 border-transparent border-b border-[#2d2d42] text-white cursor-pointer';
-            semDominio.innerHTML = '<span class="font-semibold">Usar email completo</span>';
-            semDominio.addEventListener('click', () => selecionarDominio('', semDominio));
-            listaDominiosEl.appendChild(semDominio);
 
             // Evita duplicação mesmo se o mesmo domínio for cadastrado duas vezes.
             const vistos = new Set();
@@ -159,15 +170,23 @@
         }
 
         function selecionarDominio(dominio, elemento) {
-            dominioAtual = dominio || '';
+            const mesmoDominio = dominioAtual === dominio && !!dominio;
 
-            document.querySelectorAll('.dominio-item').forEach(item => {
-                item.classList.remove('selecionado');
-            });
+            if (mesmoDominio) {
+                desativarModoLoginFiltrado();
+                return;
+            }
 
+            dominioAtual = String(dominio || '').trim().toLowerCase();
+
+            document.querySelectorAll('.dominio-item').forEach(item => item.classList.remove('selecionado'));
             if (elemento) elemento.classList.add('selecionado');
+
             atualizarCampoEmail();
+            ativarModoLoginFiltrado();
         }
+
+        document.getElementById('btn-voltar-filtros').addEventListener('click', desativarModoLoginFiltrado);
 
         carregarDominios();
         atualizarCampoEmail();
