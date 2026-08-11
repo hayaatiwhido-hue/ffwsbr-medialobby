@@ -45,20 +45,20 @@ const dominiosLogin = [
     { dominio: "@gmail.com", nome: "GMAIL" },
     { dominio: "@pixelbroadcast.com", nome: "PIXEL BROADCAST" },
     { dominio: "@diretoria.com", nome: "DIRETORIA DE ESPORTS" },
-    { dominio: "@afrogames.com", nome: "Afrogames" },
-    { dominio: "@alpha7.com", nome: "Alpha 7" },
-    { dominio: "@cptvox.com", nome: "CPT Vox" },
-    { dominio: "@civis.com", nome: "Civis" },
-    { dominio: "@fluxow7m.com", nome: "Fluxo W7M" },
-    { dominio: "@influence.com", nome: "Influence Rage" },
+    { dominio: "@afrogames.com", nome: "AFROGAMES" },
+    { dominio: "@alpha7.com", nome: "ALPHA 7" },
+    { dominio: "@cptvox.com", nome: "CPT VOX" },
+    { dominio: "@civis.com", nome: "CIVIS" },
+    { dominio: "@fluxow7m.com", nome: "FLUXO W7M" },
+    { dominio: "@influence.com", nome: "INFLUENCE RAGE" },
     { dominio: "@intz.com", nome: "INTZ" },
-    { dominio: "@loops.com", nome: "Loops" },
-    { dominio: "@los.com", nome: "Los" },
-    { dominio: "@loudsnickers.com", nome: "Loud Snickers" },
-    { dominio: "@rise.com", nome: "Rise Gaming" },
-    { dominio: "@rush.com", nome: "Rush Gaming" },
+    { dominio: "@loops.com", nome: "LOOPS" },
+    { dominio: "@los.com", nome: "LOS" },
+    { dominio: "@loudsnickers.com", nome: "LOUD SNICKERS" },
+    { dominio: "@rise.com", nome: "RISE GAMING" },
+    { dominio: "@rush.com", nome: "RUSH GAMING" },
     { dominio: "@sx.com", nome: "SX TET" },
-    { dominio: "@teamsolid.com", nome: "Team Solid" }
+    { dominio: "@teamsolid.com", nome: "TEAM SOLID" }
 ];
 
 // LISTA DE PASTAS E SUAS RESPECTIVAS SIGLAS
