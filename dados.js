@@ -12,7 +12,7 @@ const listaUsuarios = [
     { email: "anextplay@acessfull.com", senha: "Anextplay@gg", scope: "all" },
     { email: "eduardogabriel081005@gmail.com", senha: "Edubiel12", scope: "all" },
     { email: "ciliro@esolid.com", senha: "eSolidNews2026", scope: "all" },
-    { email: "yuta@medialobby.com", senha: "YutaEventos2026", scope: "all" },
+    { email: "ceo@yutaeventos.com", senha: "YutaGotoso26Yuna", scope: "all" },
     { email: "pedrow@acessfull.com", senha: "infmeuamor", scope: "all" },
     { email: "thallys@pixelbroadcast.com", senha: "AdmPixel1", scope: "all" },
     { email: "oaspira@diretoria.com", senha: "Diretoria123", scope: "all" },
@@ -40,6 +40,7 @@ const listaUsuarios = [
 const dominiosLogin = [
     { dominio: "@medialobby.dev", nome: "Developer" },
     { dominio: "@acessfull.com", nome: "Parceiros" },
+    { dominio: "@yutaeventos.com", nome: "Eventos Yuta" },
     { dominio: "@novofuturo.com", nome: "Futury" },
     { dominio: "@gmail.com", nome: "Gmail" },
     { dominio: "@esolid.com", nome: "eSolid News" },
