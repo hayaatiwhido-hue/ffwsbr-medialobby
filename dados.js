@@ -86,7 +86,7 @@ const dadosEquipes = [
     {
         id: "afrogames",
         nome: "AFROGAMES",
-        logo: "https://drive.google.com/file/d/1OBuZn4qgOHRmUf9qYMRNd4f8ic2HZsjT/view?usp=drivesdk",
+        logo: "https://drive.google.com/file/d/1dqj87PlfHcSa7xR8U6e6sG__hLEdI3gJ/view?usp=drivesdk",
         logos: [
             { nome: "LOGO COLORIDA", id: "https://drive.google.com/file/d/1OBuZn4qgOHRmUf9qYMRNd4f8ic2HZsjT/view?usp=drivesdk" }, { nome: "LOGO BRANCA", id: "https://drive.google.com/file/d/1dqj87PlfHcSa7xR8U6e6sG__hLEdI3gJ/view?usp=drivesdk" }, { nome: "LOGO PRETA", id: "https://drive.google.com/file/d/1e_vnq_ifGtqsWcalYoO7DcA86utlL2Ir/view?usp=drivesdk" },
             { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
