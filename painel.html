@@ -53,7 +53,7 @@
         .card-hover:hover { border-color: #f74afe; box-shadow: 0 4px 20px rgba(247, 74, 254, 0.2); }
 
         /* ===== CARDS DA HOME / EQUIPES ===== */
-        .team-preview-card{position:relative;width:100%;min-height:250px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;padding:28px 22px 22px;border-radius:24px;background:linear-gradient(145deg,rgba(28,28,48,.90),rgba(9,9,19,.94));border:1px solid rgba(255,255,255,.10);box-shadow:0 18px 45px rgba(0,0,0,.25);cursor:pointer;transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease}
+        .team-preview-card{position:relative;width:100%;aspect-ratio:1/1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;padding:28px 22px 22px;border-radius:24px;background:linear-gradient(145deg,rgba(28,28,48,.90),rgba(9,9,19,.94));border:1px solid rgba(255,255,255,.10);box-shadow:0 18px 45px rgba(0,0,0,.25);cursor:pointer;transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease}
         .team-preview-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 15%,rgba(232,176,51,.13),transparent 36%),linear-gradient(135deg,transparent 55%,rgba(247,74,254,.05));pointer-events:none}
         .team-preview-card::after{content:'';position:absolute;left:16%;right:16%;bottom:0;height:2px;background:linear-gradient(90deg,transparent,#e8b033,#f74afe,transparent);opacity:.55}
         .team-preview-card:hover{transform:translateY(-6px);border-color:rgba(232,176,51,.38);box-shadow:0 26px 65px rgba(0,0,0,.38),0 0 32px rgba(247,74,254,.07)}
@@ -67,7 +67,7 @@
         .team-roster-section{grid-column:1/-1;position:relative;padding:22px;border-radius:24px;background:linear-gradient(145deg,rgba(25,25,43,.72),rgba(9,9,18,.72));border:1px solid rgba(255,255,255,.09);box-shadow:0 18px 46px rgba(0,0,0,.22)}
         .team-roster-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:15px;margin-bottom:18px}.team-roster-kicker{color:#e8b033;font-size:8px;letter-spacing:.20em;font-weight:900}.team-roster-heading h2{margin-top:5px;color:#fff;font-size:20px;font-weight:900;letter-spacing:-.02em}.team-roster-heading p{margin-top:4px;color:#727287;font-size:9px;letter-spacing:.08em}.team-roster-count{color:#f74afe;font-size:9px;font-weight:900;letter-spacing:.14em}
         .team-roster-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.team-player-card{position:relative;min-width:0;padding:14px;border-radius:16px;display:flex;align-items:center;gap:12px;background:rgba(9,9,18,.48);border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:transform .22s ease,border-color .22s ease,background .22s ease}.team-player-card:hover{transform:translateY(-2px);border-color:rgba(232,176,51,.34);background:rgba(232,176,51,.055)}.team-player-avatar{width:46px;height:46px;flex:0 0 46px;display:flex;align-items:center;justify-content:center;border-radius:13px;background:linear-gradient(145deg,rgba(232,176,51,.12),rgba(247,74,254,.08));border:1px solid rgba(232,176,51,.18)}.team-player-avatar img{width:30px;height:30px;object-fit:contain}.team-player-card-label{color:#626276;font-size:7px;letter-spacing:.16em;font-weight:800}.team-player-card-name{margin-top:3px;color:#fff;font-size:12px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.team-player-card-role{margin-top:3px;color:#e8b033;font-size:8px;font-weight:800;letter-spacing:.08em}
-        @media(max-width:640px){.team-preview-card{min-height:205px;padding:22px 16px 18px;border-radius:20px}.team-preview-logo{width:82px;height:82px;padding:10px;border-radius:18px}.team-preview-name{font-size:14px;margin-top:12px}.team-preview-caption{font-size:7px}.team-preview-action{margin-top:13px;font-size:8px}.team-roster-section{padding:16px;border-radius:20px}.team-roster-heading h2{font-size:17px}.team-roster-grid{grid-template-columns:1fr}.team-player-card{padding:12px}}
+        @media(max-width:640px){.team-preview-card{aspect-ratio:1/1;padding:22px 16px 18px;border-radius:20px}.team-preview-logo{width:82px;height:82px;padding:10px;border-radius:18px}.team-preview-name{font-size:14px;margin-top:12px}.team-preview-caption{font-size:7px}.team-preview-action{margin-top:13px;font-size:8px}.team-roster-section{padding:16px;border-radius:20px}.team-roster-heading h2{font-size:17px}.team-roster-grid{grid-template-columns:1fr}.team-player-card{padding:12px}}
 
         /* Pastas de poses dentro da equipe — biblioteca de mídia profissional */
         .pose-folder-card {
@@ -363,6 +363,73 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
   .nav-actions{width:100%;display:grid!important;grid-template-columns:1fr;gap:8px!important}
 }
 
+
+        /* ===== SELETOR DE EQUIPES PARA DOWNLOAD ===== */
+        .download-team-selector{grid-column:1/-1;border:1px solid rgba(255,255,255,.09);border-radius:24px;padding:22px;background:linear-gradient(145deg,rgba(24,24,42,.92),rgba(8,8,17,.96));box-shadow:0 24px 65px rgba(0,0,0,.30)}
+        .download-selector-head{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.08)}
+        .download-selector-kicker{font-size:8px;letter-spacing:.2em;font-weight:900;color:#e8b033}.download-selector-head h2{margin-top:5px;color:#fff;font-size:22px;font-weight:900}.download-selector-head p{margin-top:5px;color:#77778b;font-size:10px}
+        .download-selector-count{min-width:90px;text-align:center;padding:12px 14px;border:1px solid rgba(232,176,51,.2);border-radius:14px;background:rgba(232,176,51,.05)}.download-selector-count b{display:block;color:#fff;font-size:22px}.download-selector-count span{display:block;margin-top:2px;color:#85859a;font-size:7px;letter-spacing:.15em;font-weight:900}
+        .download-selector-tools{display:flex;justify-content:flex-end;gap:8px;margin:16px 0}.download-team-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.download-team-option{position:relative;display:grid;grid-template-columns:48px 1fr auto;grid-template-rows:auto auto;align-items:center;column-gap:12px;padding:13px 15px;border-radius:16px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);cursor:pointer;transition:.2s}.download-team-option:hover{border-color:rgba(232,176,51,.3);background:rgba(232,176,51,.04)}.download-team-option input{position:absolute;opacity:0;pointer-events:none}.download-team-check{position:absolute;right:12px;top:12px;width:20px;height:20px;border-radius:6px;border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;color:transparent;font-size:11px;font-weight:900;background:rgba(0,0,0,.2)}.download-team-option:has(input:checked){border-color:rgba(232,176,51,.48);background:linear-gradient(145deg,rgba(232,176,51,.09),rgba(247,74,254,.035))}.download-team-option:has(input:checked) .download-team-check{background:#e8b033;border-color:#e8b033;color:#15151d}.download-team-logo{grid-row:1/3;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:rgba(5,5,13,.6);border:1px solid rgba(255,255,255,.08);overflow:hidden}.download-team-logo img{width:100%;height:100%;object-fit:contain;padding:7px}.download-team-name{color:#fff;font-size:11px;font-weight:900;letter-spacing:.03em;padding-right:24px}.download-team-meta{color:#77778b;font-size:7px;letter-spacing:.14em;font-weight:800}.download-selector-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08)}.download-back-btn{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.035);color:#b7b7c6;border-radius:10px;padding:10px 13px;font-family:'GFF-Latin',sans-serif;font-size:9px;font-weight:800;cursor:pointer}
+        @media(max-width:640px){.download-team-grid{grid-template-columns:1fr}.download-selector-head{align-items:flex-start}.download-selector-tools{justify-content:stretch}.download-selector-tools .bulk-btn{flex:1}.download-selector-footer{flex-direction:column}.download-selector-footer>*{width:100%}}
+
+        /* Performance / downloads */
+        .team-preview-card,.pose-folder-card,.photo-preview-card,.asset-preview-card,.team-roster-section{content-visibility:auto;contain:layout paint style;}
+        .team-preview-logo img,.photo-preview-image,.asset-preview-image,.team-player-avatar img{content-visibility:auto;}
+        .bulk-toolbar{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:1px solid rgba(255,255,255,.09);border-radius:18px;background:linear-gradient(145deg,rgba(20,20,36,.78),rgba(8,8,17,.86));box-shadow:0 12px 32px rgba(0,0,0,.18);position:sticky;top:8px;z-index:20;backdrop-filter:blur(14px);}
+        .bulk-toolbar-title{font-size:10px;letter-spacing:.14em;color:#85859a;font-weight:700}
+        .bulk-toolbar-actions{display:flex;flex-wrap:wrap;gap:8px}
+        .bulk-btn{border:1px solid rgba(232,176,51,.28);background:rgba(232,176,51,.08);color:#f0c55c;border-radius:10px;padding:10px 13px;font-family:'GFF-Latin',sans-serif;font-size:9px;font-weight:900;letter-spacing:.08em;cursor:pointer;transition:.2s}
+        .bulk-btn:hover{background:#e8b033;color:#17171f;transform:translateY(-1px)}
+        .bulk-btn.secondary{border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#d7d7e2}
+        .bulk-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+        .team-select{position:absolute;top:12px;right:12px;z-index:4;width:20px;height:20px;accent-color:#e8b033;cursor:pointer}
+        .download-modal-backdrop{position:fixed;inset:0;background:rgba(2,2,8,.72);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:18px;z-index:9999}
+        .download-modal{width:min(430px,100%);border:1px solid rgba(232,176,51,.24);border-radius:22px;background:linear-gradient(145deg,#1b1b2e,#0b0b15);box-shadow:0 30px 90px rgba(0,0,0,.55);padding:22px}
+        .download-modal h3{font-size:18px;color:#fff;font-weight:900;margin:0 0 6px}
+        .download-modal p{font-size:10px;color:#85859a;margin:0 0 18px}
+        .download-choice{width:100%;text-align:left;padding:14px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.035);border-radius:14px;color:#fff;margin-top:9px;cursor:pointer;font-family:'GFF-Latin',sans-serif}
+        .download-choice:hover{border-color:rgba(232,176,51,.42);background:rgba(232,176,51,.08)}
+        .download-choice b{display:block;font-size:11px}.download-choice span{display:block;margin-top:4px;font-size:8px;color:#85859a}
+        .download-cancel{width:100%;margin-top:12px;padding:11px;border:0;background:transparent;color:#77778a;font-family:'GFF-Latin',sans-serif;font-size:9px;font-weight:800;cursor:pointer}
+        .download-progress{margin-top:14px;height:5px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}.download-progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#e8b033,#f74afe);transition:width .2s}
+        @media(max-width:640px){.bulk-toolbar{position:relative;top:auto}.bulk-toolbar-actions{width:100%;display:grid;grid-template-columns:1fr 1fr}.bulk-btn{width:100%}}
+
+/* ===== MOBILE PERFORMANCE / TEAM GRID ===== */
+@media (max-width: 640px){
+  body{
+    background-image:radial-gradient(circle at 15% 5%,rgba(232,176,51,.055),transparent 28%),radial-gradient(circle at 85% 20%,rgba(247,74,254,.045),transparent 30%),#080811!important;
+    background-attachment:scroll!important;
+    padding:8px!important;
+  }
+  #conteudo-painel{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:12px!important;
+  }
+  #conteudo-painel>*{animation:none!important;}
+  #conteudo-painel>div{backdrop-filter:none!important;box-shadow:none!important;}
+  .team-preview-card{
+    aspect-ratio:1/1!important;
+    min-height:0!important;
+    padding:18px 10px 14px!important;
+    border-radius:20px!important;
+    background:linear-gradient(145deg,rgba(24,24,39,.97),rgba(10,10,18,.98))!important;
+    box-shadow:0 8px 18px rgba(0,0,0,.18)!important;
+    transition:border-color .15s ease!important;
+  }
+  .team-preview-card:hover{transform:none!important;box-shadow:0 8px 18px rgba(0,0,0,.18)!important;}
+  .team-preview-card::before{background:radial-gradient(circle at 50% 8%,rgba(232,176,51,.07),transparent 38%)!important;}
+  .team-preview-card::after{opacity:.38!important;}
+  .team-preview-logo{width:82px!important;height:82px!important;padding:9px!important;border-radius:17px!important;box-shadow:none!important;background:rgba(5,5,13,.55)!important;}
+  .team-preview-logo img{filter:none!important;}
+  .team-preview-name{font-size:12px!important;margin-top:12px!important;line-height:1.05!important;letter-spacing:.025em!important;}
+  .team-preview-caption{font-size:6.5px!important;margin-top:7px!important;letter-spacing:.11em!important;}
+  .team-preview-action{font-size:7px!important;margin-top:11px!important;letter-spacing:.10em!important;}
+  .team-roster-section,.media-library-card,.pose-folder-card,.photo-preview-card,.asset-preview-card,.player-profile-hero{backdrop-filter:none!important;box-shadow:0 8px 22px rgba(0,0,0,.16)!important;}
+  .bulk-toolbar{backdrop-filter:none!important;box-shadow:0 8px 22px rgba(0,0,0,.16)!important;}
+}
+@media (min-width:641px){
+  #conteudo-painel{content-visibility:auto;}
+}
 </style>
 </head>
 <body class="min-h-screen text-gray-100 p-4 md:p-6">
@@ -406,6 +473,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
     </div>
 
     <script src="dados.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 
     <script>
         let nivelAtual = 'equipes';
@@ -423,6 +491,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
         const btnVoltar = document.getElementById('btn-voltar');
         const btnInicio = document.getElementById('btn-inicio');
         const btnSair = document.getElementById('btn-sair');
+        const equipesSelecionadas = new Set();
 
         const iconesFuncoes = {
             RUSHER: 'info-ffws/rusher.png',
@@ -509,16 +578,23 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
         // Mantém acentos e caracteres especiais do nick.
         // Troca somente o primeiro espaço, que separa TAG e Nick, por ".".
         // Apenas caracteres proibidos pelo sistema de arquivos são tratados.
-        function nomeArquivoJogador(nick, siglaEstilo) {
-            const partes = String(nick || '').trim().split(/\s+/);
+        function separarNick(nick) {
+            const partes = String(nick || '').trim().split(/\s+/).filter(Boolean);
+            const tag = partes[0] || 'PLAYER';
+            const nickname = partes.slice(1).join(' ') || tag;
+            return { tag, nickname };
+        }
 
-            let base = partes.length > 1
-                ? `${partes[0]}.${partes.slice(1).join(' ')}`
-                : (partes[0] || 'Jogador');
+        function nomeArquivoJogador(membro, siglaEstilo, modo = 'nick') {
+            const uid = String(membro?.uid || 'SEM_UID').trim();
+            const { tag, nickname } = separarNick(membro?.nick || 'Jogador');
+            if (modo === 'id') return `${uid}.png`;
+            const base = `${uid}-${tag}.${nickname}_${siglaEstilo}`.replace(/[\\/:*?"<>|]/g, '-');
+            return `${base}.png`;
+        }
 
-            base = base.replace(/[\\/:*?"<>|]/g, '-');
-
-            return `${base}_${siglaEstilo}.png`;
+        function nomeArquivoAsset(nomeItem, modo = 'nick') {
+            return nomeArquivoGenerico(nomeItem);
         }
 
         function nomeArquivoGenerico(nomeItem, extensao = 'png') {
@@ -642,44 +718,311 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
             return limpo;
         }
 
+        function processarLinkDrivePreview(idOuUrl, tamanho = 220) {
+            const url = processarLinkDrive(idOuUrl);
+            if (!url) return '';
+            if (url.startsWith('https://lh3.googleusercontent.com/d/')) {
+                return `${url}=w${tamanho}`;
+            }
+            return url;
+        }
+
+        function abrirSeletorDownload(contexto, payload) {
+            const existente = document.getElementById('download-modal-backdrop');
+            if (existente) existente.remove();
+            const modal = document.createElement('div');
+            modal.id = 'download-modal-backdrop';
+            modal.className = 'download-modal-backdrop';
+            modal.innerHTML = `
+                <div class="download-modal">
+                    <h3>Como deseja baixar?</h3>
+                    <p>Escolha o padrão de nome dos arquivos antes de iniciar o download.</p>
+                    <button class="download-choice" data-mode="nick"><b>Baixar com Nickname</b><span>UID-Tag.Nickname_SIGLA DA POSE.png</span></button>
+                    <button class="download-choice" data-mode="id"><b>Baixar com ID</b><span>UID.png</span></button>
+                    <button class="download-cancel">Cancelar</button>
+                    <div class="download-progress"><i></i></div>
+                </div>`;
+            document.body.appendChild(modal);
+            const close = () => modal.remove();
+            modal.querySelector('.download-cancel').onclick = close;
+            modal.addEventListener('click', async e => {
+                if (e.target === modal) return close();
+                const choice = e.target.closest('.download-choice');
+                if (!choice) return;
+                modal.querySelectorAll('.download-choice').forEach(b => b.disabled = true);
+                const progress = modal.querySelector('.download-progress i');
+                try {
+                    await executarDownload(contexto, payload, choice.dataset.mode, progress);
+                    modal.querySelector('h3').textContent = 'Download concluído';
+                    modal.querySelector('p').textContent = 'O arquivo foi preparado com o padrão escolhido.';
+                    setTimeout(close, 900);
+                } catch (err) {
+                    console.error(err);
+                    modal.querySelector('h3').textContent = 'Não foi possível concluir';
+                    modal.querySelector('p').textContent = 'Algumas imagens podem bloquear downloads externos. Tente novamente.';
+                    modal.querySelectorAll('.download-choice').forEach(b => b.disabled = false);
+                }
+            });
+        }
+
         async function baixarArquivo(url, nomeArquivo) {
             try {
-                const response = await fetch(url);
-
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-
+                const response = await fetch(url, { mode: 'cors' });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const blob = await response.blob();
-                const blobUrl = window.URL.createObjectURL(blob);
+                const blobUrl = URL.createObjectURL(blob);
                 const a = document.createElement('a');
-
-                a.style.display = 'none';
                 a.href = blobUrl;
-
-                // O nome é definido diretamente em Unicode.
-                // Ex.: LPS.Pão7_FBB.png
                 a.download = nomeArquivo;
-
                 document.body.appendChild(a);
                 a.click();
-
-                setTimeout(() => {
-                    window.URL.revokeObjectURL(blobUrl);
-                    document.body.removeChild(a);
-                }, 100);
+                a.remove();
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+                return true;
             } catch (error) {
-                // Fallback caso ocorra restrição de CORS.
                 const a = document.createElement('a');
-
                 a.href = url;
                 a.target = '_blank';
                 a.download = nomeArquivo;
-
                 document.body.appendChild(a);
                 a.click();
-                document.body.removeChild(a);
+                a.remove();
+                return false;
             }
+        }
+
+        async function obterBlob(url) {
+            const response = await fetch(url, { mode: 'cors' });
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return await response.blob();
+        }
+
+        function coletarFotosMembro(membro, modo, prefixo = '') {
+            const itens = [];
+            (listaEstilos || []).forEach(estilo => {
+                const fileId = membro?.fotos?.[estilo.sigla];
+                if (!fileId || !String(fileId).trim()) return;
+                const nome = nomeArquivoJogador(membro, estilo.sigla, modo);
+                const pastaPose = String(estilo.sigla || 'POSE').replace(/[\\/:*?"<>|]/g, '-');
+                itens.push({
+                    url: processarLinkDrive(fileId),
+                    nome,
+                    caminho: prefixo ? `${prefixo}/${pastaPose}/${nome}` : `${pastaPose}/${nome}`
+                });
+            });
+            return itens;
+        }
+
+        function coletarFotosEquipe(equipe, modo, incluirPasta = true) {
+            const itens = [];
+            (equipe.membros || []).forEach(membro => {
+                const fotos = coletarFotosMembro(membro, modo, incluirPasta ? 'FOTOS' : '');
+                fotos.forEach(item => itens.push(item));
+            });
+            return itens;
+        }
+
+        function coletarAssetsEquipe(equipe) {
+            const itens = [];
+            [['Logotipos', equipe.logos || []], ['Brasoes', equipe.brasoes || []]].forEach(([pasta, lista]) => {
+                lista.forEach((item, idx) => {
+                    const valor = typeof item === 'string' ? item : (item.id || item.link);
+                    if (!valor || !String(valor).trim() || String(valor).includes('SEU_ID')) return;
+                    const nome = (typeof item === 'object' && item.nome) ? item.nome : `${pasta}_${idx + 1}`;
+                    itens.push({ url: processarLinkDrive(valor), nome: nomeArquivoGenerico(nome), caminho: `${pasta}/${nomeArquivoGenerico(nome)}` });
+                });
+            });
+            return itens;
+        }
+
+        function coletarMediaEquipe(equipe, modo) {
+            return [...coletarFotosEquipe(equipe, modo), ...coletarAssetsEquipe(equipe)];
+        }
+
+        function coletarPoseEquipe(equipe, estilo, modo) {
+            const itens = [];
+            (equipe.membros || []).forEach(membro => {
+                const fileId = membro?.fotos?.[estilo.sigla];
+                if (!fileId || !String(fileId).trim()) return;
+                itens.push({
+                    url: processarLinkDrive(fileId),
+                    nome: nomeArquivoJogador(membro, estilo.sigla, modo),
+                    caminho: nomeArquivoJogador(membro, estilo.sigla, modo)
+                });
+            });
+            return itens;
+        }
+
+        async function baixarLoteZip(nomeZip, itens, progress) {
+            if (!window.JSZip) throw new Error('Biblioteca ZIP não carregada.');
+            if (!itens.length) throw new Error('Nenhum arquivo disponível.');
+            const zip = new JSZip();
+            let concluidos = 0;
+            for (const item of itens) {
+                try {
+                    const blob = await obterBlob(item.url);
+                    zip.file(item.caminho || item.nome, blob);
+                } catch (e) {
+                    console.warn('Arquivo ignorado:', item.url, e);
+                }
+                concluidos++;
+                if (progress) progress.style.width = `${Math.round((concluidos / itens.length) * 85)}%`;
+            }
+            const blob = await zip.generateAsync({ type: 'blob', compression: 'STORE' }, meta => {
+                if (progress) progress.style.width = `${85 + Math.round(meta.percent * .15)}%`;
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${nomeZip}.zip`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 1500);
+        }
+
+        async function executarDownload(contexto, payload, modo, progress) {
+            if (contexto === 'individual') {
+                const item = payload;
+                const blob = await obterBlob(item.url);
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = nomeArquivoJogador(item.membro, item.sigla, modo);
+                document.body.appendChild(a); a.click(); a.remove();
+                setTimeout(() => URL.revokeObjectURL(url), 1200);
+                if (progress) progress.style.width = '100%';
+                return;
+            }
+            if (contexto === 'asset') {
+                const item = payload;
+                const blob = await obterBlob(item.url);
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = item.nome;
+                document.body.appendChild(a); a.click(); a.remove();
+                setTimeout(() => URL.revokeObjectURL(url), 1200);
+                if (progress) progress.style.width = '100%';
+                return;
+            }
+            if (contexto === 'pose') {
+                await baixarLoteZip(`${equipeSelecionada.nome}_${estiloSelecionado.sigla}`, coletarPoseEquipe(equipeSelecionada, estiloSelecionado, modo), progress);
+                return;
+            }
+            if (contexto === 'team') {
+                const itens = coletarMediaEquipe(payload, modo);
+                await baixarLoteZip(payload.nome, itens, progress);
+                return;
+            }
+            if (contexto === 'all') {
+                const equipes = payload;
+                const itens = [];
+                equipes.forEach(eq => coletarMediaEquipe(eq, modo).forEach(item => itens.push({ ...item, caminho: `${eq.nome}/${item.caminho}` })));
+                await baixarLoteZip('MEDIA_LOBBY_TODAS_EQUIPES', itens, progress);
+                return;
+            }
+            if (contexto === 'selected') {
+                const itens = [];
+                payload.forEach(eq => coletarFotosEquipe(eq, modo).forEach(item => itens.push({ ...item, caminho: `${eq.nome}/${item.caminho}` })));
+                await baixarLoteZip('MEDIA_LOBBY_EQUIPES_SELECIONADAS', itens, progress);
+            }
+        }
+
+        function localizarMembroPorId(id) {
+            for (const eq of dadosEquipes) {
+                const m = (eq.membros || []).find(x => String(x.playerId) === String(id));
+                if (m) return m;
+            }
+            return null;
+        }
+
+        function baixarIndividual(membro, estilo) {
+            abrirSeletorDownload('individual', { membro, sigla: estilo.sigla, url: processarLinkDrive(membro.fotos[estilo.sigla]) });
+        }
+
+        function toggleEquipeSelecionada(id, checked) {
+            if (checked) equipesSelecionadas.add(id); else equipesSelecionadas.delete(id);
+            atualizarToolbarSelecao();
+        }
+
+        function atualizarToolbarSelecao() {
+            const btn = document.getElementById('btn-download-selected');
+            const count = document.getElementById('selected-count');
+            if (btn) btn.disabled = equipesSelecionadas.size === 0;
+            if (count) count.textContent = `${equipesSelecionadas.size} selecionada(s)`;
+        }
+
+        function baixarEquipesSelecionadas() {
+            renderizarSeletorEquipesDownload();
+        }
+
+        function renderizarSeletorEquipesDownload() {
+            nivelAtual = 'download-equipes';
+            titulo.innerText = 'SELECIONAR EQUIPES';
+            subtitulo.innerText = 'Escolha exatamente quais equipes deseja incluir no download.';
+            logoCabecalho.classList.add('hidden');
+            limparNavegacao();
+            btnSair.classList.remove('hidden');
+
+            const selecionadas = new Set(equipesSelecionadas);
+            const cards = dadosEquipes.map(eq => {
+                const id = escaparHtml(eq.id);
+                const checked = selecionadas.has(eq.id) ? 'checked' : '';
+                const logo = processarLinkDrive(eq.logo);
+                return `
+                    <label class="download-team-option">
+                        <input type="checkbox" value="${id}" ${checked} onchange="toggleEquipeDownloadPage('${id}', this.checked)">
+                        <span class="download-team-check">✓</span>
+                        <span class="download-team-logo">${logo ? `<img src="${escaparHtml(logo)}" loading="lazy" decoding="async" fetchpriority="low" alt="">` : ''}</span>
+                        <span class="download-team-name">${escaparHtml(eq.nome)}</span>
+                        <span class="download-team-meta">${(eq.membros || []).length} PLAYERS</span>
+                    </label>`;
+            }).join('');
+
+            container.className = 'grid grid-cols-1 md:grid-cols-2 gap-5';
+            container.innerHTML = `
+                <section class="download-team-selector">
+                    <div class="download-selector-head">
+                        <div>
+                            <span class="download-selector-kicker">MEDIA DOWNLOAD CENTER</span>
+                            <h2>Equipes para baixar</h2>
+                            <p>Marque as equipes que deseja incluir no pacote.</p>
+                        </div>
+                        <div class="download-selector-count"><b id="download-selected-total">${equipesSelecionadas.size}</b><span>SELECIONADAS</span></div>
+                    </div>
+                    <div class="download-selector-tools">
+                        <button class="bulk-btn secondary" onclick="selecionarTodasEquipesDownload(true)">Selecionar todas</button>
+                        <button class="bulk-btn secondary" onclick="selecionarTodasEquipesDownload(false)">Limpar seleção</button>
+                    </div>
+                    <div class="download-team-grid">${cards}</div>
+                    <div class="download-selector-footer">
+                        <button class="download-back-btn" onclick="renderizarEquipes()">← Voltar para equipes</button>
+                        <button class="bulk-btn" id="continue-selected-download" onclick="continuarDownloadEquipesSelecionadas()" ${equipesSelecionadas.size ? '' : 'disabled'}>Continuar →</button>
+                    </div>
+                </section>`;
+            irParaTopo();
+        }
+
+        function toggleEquipeDownloadPage(id, checked) {
+            if (checked) equipesSelecionadas.add(id);
+            else equipesSelecionadas.delete(id);
+            const total = document.getElementById('download-selected-total');
+            const btn = document.getElementById('continue-selected-download');
+            if (total) total.textContent = equipesSelecionadas.size;
+            if (btn) btn.disabled = equipesSelecionadas.size === 0;
+        }
+
+        function selecionarTodasEquipesDownload(marcar) {
+            if (marcar) dadosEquipes.forEach(eq => equipesSelecionadas.add(eq.id));
+            else equipesSelecionadas.clear();
+            renderizarSeletorEquipesDownload();
+        }
+
+        function continuarDownloadEquipesSelecionadas() {
+            const equipes = dadosEquipes.filter(eq => equipesSelecionadas.has(eq.id));
+            if (!equipes.length) return;
+            abrirSeletorDownload('selected', equipes);
         }
 
         function limparNavegacao() {
@@ -723,25 +1066,58 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
             titulo.innerText = "EQUIPES - MEDIA LOBBY";
             subtitulo.innerText = "Selecione uma equipe para acessar o acervo de mídia.";
             logoCabecalho.classList.add('hidden');
-            limparNavegacao();
+            btnVoltar.classList.add('hidden');
+            btnInicio.classList.add('hidden');
             btnSair.classList.remove('hidden');
-            btnSair.innerText = 'Desconectar do login';
-            container.className = 'grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5';
-            container.innerHTML = '';
+
+            let html = `
+                <div class="bulk-toolbar">
+                    <div>
+                        <div class="bulk-toolbar-title">MEDIA DOWNLOAD CENTER</div>
+                        <div class="text-white text-xs font-bold mt-1">Downloads em lote do acervo</div>
+                    </div>
+                    <div class="bulk-toolbar-actions">
+                        <button class="bulk-btn" onclick="abrirSeletorDownload('all', dadosEquipes)">↓ Baixar todas as equipes</button>
+                        <button class="bulk-btn secondary" onclick="renderizarSeletorEquipesDownload()">↓ Baixar apenas equipes selecionadas</button>
+                    </div>
+                </div>`;
+
             dadosEquipes.forEach(eq => {
-                const logoSrc = processarLinkDrive(eq.logo);
-                const totalJogadores = Array.isArray(eq.membros) ? eq.membros.length : 0;
-                container.innerHTML += `
-                    <div onclick="abrirEquipe('${escaparHtml(eq.id)}')" class="team-preview-card card-hover">
-                        <div class="team-preview-left">
-                            <div class="team-preview-logo"><img src="${logoSrc}" alt="${escaparHtml(eq.nome)}" onerror="this.src='info-ffws/logoffws.png'"></div>
-                            <h2 class="team-preview-name">${escaparHtml(eq.nome)}</h2>
-                            <div class="team-preview-caption">MEDIA TEAM · ${totalJogadores} ${totalJogadores === 1 ? 'PLAYER' : 'PLAYERS'}</div>
-                            <div class="team-preview-action">Abrir acervo →</div>
+                const logoSrc = processarLinkDrivePreview(eq.logo, 220);
+                const pid = escaparHtml(eq.id);
+                html += `
+                    <div class="team-preview-card card-hover">
+                        <div class="team-preview-left" onclick="abrirEquipe('${pid}')">
+                            <div class="team-preview-logo">
+                                ${logoSrc ? `<img data-src="${escaparHtml(logoSrc)}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="${escaparHtml(eq.nome)}" class="lazy-media" loading="lazy" decoding="async" fetchpriority="low">` : ''}
+                            </div>
+                            <div class="team-preview-name">${escaparHtml(eq.nome)}</div>
+                            <div class="team-preview-caption">${(eq.membros || []).length} PLAYERS · MEDIA ARCHIVE</div>
+                            <div class="team-preview-action">Abrir acervo ↗</div>
                         </div>
                     </div>`;
             });
+            container.innerHTML = html;
+            ativarLazyMedia();
             irParaTopo();
+        }
+
+        function ativarLazyMedia() {
+            const imagens = document.querySelectorAll('img.lazy-media[data-src]');
+            if (!imagens.length) return;
+            const carregar = img => {
+                if (img.dataset.loaded) return;
+                img.src = img.dataset.src;
+                img.dataset.loaded = '1';
+                img.removeAttribute('data-src');
+            };
+            if (!('IntersectionObserver' in window)) return imagens.forEach(carregar);
+            const obs = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) { carregar(entry.target); obs.unobserve(entry.target); }
+                });
+            }, { rootMargin: '80px 0px', threshold: 0.01 });
+            imagens.forEach(img => obs.observe(img));
         }
 
         function abrirEquipe(idEquipe) {
@@ -769,7 +1145,8 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
             }
 
             container.className = 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5';
-            container.innerHTML = '';
+            const equipeDownload = `<button class="bulk-btn" onclick="abrirSeletorDownload('team', equipeSelecionada)">↓ Baixar equipe inteira</button>`;
+            container.innerHTML = `<div class="bulk-toolbar"><div><div class="bulk-toolbar-title">TEAM MEDIA DOWNLOAD</div><div class="text-white text-xs font-bold mt-1">${escaparHtml(equipeSelecionada.nome)}</div></div><div class="bulk-toolbar-actions">${equipeDownload}</div></div>`;
 
             const membrosEquipe = Array.isArray(equipeSelecionada.membros) ? equipeSelecionada.membros : [];
             const rosterCards = membrosEquipe.length ? membrosEquipe.map((membro) => {
@@ -920,8 +1297,9 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                 if (!fileId || String(fileId).trim() === '') return;
 
                 contadorEncontrados++;
-                const urlDriveImg = processarLinkDrive(fileId);
-                const nomeArquivo = nomeArquivoJogador(membro.nick, siglaEstilo);
+                const urlDownloadOriginal = processarLinkDrive(fileId);
+                const urlDriveImg = processarLinkDrivePreview(fileId, 720);
+                const nomeArquivo = nomeArquivoJogador(membro, siglaEstilo, 'nick');
                 const info = obterInfoPastaPose(estilo);
 
                 const funcaoCard = funcao && icone
@@ -936,7 +1314,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                                 <span>${escaparHtml(siglaEstilo)}</span>
                             </div>
                             <div class="photo-preview-image-wrap">
-                                <img src="${urlDriveImg}" alt="${escaparHtml(membro.nick)} · ${escaparHtml(info.titulo)}" class="photo-preview-image" loading="lazy" onerror="this.src='info-ffws/logoffws.png'">
+                                <img data-src="${urlDriveImg}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="${escaparHtml(membro.nick)} · ${escaparHtml(info.titulo)}" class="photo-preview-image lazy-media" loading="lazy" decoding="async" fetchpriority="low" onerror="this.src='info-ffws/logoffws.png'">
                             </div>
                         </div>
                         <div class="photo-preview-info">
@@ -957,7 +1335,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                                     ${info.direcao ? `<div class="text-[9px] text-gray-500 mt-1">Direção: ${escaparHtml(info.direcao)}</div>` : ''}
                                 </div>
                             </div>
-                            <button data-download-url="${encodeURIComponent(urlDriveImg)}" data-download-name="${encodeURIComponent(nomeArquivo)}" class="btn-download photo-download-btn">
+                            <button data-download-url="${encodeURIComponent(urlDownloadOriginal)}" data-download-name="${encodeURIComponent(nomeArquivo)}" data-member-id="${escaparHtml(membro.playerId || '')}" data-pose="${escaparHtml(siglaEstilo)}" class="btn-download photo-download-btn">
                                 <span>Baixar Foto</span><b>↓</b>
                             </button>
                         </div>
@@ -975,6 +1353,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                 `;
             } else {
                 container.innerHTML += htmlCards;
+                ativarLazyMedia();
             }
 
             irParaTopo();
@@ -1028,7 +1407,8 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                     ? item.nome
                     : `${tipo.slice(0, -1)} ${idx + 1}`;
 
-                const urlDriveImg = processarLinkDrive(valorBruto);
+                const urlDownloadOriginal = processarLinkDrive(valorBruto);
+                const urlDriveImg = processarLinkDrivePreview(valorBruto, 480);
                 const nomeArquivo = nomeArquivoGenerico(nomeItem);
 
                 htmlCards += `
@@ -1036,7 +1416,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                         <div class="asset-preview-stage">
                             <span class="asset-preview-label">${tipo === 'Logotipos' ? 'LOGO ASSET' : 'CREST ASSET'}</span>
                             <div class="asset-preview-image-wrap">
-                                <img src="${urlDriveImg}" alt="${escaparHtml(nomeItem)}" class="asset-preview-image" onerror="this.src='info-ffws/logoffws.png'">
+                                <img data-src="${urlDriveImg}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="${escaparHtml(nomeItem)}" class="asset-preview-image lazy-media" loading="lazy" decoding="async" fetchpriority="low" onerror="this.src='info-ffws/logoffws.png'">
                             </div>
                         </div>
                         <div class="asset-preview-info">
@@ -1044,7 +1424,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                                 <span class="asset-preview-kicker">${tipo}</span>
                                 <h2 title="${escaparHtml(nomeItem)}">${escaparHtml(nomeItem)}</h2>
                             </div>
-                            <button data-download-url="${encodeURIComponent(urlDriveImg)}" data-download-name="${encodeURIComponent(nomeArquivo)}" class="btn-download asset-download-btn">
+                            <button data-download-url="${encodeURIComponent(urlDownloadOriginal)}" data-download-name="${encodeURIComponent(nomeArquivo)}" class="btn-download asset-download-btn">
                                 <span>Baixar arquivo</span><b>↓</b>
                             </button>
                         </div>
@@ -1053,6 +1433,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
             });
 
             container.innerHTML = htmlCards;
+            ativarLazyMedia();
             irParaTopo();
         }
 
@@ -1064,6 +1445,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
 
             titulo.innerText = `${equipeSelecionada.nome} - ${nomeFormatado}`;
             subtitulo.innerText = `Pasta: ${nomeFormatado}`;
+            const poseDownloadToolbar = `<div class="bulk-toolbar"><div><div class="bulk-toolbar-title">POSE MEDIA DOWNLOAD</div><div class="text-white text-xs font-bold mt-1">${escaparHtml(nomeFormatado)}</div></div><div class="bulk-toolbar-actions"><button class="bulk-btn" onclick="abrirSeletorDownload('pose', equipeSelecionada)">↓ Baixar pasta de pose</button></div></div>`;
 
             if (scope === 'all') {
                 configurarNavegacao('all');
@@ -1073,7 +1455,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                 btnVoltar.innerText = '← Voltar para equipe';
             }
 
-            container.innerHTML = `
+            container.innerHTML = poseDownloadToolbar + `
                 <div class="col-span-full flex flex-col items-center justify-center p-16">
                     <div class="loader mb-4"></div>
                     <p class="text-gray-400">Buscando fotos disponíveis...</p>
@@ -1099,8 +1481,8 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                 if (fileId && fileId.trim() !== "") {
                     contadorEncontrados++;
 
-                    const urlDriveImg = processarLinkDrive(fileId);
-                    const nomeArquivo = nomeArquivoJogador(membro.nick, siglaEstilo);
+                    const urlDriveImg = processarLinkDrivePreview(fileId, 720);
+                    const nomeArquivo = nomeArquivoJogador(membro, siglaEstilo, 'nick');
                     const funcao = String(membro.funcao || '').trim().toUpperCase();
                     const icone = iconesFuncoes[funcao] || '';
 
@@ -1123,7 +1505,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                                     <span>${escaparHtml(siglaEstilo)}</span>
                                 </div>
                                 <div class="photo-preview-image-wrap">
-                                    <img src="${urlDriveImg}" alt="${escaparHtml(membro.nick)}" class="photo-preview-image" onerror="this.src='info-ffws/logoffws.png'">
+                                    <img data-src="${urlDriveImg}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="${escaparHtml(membro.nick)}" class="photo-preview-image lazy-media" loading="lazy" decoding="async" fetchpriority="low" onerror="this.src='info-ffws/logoffws.png'">
                                 </div>
                             </div>
                             <div class="photo-preview-info">
@@ -1138,7 +1520,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                                     ${funcaoHtml ? `<div class="photo-role-pill">${funcaoHtml}</div>` : ''}
                                     <div class="photo-pose-detail"><span>${escaparHtml(nomeFormatado)}</span><b>${escaparHtml(siglaEstilo)}</b></div>
                                 </div>
-                                <button data-download-url="${encodeURIComponent(urlDriveImg)}" data-download-name="${encodeURIComponent(nomeArquivo)}" class="btn-download photo-download-btn">
+                                <button data-download-url="${encodeURIComponent(urlDriveImg)}" data-download-name="${encodeURIComponent(nomeArquivo)}" data-member-id="${escaparHtml(membro.playerId || '')}" data-pose="${escaparHtml(siglaEstilo)}" class="btn-download photo-download-btn">
                                     <span>Baixar Foto</span><b>↓</b>
                                 </button>
                             </div>
@@ -1158,6 +1540,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                     `;
                 } else {
                     container.innerHTML = htmlCards;
+                    ativarLazyMedia();
                 }
             }, 300);
 
@@ -1172,8 +1555,12 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
 
             const url = decodeURIComponent(botao.dataset.downloadUrl || '');
             const nome = decodeURIComponent(botao.dataset.downloadName || 'arquivo.png');
-
-            baixarArquivo(url, nome);
+            if (botao.dataset.memberId) {
+                const membro = localizarMembroPorId(botao.dataset.memberId);
+                const estilo = (listaEstilos || []).find(x => x.sigla === botao.dataset.pose);
+                if (membro && estilo) return abrirSeletorDownload('individual', { membro, sigla: estilo.sigla, url });
+            }
+            abrirSeletorDownload('asset', { url, nome });
         });
 
         window.onload = inicializarPainel;
