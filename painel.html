@@ -52,67 +52,23 @@
         .btn-primary:hover { background-color: #f74afe; color: #fff; }
         .card-hover:hover { border-color: #f74afe; box-shadow: 0 4px 20px rgba(247, 74, 254, 0.2); }
 
-        /* Prévia das equipes na tela inicial */
-        .team-preview-card {
-            width: 100%;
-            min-height: 170px;
-        }
-        .team-preview-left {
-            width: 150px;
-            min-width: 150px;
-        }
-        .team-preview-logo {
-            width: 82px;
-            height: 82px;
-        }
-        .team-preview-name {
-            line-height: 1.1;
-            max-width: 145px;
-        }
-        .team-player-list {
-            min-width: 0;
-        }
-        .team-player-chip {
-            background: rgba(26, 26, 46, 0.92);
-            border: 1px solid #2a2a3f;
-            min-height: 38px;
-        }
-        .team-player-chip:hover {
-            border-color: rgba(247, 74, 254, 0.65);
-            background: rgba(37, 37, 56, 0.95);
-        }
-        .team-player-icon {
-            width: 24px;
-            height: 24px;
-            flex: 0 0 24px;
-        }
-        @media (max-width: 640px) {
-            .team-preview-card {
-                min-height: 150px;
-            }
-            .team-preview-left {
-                width: 118px;
-                min-width: 118px;
-            }
-            .team-preview-logo {
-                width: 68px;
-                height: 68px;
-            }
-            .team-preview-name {
-                max-width: 118px;
-                font-size: 0.9rem;
-            }
-            .team-player-chip {
-                min-height: 34px;
-                padding: 6px 9px;
-            }
-            .team-player-icon {
-                width: 21px;
-                height: 21px;
-                flex-basis: 21px;
-            }
-        }
-        
+        /* ===== CARDS DA HOME / EQUIPES ===== */
+        .team-preview-card{position:relative;width:100%;min-height:250px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;padding:28px 22px 22px;border-radius:24px;background:linear-gradient(145deg,rgba(28,28,48,.90),rgba(9,9,19,.94));border:1px solid rgba(255,255,255,.10);box-shadow:0 18px 45px rgba(0,0,0,.25);cursor:pointer;transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease}
+        .team-preview-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 15%,rgba(232,176,51,.13),transparent 36%),linear-gradient(135deg,transparent 55%,rgba(247,74,254,.05));pointer-events:none}
+        .team-preview-card::after{content:'';position:absolute;left:16%;right:16%;bottom:0;height:2px;background:linear-gradient(90deg,transparent,#e8b033,#f74afe,transparent);opacity:.55}
+        .team-preview-card:hover{transform:translateY(-6px);border-color:rgba(232,176,51,.38);box-shadow:0 26px 65px rgba(0,0,0,.38),0 0 32px rgba(247,74,254,.07)}
+        .team-preview-left{position:relative;z-index:1;width:100%;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+        .team-preview-logo{width:112px;height:112px;display:flex;align-items:center;justify-content:center;padding:13px;border-radius:22px;background:rgba(5,5,13,.50);border:1px solid rgba(255,255,255,.09);box-shadow:inset 0 0 30px rgba(255,255,255,.025),0 10px 35px rgba(0,0,0,.22)}
+        .team-preview-logo img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 8px 20px rgba(0,0,0,.38))}
+        .team-preview-name{margin-top:16px;line-height:1.05;max-width:100%;color:#fff;font-size:17px;font-weight:900;letter-spacing:.04em}
+        .team-preview-caption{margin-top:8px;color:#74748a;font-size:8px;letter-spacing:.18em;font-weight:800}
+        .team-player-list{display:none!important}
+        .team-preview-action{position:relative;z-index:1;margin-top:18px;color:#e8b033;font-size:9px;letter-spacing:.14em;font-weight:900;text-transform:uppercase}
+        .team-roster-section{grid-column:1/-1;position:relative;padding:22px;border-radius:24px;background:linear-gradient(145deg,rgba(25,25,43,.72),rgba(9,9,18,.72));border:1px solid rgba(255,255,255,.09);box-shadow:0 18px 46px rgba(0,0,0,.22)}
+        .team-roster-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:15px;margin-bottom:18px}.team-roster-kicker{color:#e8b033;font-size:8px;letter-spacing:.20em;font-weight:900}.team-roster-heading h2{margin-top:5px;color:#fff;font-size:20px;font-weight:900;letter-spacing:-.02em}.team-roster-heading p{margin-top:4px;color:#727287;font-size:9px;letter-spacing:.08em}.team-roster-count{color:#f74afe;font-size:9px;font-weight:900;letter-spacing:.14em}
+        .team-roster-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.team-player-card{position:relative;min-width:0;padding:14px;border-radius:16px;display:flex;align-items:center;gap:12px;background:rgba(9,9,18,.48);border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:transform .22s ease,border-color .22s ease,background .22s ease}.team-player-card:hover{transform:translateY(-2px);border-color:rgba(232,176,51,.34);background:rgba(232,176,51,.055)}.team-player-avatar{width:46px;height:46px;flex:0 0 46px;display:flex;align-items:center;justify-content:center;border-radius:13px;background:linear-gradient(145deg,rgba(232,176,51,.12),rgba(247,74,254,.08));border:1px solid rgba(232,176,51,.18)}.team-player-avatar img{width:30px;height:30px;object-fit:contain}.team-player-card-label{color:#626276;font-size:7px;letter-spacing:.16em;font-weight:800}.team-player-card-name{margin-top:3px;color:#fff;font-size:12px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.team-player-card-role{margin-top:3px;color:#e8b033;font-size:8px;font-weight:800;letter-spacing:.08em}
+        @media(max-width:640px){.team-preview-card{min-height:205px;padding:22px 16px 18px;border-radius:20px}.team-preview-logo{width:82px;height:82px;padding:10px;border-radius:18px}.team-preview-name{font-size:14px;margin-top:12px}.team-preview-caption{font-size:7px}.team-preview-action{margin-top:13px;font-size:8px}.team-roster-section{padding:16px;border-radius:20px}.team-roster-heading h2{font-size:17px}.team-roster-grid{grid-template-columns:1fr}.team-player-card{padding:12px}}
+
         /* Pastas de poses dentro da equipe — biblioteca de mídia profissional */
         .pose-folder-card {
             position: relative;
@@ -215,6 +171,8 @@
                 height: 40px;
             }
         }
+
+        .pose-folder-card-modern{min-height:255px;padding:0!important;display:flex;flex-direction:column;cursor:pointer}.pose-folder-card-modern::before{width:100%;height:2px;inset:0 0 auto 0;opacity:.75}.pose-folder-visual{position:relative;min-height:94px;display:flex;align-items:center;justify-content:space-between;padding:18px;background:linear-gradient(135deg,rgba(232,176,51,.08),rgba(247,74,254,.04));border-bottom:1px solid rgba(255,255,255,.07);overflow:hidden}.pose-folder-visual::after{content:'';position:absolute;width:150px;height:150px;right:-65px;top:-85px;border-radius:50%;border:1px solid rgba(247,74,254,.13);box-shadow:0 0 0 18px rgba(247,74,254,.025),0 0 0 36px rgba(247,74,254,.015)}.pose-folder-visual .pose-folder-code{position:relative;z-index:2;width:58px;height:58px;border-radius:16px;background:rgba(5,5,13,.58);border:1px solid rgba(232,176,51,.30);color:#ffd66b;font-size:12px;box-shadow:0 10px 30px rgba(0,0,0,.20)}.pose-folder-lines{position:relative;z-index:2;display:flex;flex-direction:column;gap:6px;width:45%;opacity:.5}.pose-folder-lines span{height:4px;border-radius:99px;background:linear-gradient(90deg,rgba(232,176,51,.7),rgba(247,74,254,.05))}.pose-folder-lines span:nth-child(2){width:72%}.pose-folder-lines span:nth-child(3){width:50%}.pose-folder-body{flex:1;padding:18px 18px 4px}.pose-folder-body h2{margin-top:7px;color:#fff;font-size:17px;line-height:1.1;font-weight:900}.pose-folder-body p{margin-top:8px;color:#85859a;font-size:9px;line-height:1.55}.pose-folder-card-modern .pose-folder-direction{margin-top:8px;font-size:8px}.pose-folder-card-modern .pose-folder-action{margin:12px 18px 16px;padding-top:12px}@media(max-width:640px){.pose-folder-card-modern{min-height:230px}.pose-folder-visual{min-height:78px;padding:13px 14px}.pose-folder-visual .pose-folder-code{width:48px;height:48px}.pose-folder-body{padding:15px 14px 4px}.pose-folder-body h2{font-size:14px}.pose-folder-body p{font-size:8px}.pose-folder-card-modern .pose-folder-action{margin:10px 14px 13px}}
 
         /* Biblioteca visual de logotipos e brasões */
         .media-library-card {
@@ -361,9 +319,53 @@
             animation: spin 1s linear infinite;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
+    
+/* ===== FFWS MEDIA LOBBY — PREMIUM UI SYSTEM ===== */
+:root{--gold:#f0b83f;--gold2:#ffd66b;--pink:#f74afe;--shadow:0 30px 90px rgba(0,0,0,.42)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{background-color:#05050b!important;color:#f7f7fb!important;position:relative;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:-20%;z-index:-3;background:radial-gradient(circle at 15% 20%,rgba(240,184,63,.13),transparent 26%),radial-gradient(circle at 84% 18%,rgba(247,74,254,.13),transparent 28%),radial-gradient(circle at 55% 90%,rgba(94,72,255,.09),transparent 30%);filter:blur(20px);animation:ffwsAmbient 16s ease-in-out infinite alternate;pointer-events:none}
+body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,rgba(4,4,10,.28),rgba(4,4,10,.78)),radial-gradient(circle at center,transparent 20%,rgba(0,0,0,.32) 100%);pointer-events:none}
+@keyframes ffwsAmbient{from{transform:translate3d(-1%,0,0) scale(1)}to{transform:translate3d(1%,1%,0) scale(1.05)}}
+.max-w-6xl{width:min(1400px,calc(100% - 8px))!important;max-width:1400px!important;background:linear-gradient(145deg,rgba(17,17,30,.88),rgba(8,8,17,.82))!important;border:1px solid rgba(255,255,255,.10)!important;border-radius:28px!important;box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.06)!important;backdrop-filter:blur(28px)!important;-webkit-backdrop-filter:blur(28px)!important;position:relative;overflow:hidden}
+.max-w-6xl:before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),var(--pink),transparent);opacity:.8}
+#titulo-pagina{color:#fff!important;letter-spacing:-.035em!important;font-weight:900!important}#subtitulo-pagina{color:#8e8ea5!important}#logo-cabecalho{filter:drop-shadow(0 8px 22px rgba(240,184,63,.18))!important}
+#btn-inicio,#btn-voltar,#btn-sair{border:1px solid rgba(255,255,255,.10)!important;background:rgba(255,255,255,.045)!important;color:#e9e9f1!important;border-radius:12px!important;padding:10px 14px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)!important}#btn-inicio:hover,#btn-voltar:hover{background:rgba(240,184,63,.10)!important;border-color:rgba(240,184,63,.35)!important;transform:translateY(-1px)}#btn-sair{border-color:rgba(255,91,91,.22)!important;color:#ff9c9c!important}
+#conteudo-painel{position:relative;z-index:1}#conteudo-painel>*{animation:ffwsCardIn .45s ease both}@keyframes ffwsCardIn{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}
+#conteudo-painel>div{border-color:rgba(255,255,255,.09)!important;background:linear-gradient(145deg,rgba(25,25,42,.78),rgba(10,10,20,.76))!important;box-shadow:0 16px 42px rgba(0,0,0,.22)!important;backdrop-filter:blur(16px);border-radius:20px!important}#conteudo-painel>div:hover{border-color:rgba(240,184,63,.35)!important;box-shadow:0 22px 55px rgba(0,0,0,.34),0 0 0 1px rgba(240,184,63,.05)!important;transform:translateY(-4px)}
+.media-library-card,.pose-folder-card,.photo-preview-card,.asset-preview-card,.player-profile-hero{background:linear-gradient(145deg,rgba(24,24,42,.84),rgba(8,8,17,.88))!important;border-color:rgba(255,255,255,.10)!important;box-shadow:0 20px 50px rgba(0,0,0,.28)!important;border-radius:22px!important}.media-library-card:hover,.pose-folder-card:hover,.photo-preview-card:hover,.asset-preview-card:hover{border-color:rgba(247,74,254,.48)!important;box-shadow:0 28px 65px rgba(0,0,0,.38),0 0 32px rgba(247,74,254,.06)!important}.media-library-content h2{color:#fff!important}.media-library-footer strong,.pose-folder-open{color:var(--gold2)!important}.pose-folder-card::before{background:linear-gradient(180deg,var(--gold),var(--pink),#6c5cff)!important}
+/* ===== FINAL CARD LAYOUT OVERRIDES ===== */
+#conteudo-painel .team-preview-card{background:linear-gradient(145deg,rgba(28,28,48,.90),rgba(9,9,19,.94))!important}#conteudo-painel .team-preview-card:hover{transform:translateY(-6px)!important}#conteudo-painel .team-roster-section{background:linear-gradient(145deg,rgba(25,25,43,.72),rgba(9,9,18,.72))!important}#conteudo-painel .team-player-card:hover{transform:translateY(-2px)!important}#conteudo-painel .pose-folder-card-modern{background:linear-gradient(145deg,rgba(24,24,42,.84),rgba(8,8,17,.88))!important}#conteudo-painel .pose-folder-card-modern:hover{transform:translateY(-5px)!important}
+
+@media(max-width:640px){body{padding:10px!important}.max-w-6xl{width:100%!important;border-radius:22px!important;padding:16px!important}#titulo-pagina{font-size:1.55rem!important}}
+
+
+/* ===== CONTEXTUAL NAVIGATION ===== */
+#btn-inicio,#btn-voltar,#btn-sair{
+  min-height:42px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:8px!important;
+  font-size:10px!important;
+  font-weight:900!important;
+  letter-spacing:.08em!important;
+  text-transform:uppercase!important;
+  white-space:nowrap!important;
+}
+#btn-inicio.hidden,#btn-voltar.hidden,#btn-sair.hidden{display:none!important}
+.nav-context-all #btn-inicio{display:inline-flex!important}
+.nav-context-all #btn-voltar{display:inline-flex!important}
+.nav-context-team #btn-voltar{display:inline-flex!important}
+.nav-context-team #btn-sair{display:inline-flex!important}
+.nav-context-all #btn-sair{display:none!important}
+@media(max-width:640px){
+  #btn-inicio,#btn-voltar,#btn-sair{flex:1 1 100%;width:100%;min-height:44px}
+  .nav-actions{width:100%;display:grid!important;grid-template-columns:1fr;gap:8px!important}
+}
+
+</style>
 </head>
-<body class="min-h-screen text-gray-100 p-6">
+<body class="min-h-screen text-gray-100 p-4 md:p-6">
 
     <script>
         if (sessionStorage.getItem('autenticado') !== 'true') {
@@ -371,21 +373,22 @@
         }
     </script>
 
-    <div class="max-w-6xl mx-auto bg-[#10101e]/90 p-6 md:p-8 rounded-2xl shadow-2xl border border-[#e8b033]/30 backdrop-blur-sm">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-[#262638] pb-4 gap-4">
+    <div class="max-w-6xl mx-auto p-5 md:p-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-[#262638] pb-5 gap-5">
             <div class="flex items-center gap-4">
-                <div class="bg-[#1a1a2e] p-2 rounded-lg border border-[#e8b033]/40">
-                    <img src="info-ffws/logoffws.png" alt="Logo FFWS" class="h-12 max-w-[120px] object-contain filter drop-shadow-[0_0_8px_rgba(232,176,51,0.8)]">
+                <div class="bg-white/[.04] p-2 rounded-2xl border border-white/[.09] shadow-lg">
+                    <img src="info-ffws/logoffws.png" alt="Logo FFWS" class="h-12 max-w-[120px] object-contain">
                 </div>
                 <div>
                     <div class="flex items-center gap-3 flex-wrap">
-                        <h1 id="titulo-pagina" class="text-3xl font-bold text-[#e8b033]">EQUIPES - MEDIA LOBBY</h1>
+                        <h1 id="titulo-pagina" class="text-3xl font-bold">EQUIPES - MEDIA LOBBY</h1>
                         <img id="logo-cabecalho" src="" alt="" class="h-10 max-w-[100px] object-contain hidden filter drop-shadow" onerror="this.classList.add('hidden')">
                     </div>
                     <p id="subtitulo-pagina" class="text-gray-300 text-sm">Selecione uma equipe para acessar as pastas de fotos.</p>
+                     <div class="flex items-center gap-2 mt-3"><span class="inline-block w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,.8)]"></span><span class="text-[9px] tracking-[.18em] text-gray-500 font-bold">MEDIA SYSTEM ONLINE</span></div>
                 </div>
             </div>
-            <div class="flex gap-2 flex-wrap justify-end">
+            <div class="flex gap-2 flex-wrap justify-start md:justify-end">
                 <button id="btn-inicio" onclick="renderizarEquipes()" class="hidden bg-[#1a1a2e] border border-[#e8b033]/50 hover:bg-[#252538] text-gray-200 px-3 py-2 rounded text-sm transition font-medium cursor-pointer">
                     🏠 Início
                 </button>
@@ -398,7 +401,7 @@
             </div>
         </div>
 
-        <div id="conteudo-painel" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div id="conteudo-painel" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6">
         </div>
     </div>
 
@@ -538,6 +541,15 @@
                 return;
             }
 
+            if (nivelAtual === 'fotos' || nivelAtual === 'generica' || nivelAtual === 'player') {
+                if (equipeSelecionada) {
+                    abrirEquipe(equipeSelecionada.id);
+                } else {
+                    renderizarEquipes();
+                }
+                return;
+            }
+
             if (equipeSelecionada) {
                 abrirEquipe(equipeSelecionada.id);
             } else {
@@ -670,70 +682,65 @@
             }
         }
 
-        function renderizarEquipes() {
-            nivelAtual = 'equipes';
-
-            titulo.innerText = "EQUIPES - MEDIA LOBBY";
-            subtitulo.innerText = "Selecione uma equipe para acessar as pastas de fotos.";
-
-            logoCabecalho.classList.add('hidden');
+        function limparNavegacao() {
+            document.body.classList.remove('nav-context-all', 'nav-context-team');
             btnVoltar.classList.add('hidden');
             btnInicio.classList.add('hidden');
+            btnSair.classList.add('hidden');
+        }
 
+        function configurarNavegacao(contexto) {
+            limparNavegacao();
+
+            if (contexto === 'all') {
+                document.body.classList.add('nav-context-all');
+                btnVoltar.classList.remove('hidden');
+                btnInicio.classList.remove('hidden');
+                btnVoltar.innerText = '← Voltar para equipe';
+                btnInicio.innerText = '⌂ Todas as equipes';
+            } else if (contexto === 'team') {
+                document.body.classList.add('nav-context-team');
+                btnVoltar.classList.remove('hidden');
+                btnSair.classList.remove('hidden');
+                btnVoltar.innerText = '← Voltar para equipe';
+                btnSair.innerText = 'Desconectar do login';
+            } else if (contexto === 'player') {
+                btnSair.classList.remove('hidden');
+                btnSair.innerText = 'Desconectar do login';
+            }
+        }
+
+        function voltarParaEquipeAtual() {
+            if (equipeSelecionada && equipeSelecionada.id) {
+                abrirEquipe(equipeSelecionada.id);
+            } else {
+                renderizarEquipes();
+            }
+        }
+
+        function renderizarEquipes() {
+            nivelAtual = 'equipes';
+            titulo.innerText = "EQUIPES - MEDIA LOBBY";
+            subtitulo.innerText = "Selecione uma equipe para acessar o acervo de mídia.";
+            logoCabecalho.classList.add('hidden');
+            limparNavegacao();
+            btnSair.classList.remove('hidden');
+            btnSair.innerText = 'Desconectar do login';
+            container.className = 'grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5';
             container.innerHTML = '';
-
             dadosEquipes.forEach(eq => {
                 const logoSrc = processarLinkDrive(eq.logo);
-                const membros = Array.isArray(eq.membros) ? eq.membros : [];
-
-                const jogadoresHtml = membros.length
-                    ? membros.map(membro => {
-                        const funcao = String(membro.funcao || '').trim().toUpperCase();
-                        const icone = iconesFuncoes[funcao] || '';
-                        const nome = String(membro.nick || 'Jogador').trim();
-
-                        const iconeHtml = icone
-                            ? `<img src="${icone}" alt="${escaparHtml(funcao)}" title="${escaparHtml(funcao)}" class="team-player-icon object-contain">`
-                            : `<span class="team-player-icon flex items-center justify-center text-sm text-gray-500" title="Função não cadastrada">•</span>`;
-
-                        return `
-                            <div class="team-player-chip rounded-lg px-3 py-2 flex items-center gap-2 transition" title="${escaparHtml(funcao ? `${nome} — ${funcao}` : nome)}">
-                                ${iconeHtml}
-                                <span class="text-sm text-gray-200 font-medium truncate">${escaparHtml(nome)}</span>
-                            </div>
-                        `;
-                    }).join('')
-                    : `<div class="text-sm text-gray-500 py-2">Nenhum jogador cadastrado.</div>`;
-
+                const totalJogadores = Array.isArray(eq.membros) ? eq.membros.length : 0;
                 container.innerHTML += `
-                    <div onclick="abrirEquipe('${escaparHtml(eq.id)}')" class="team-preview-card col-span-full bg-[#161624] border border-[#2a2a3f] p-5 md:p-6 rounded-xl shadow-md cursor-pointer card-hover transition">
-                        <div class="flex items-center gap-5 md:gap-7 w-full">
-
-                            <!-- Logo + nome da equipe -->
-                            <div class="team-preview-left shrink-0 flex flex-col items-center justify-center text-center">
-                                <div class="team-preview-logo flex items-center justify-center mb-3">
-                                    <img src="${logoSrc}" alt="${escaparHtml(eq.nome)}" class="max-h-full max-w-full object-contain filter drop-shadow" onerror="this.src='info-ffws/logoffws.png'">
-                                </div>
-                                <h2 class="team-preview-name font-bold text-white text-base md:text-lg">${escaparHtml(eq.nome)}</h2>
-                            </div>
-
-                            <!-- Jogadores + função -->
-                            <div class="team-player-list flex-1 min-w-0 border-l border-[#2a2a3f] pl-4 md:pl-6">
-                                <div class="text-[10px] uppercase tracking-[0.18em] text-gray-500 font-medium mb-3">JOGADORES</div>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                                    ${jogadoresHtml}
-                                </div>
-                            </div>
-
+                    <div onclick="abrirEquipe('${escaparHtml(eq.id)}')" class="team-preview-card card-hover">
+                        <div class="team-preview-left">
+                            <div class="team-preview-logo"><img src="${logoSrc}" alt="${escaparHtml(eq.nome)}" onerror="this.src='info-ffws/logoffws.png'"></div>
+                            <h2 class="team-preview-name">${escaparHtml(eq.nome)}</h2>
+                            <div class="team-preview-caption">MEDIA TEAM · ${totalJogadores} ${totalJogadores === 1 ? 'PLAYER' : 'PLAYERS'}</div>
+                            <div class="team-preview-action">Abrir acervo →</div>
                         </div>
-
-                        <div class="mt-4 pt-3 border-t border-[#2a2a3f] text-center">
-                            <span class="text-xs md:text-sm accent-purple font-semibold">Ver pastas de estilos →</span>
-                        </div>
-                    </div>
-                `;
+                    </div>`;
             });
-
             irParaTopo();
         }
 
@@ -750,15 +757,47 @@
             logoCabecalho.src = processarLinkDrive(equipeSelecionada.logo);
             logoCabecalho.classList.remove('hidden');
 
-            btnVoltar.classList.add('hidden');
-
+            limparNavegacao();
+            btnSair.classList.remove('hidden');
+            btnSair.innerText = 'Desconectar do login';
             if (scope === 'all') {
                 btnInicio.classList.remove('hidden');
+                btnInicio.innerText = '⌂ Todas as equipes';
             } else {
-                btnInicio.classList.add('hidden');
+                btnSair.classList.remove('hidden');
+                btnSair.innerText = 'Desconectar do login';
             }
 
+            container.className = 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5';
             container.innerHTML = '';
+
+            const membrosEquipe = Array.isArray(equipeSelecionada.membros) ? equipeSelecionada.membros : [];
+            const rosterCards = membrosEquipe.length ? membrosEquipe.map((membro) => {
+                const funcao = String(membro.funcao || '').trim().toUpperCase();
+                const icone = iconesFuncoes[funcao] || '';
+                const iconeHtml = icone ? `<img src="${icone}" alt="${escaparHtml(funcao)}">` : `<span style="color:#e8b033;font-size:18px;font-weight:900">•</span>`;
+                const pid = String(membro.playerId || '').replace(/'/g, "\\'");
+                return `
+                    <div class="team-player-card" onclick="abrirEquipeJogador(equipeSelecionada, equipeSelecionada.membros.find(m => m.playerId === '${pid}'))">
+                        <div class="team-player-avatar">${iconeHtml}</div>
+                        <div class="min-w-0 flex-1">
+                            <div class="team-player-card-label">PLAYER</div>
+                            <div class="team-player-card-name">${escaparHtml(membro.nick || 'Jogador')}</div>
+                            <div class="team-player-card-role">${escaparHtml(funcao || 'PLAYER')}</div>
+                        </div>
+                        <span style="color:#77778b;font-size:16px">↗</span>
+                    </div>`;
+            }).join('') : `<div class="text-sm text-gray-500 py-4">Nenhum jogador cadastrado para esta equipe.</div>`;
+
+            container.innerHTML += `
+                <section class="team-roster-section">
+                    <div class="team-roster-heading">
+                        <div><div class="team-roster-kicker">TEAM ROSTER</div><h2>Jogadores da equipe</h2><p>Selecione um jogador para abrir o acervo individual de mídia.</p></div>
+                        <div class="team-roster-count">${membrosEquipe.length} ${membrosEquipe.length === 1 ? 'PLAYER' : 'PLAYERS'}</div>
+                    </div>
+                    <div class="team-roster-grid">${rosterCards}</div>
+                </section>
+            `;
 
             container.innerHTML += `
                 <div onclick="abrirPastaLogosEBrasoes('Logotipos')" class="media-library-card media-library-card--brand">
@@ -794,24 +833,10 @@
                 const info = obterInfoPastaPose(estilo);
 
                 container.innerHTML += `
-                    <div onclick="abrirEstilo(${index})" class="pose-folder-card p-5 md:p-6 rounded-xl shadow-md cursor-pointer transition">
-                        <div class="relative z-10 flex flex-col h-full">
-                            <div class="flex items-center justify-between gap-3 mb-5">
-                                <span class="pose-folder-topline">MEDIA ASSET / ${escaparHtml(info.codigo)}</span>
-                                <span class="pose-folder-code">${escaparHtml(info.codigo)}</span>
-                            </div>
-
-                            <div class="flex-1">
-                                <h2 class="font-bold text-white text-lg md:text-xl leading-tight mb-2">${escaparHtml(info.titulo)}</h2>
-                                ${info.direcao ? `<div class="pose-folder-direction mb-3">Direção: ${escaparHtml(info.direcao)}</div>` : ''}
-                                <p class="text-xs md:text-sm text-gray-400 leading-relaxed max-w-[34rem]">${escaparHtml(info.descricao)}</p>
-                            </div>
-
-                            <div class="pose-folder-action">
-                                <span class="pose-folder-meta">Coleção fotográfica</span>
-                                <span class="pose-folder-open">Abrir pasta ↗</span>
-                            </div>
-                        </div>
+                    <div onclick="abrirEstilo(${index})" class="pose-folder-card pose-folder-card-modern">
+                        <div class="pose-folder-visual"><div class="pose-folder-code">${escaparHtml(info.codigo)}</div><div class="pose-folder-lines"><span></span><span></span><span></span></div></div>
+                        <div class="pose-folder-body"><span class="pose-folder-topline">PHOTO COLLECTION</span><h2>${escaparHtml(info.titulo)}</h2>${info.direcao ? `<div class="pose-folder-direction">${escaparHtml(info.direcao)}</div>` : ''}<p>${escaparHtml(info.descricao)}</p></div>
+                        <div class="pose-folder-action"><span class="pose-folder-meta">${escaparHtml(info.codigo)} · MEDIA ASSET</span><span class="pose-folder-open">Abrir ↗</span></div>
                     </div>
                 `;
             });
@@ -831,9 +856,13 @@
             logoCabecalho.src = processarLinkDrive(equipe.logo);
             logoCabecalho.classList.remove('hidden');
 
-            btnVoltar.classList.add('hidden');
-            btnInicio.classList.add('hidden');
-            btnSair.classList.remove('hidden');
+            if (scope === 'all') {
+                configurarNavegacao('all');
+            } else if (scope === 'player') {
+                configurarNavegacao('player');
+            } else {
+                configurarNavegacao('team');
+            }
 
             const funcao = String(membro.funcao || '').trim().toUpperCase();
             const icone = iconesFuncoes[funcao] || '';
@@ -957,11 +986,12 @@
             titulo.innerText = `${equipeSelecionada.nome} - ${tipo}`;
             subtitulo.innerText = `Pasta: ${tipo}`;
 
-            btnVoltar.classList.remove('hidden');
-            btnVoltar.innerText = "← Voltar para a Pasta de Poses";
-
             if (scope === 'all') {
-                btnInicio.classList.remove('hidden');
+                configurarNavegacao('all');
+                btnVoltar.innerText = '← Voltar para equipe';
+            } else {
+                configurarNavegacao('team');
+                btnVoltar.innerText = '← Voltar para equipe';
             }
 
             let itens = [];
@@ -1035,13 +1065,12 @@
             titulo.innerText = `${equipeSelecionada.nome} - ${nomeFormatado}`;
             subtitulo.innerText = `Pasta: ${nomeFormatado}`;
 
-            btnVoltar.classList.remove('hidden');
-            btnVoltar.innerText = "← Voltar para a Pasta de Poses";
-
             if (scope === 'all') {
-                btnInicio.classList.remove('hidden');
+                configurarNavegacao('all');
+                btnVoltar.innerText = '← Voltar para equipe';
             } else {
-                btnInicio.classList.add('hidden');
+                configurarNavegacao('team');
+                btnVoltar.innerText = '← Voltar para equipe';
             }
 
             container.innerHTML = `
