@@ -1077,8 +1077,8 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                         <div class="text-white text-xs font-bold mt-1">Downloads em lote do acervo</div>
                     </div>
                     <div class="bulk-toolbar-actions">
-                        <button class="bulk-btn" onclick="abrirSeletorDownload('all', dadosEquipes)">↓ Baixar todas as equipes</button>
-                        <button class="bulk-btn secondary" onclick="renderizarSeletorEquipesDownload()">↓ Baixar apenas equipes selecionadas</button>
+                        <button class="bulk-btn" onclick="abrirSeletorDownload('all', dadosEquipes)">↓ BAIXAR TODAS EQUIPES</button>
+                        <button class="bulk-btn secondary" onclick="renderizarSeletorEquipesDownload()">↓ BAIXAR EQUIPES SELECIONADAS</button>
                     </div>
                 </div>`;
 
@@ -1135,17 +1135,17 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
 
             limparNavegacao();
             btnSair.classList.remove('hidden');
-            btnSair.innerText = 'Desconectar do login';
+            btnSair.innerText = 'DESCONECTAR DO LOGIN';
             if (scope === 'all') {
                 btnInicio.classList.remove('hidden');
-                btnInicio.innerText = '⌂ Todas as equipes';
+                btnInicio.innerText = '⌂ TODAS AS EQUIPES';
             } else {
                 btnSair.classList.remove('hidden');
-                btnSair.innerText = 'Desconectar do login';
+                btnSair.innerText = 'DESCONECTAR DO LOGIN';
             }
 
             container.className = 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5';
-            const equipeDownload = `<button class="bulk-btn" onclick="abrirSeletorDownload('team', equipeSelecionada)">↓ Baixar equipe inteira</button>`;
+            const equipeDownload = `<button class="bulk-btn" onclick="abrirSeletorDownload('team', equipeSelecionada)">↓ BAIXAR TODAS AS FOTOS</button>`;
             container.innerHTML = `<div class="bulk-toolbar"><div><div class="bulk-toolbar-title">TEAM MEDIA DOWNLOAD</div><div class="text-white text-xs font-bold mt-1">${escaparHtml(equipeSelecionada.nome)}</div></div><div class="bulk-toolbar-actions">${equipeDownload}</div></div>`;
 
             const membrosEquipe = Array.isArray(equipeSelecionada.membros) ? equipeSelecionada.membros : [];
@@ -1164,12 +1164,12 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                         </div>
                         <span style="color:#77778b;font-size:16px">↗</span>
                     </div>`;
-            }).join('') : `<div class="text-sm text-gray-500 py-4">Nenhum jogador cadastrado para esta equipe.</div>`;
+            }).join('') : `<div class="text-sm text-gray-500 py-4">NENHUM CADASTRO PARA ESSA EQUIPE.</div>`;
 
             container.innerHTML += `
                 <section class="team-roster-section">
                     <div class="team-roster-heading">
-                        <div><div class="team-roster-kicker">TEAM ROSTER</div><h2>Jogadores da equipe</h2><p>Selecione um jogador para abrir o acervo individual de mídia.</p></div>
+                        <div><div class="team-roster-kicker">TEAM ROSTER</div><h2>JOGADORES DA EQUIPE</h2><p>SELECIONE UM JOGADOR PARA ABRIR O ACERVO INDIVIDUAL DE MÍDIA.</p></div>
                         <div class="team-roster-count">${membrosEquipe.length} ${membrosEquipe.length === 1 ? 'PLAYER' : 'PLAYERS'}</div>
                     </div>
                     <div class="team-roster-grid">${rosterCards}</div>
