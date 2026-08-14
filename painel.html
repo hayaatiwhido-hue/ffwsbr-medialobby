@@ -727,14 +727,15 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
             return url;
         }
 
-        // URL exclusiva para DOWNLOAD: não usa a miniatura de 480/720px.
-        // Para imagens hospedadas no Google Drive, solicita até 1500px de largura,
-        // preservando a resolução original de fotos 1500x1500.
+        // URL exclusiva para DOWNLOAD: nunca usa as miniaturas de 480/720px.
+        // Para imagens hospedadas no Google Drive, "=s0" solicita o arquivo
+        // na resolução original disponível no Drive. Assim, uma foto 1500x1500
+        // baixa em 1500x1500, uma 1000x1000 em 1000x1000, etc.
         function processarLinkDriveOriginal(idOuUrl) {
             const url = processarLinkDrive(idOuUrl);
             if (!url) return '';
             if (url.startsWith('https://lh3.googleusercontent.com/d/')) {
-                return url.replace(/=(?:w|h|s)\d+(?:-[^/]*)?$/i, '') + '=w1500';
+                return url.replace(/=(?:w|h|s)\d+(?:-[^/]*)?$/i, '') + '=s0';
             }
             return url;
         }
