@@ -86,7 +86,7 @@ const dadosEquipes = [
     {
         id: "afrogames",
         nome: "AFROGAMES",
-        logo: "https://drive.google.com/file/d/1dqj87PlfHcSa7xR8U6e6sG__hLEdI3gJ/view?usp=drivesdk",
+        logo: "https://drive.google.com/file/d/1M6xmHm0MjVvdX-r-TNQwdR6zrPkI6N4H/view?usp=drivesdk",
         logos: [
             { nome: "LOGO COLORIDA", id: "https://drive.google.com/file/d/1OBuZn4qgOHRmUf9qYMRNd4f8ic2HZsjT/view?usp=drivesdk" }, { nome: "LOGO BRANCA", id: "https://drive.google.com/file/d/1dqj87PlfHcSa7xR8U6e6sG__hLEdI3gJ/view?usp=drivesdk" }, { nome: "LOGO PRETA", id: "https://drive.google.com/file/d/1e_vnq_ifGtqsWcalYoO7DcA86utlL2Ir/view?usp=drivesdk" },
             { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
@@ -114,7 +114,7 @@ const dadosEquipes = [
     {
         id: "alpha-7",
         nome: "ALPHA 7",
-        logo: "https://drive.google.com/file/d/1JywXD34FbZHPhQgEykwEZMorzUA5aUCH/view?usp=drivesdk",
+        logo: "https://drive.google.com/file/d/1nEAYXgNaQ3KLG3xB2Tr0R1vnV3oAyZmR/view?usp=drivesdk",
         logos: [
             { nome: "LOGO BRANCA E LARANJA", id: "https://drive.google.com/file/d/1JywXD34FbZHPhQgEykwEZMorzUA5aUCH/view?usp=drivesdk" }, { nome: "LOGO PRETA E LARANJA", id: "https://drive.google.com/file/d/1JG8rWyLfnL6Yie2fh2n-xkW3fpRXfKqt/view?usp=drivesdk" }, { nome: "LOGO BRANCA", id: "https://drive.google.com/file/d/14XDIhJRj2fwvdxCFIfgpVtNC-m8HABIS/view?usp=drivesdk" },
             { nome: "LOGO PRETA", id: "https://drive.google.com/file/d/1Ruuk9T2hs2f7giT31QXil31ZvFDEUF-C/view?usp=drivesdk" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
@@ -141,7 +141,7 @@ const dadosEquipes = [
     {
         id: "cpt-vox",
         nome: "CPT VOX E-SPORTS",
-        logo: "https://drive.google.com/file/d/1eSD2F5QefnZiv4miClORwnuWS833B6fl/view?usp=drivesdk",
+        logo: "https://drive.google.com/file/d/17E4VZ3DCyKsezucA67rRIVcL6dzoHart/view?usp=drivesdk",
         logos: [
             { nome: "LOGO PRINCIPAL", id: "https://drive.google.com/file/d/1eSD2F5QefnZiv4miClORwnuWS833B6fl/view?usp=drivesdk" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
             { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
@@ -167,7 +167,7 @@ const dadosEquipes = [
     {
         id: "civis",
         nome: "CIVIS SPORTS",
-        logo: "https://drive.google.com/file/d/1fKqlQHQAb3bpKFUM7UsMy1AlamYWbMRS/view?usp=drivesdk",
+        logo: "https://drive.google.com/file/d/101wmKKOE3qC7yAcrgs8CZpadBZwV32qz/view?usp=drivesdk",
         logos: [
             { nome: "LOGO COLORIDA", id: "https://drive.google.com/file/d/1fKqlQHQAb3bpKFUM7UsMy1AlamYWbMRS/view?usp=drivesdk" }, { nome: "LOGO PRETA E BRANCA", id: "https://drive.google.com/file/d/1soPkQNenLW-X2F7lk4POv1v5EBYxTGN-/view?usp=drivesdk" }, { nome: "Logo 3", id: "" },
             { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
@@ -194,7 +194,7 @@ const dadosEquipes = [
     {
         id: "fluxo-w7m",
         nome: "FLUXO W7M",
-        logo: "https://drive.google.com/file/d/1ES8mnVJdFZ_9xKdLA4RwjKcGljTxLxlw/view?usp=drivesdk",
+        logo: "https://drive.google.com/file/d/1kBC02XJo-t1QkQOGD8eZMdx5A51oqkb8/view?usp=drivesdk",
         logos: [
             { nome: "LOGO COLORIDA", id: "https://drive.google.com/file/d/1xF5wIdnrl8gcrCcvMLyQOXaT4-xVhH0w/view?usp=drivesdk" }, { nome: "LOGO BRANCA", id: "https://drive.google.com/file/d/1ES8mnVJdFZ_9xKdLA4RwjKcGljTxLxlw/view?usp=drivesdk" }, { nome: "LOGO PRETA", id: "https://drive.google.com/file/d/1Vv3f5qgB2vIjJcGFNpq0GrDdDkTi35RM/view?usp=drivesdk" },
             { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
@@ -220,7 +220,7 @@ const dadosEquipes = [
     {
         id: "influence-rage",
         nome: "INFLUENCE RAGE",
-        logo: "https://drive.google.com/file/d/1yxp3Gv0uwo89bR76GKNVrJD0bKWzfWby/view?usp=drivesdk",
+        logo: "https://drive.google.com/file/d/1-1-WtnbSnDhrl8N9JYKDv6S6_oqyCpRT/view?usp=drivesdk",
         logos: [
             { nome: "LOGO PRINCIPAL", id: "https://drive.google.com/file/d/1yxp3Gv0uwo89bR76GKNVrJD0bKWzfWby/view?usp=drivesdk" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
             { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
@@ -247,7 +247,7 @@ const dadosEquipes = [
     {
         id: "intz-esports",
         nome: "INTZ ESPORTS",
-        logo: "https://drive.google.com/file/d/10ZqJIa5HVQ4uCWFmOjpbbLJ1fQEnTLm8/view?usp=drivesdk",
+        logo: "https://drive.google.com/file/d/1m6EhurGJ9ov5HGzSzuddaEWHhjzbwHB6/view?usp=drivesdk",
         logos: [
             { nome: "LOGO 1", id: "https://drive.google.com/file/d/10ZqJIa5HVQ4uCWFmOjpbbLJ1fQEnTLm8/view?usp=drivesdk" }, { nome: "LOGO 2", id: "https://drive.google.com/file/d/1mfk9zPgdl-PaEucqr4wF5SBoqkWL-Ru6/view?usp=drivesdk" }, { nome: "Logo 3", id: "" },
             { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
@@ -274,7 +274,7 @@ const dadosEquipes = [
     {
         id: "loops-esports",
         nome: "LOOPS ESPORTS",
-        logo: "https://drive.google.com/file/d/1XF7hjPihKUW-V6P6NryEN0W5q5PIsT3n/view?usp=drivesdk",
+        logo: "https://drive.google.com/file/d/1fJy0MyT0QYXt8SPq-bSNiRx_iq_Wrizu/view?usp=drivesdk",
         logos: [
             { nome: "LOGO PRINCIPAL", id: "https://drive.google.com/file/d/1XF7hjPihKUW-V6P6NryEN0W5q5PIsT3n/view?usp=drivesdk" }, { nome: "LOGO CONTORNO BRANCO", id: "https://drive.google.com/file/d/11uIQZvSHqoaUsptfAwFySe1AyNSMbsAB/view?usp=drivesdk" }, { nome: "LOGO CONTORNO PRETO", id: "https://drive.google.com/file/d/1p_3di345RwXt8oO9W0-g484V25myyg-L/view?usp=drivesdk" },
             { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
@@ -301,7 +301,7 @@ const dadosEquipes = [
     {
         id: "los",
         nome: "LOS",
-        logo: "https://drive.google.com/file/d/1El1XxICeartrr3zJtKRpv8nGOVCICOBc/view?usp=drivesdk",
+        logo: "https://drive.google.com/file/d/11EAccQtjhGXnxe3KyQ0QnUce8oFmSoPT/view?usp=drivesdk",
         logos: [
             { nome: "LOGO LARANJA", id: "https://drive.google.com/file/d/1fCJ8TEAle_wBEQj1CVSRMCRLCo95D42q/view?usp=drivesdk" }, { nome: "LOGO BRANCA", id: "https://drive.google.com/file/d/1El1XxICeartrr3zJtKRpv8nGOVCICOBc/view?usp=drivesdk" }, { nome: "LOGO PRETA", id: "https://drive.google.com/file/d/1SXI4ziwyjZF-wwjMBcK8ES5N53GMJOvs/view?usp=drivesdk" },
             { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
@@ -329,7 +329,7 @@ const dadosEquipes = [
     {
         id: "loud-snickers",
         nome: "LOUD SNICKERS",
-        logo: "https://drive.google.com/file/d/12-OgkD0hxZaBMMWwFuItzPz6A6vg_gLg/view?usp=drivesdk",
+        logo: "https://drive.google.com/file/d/1Cq-817CIB8dzBxDu5pCoAzYzkEp1frN5/view?usp=drivesdk",
         logos: [
             { nome: "LOGO ESCRITA VERDE", id: "https://drive.google.com/file/d/1MQfqoKBUU_qJDK5PVIj7xqbOjpF62I1k/view?usp=drivesdk" }, { nome: "LOGO SIMBOLO VERDE", id: "https://drive.google.com/file/d/12-OgkD0hxZaBMMWwFuItzPz6A6vg_gLg/view?usp=drivesdk" }, { nome: "LOGO HORIZONTAL VERDE", id: "https://drive.google.com/file/d/1hWVVI0sXhn-K18NxLWp9MYSymFhwAeTM/view?usp=drivesdk" },
             { nome: "LOGO ESCRITA BRANCA", id: "https://drive.google.com/file/d/1xYQl0J-NbEpikSkjEi6OjGGN4ZtPToaE/view?usp=drivesdk" }, { nome: "LOGO SIMBOLO BRANCO", id: "https://drive.google.com/file/d/1FhAahkOrQlH3BPWLq6KY40P90_4elV99/view?usp=drivesdk" }, { nome: "LOGO HORIZONTAL BRANCA", id: "https://drive.google.com/file/d/1Nx42caTDCEUeLYB4ow4Gc8AGcLImegiE/view?usp=drivesdk" },
@@ -356,7 +356,7 @@ const dadosEquipes = [
     {
         id: "rise-gaming",
         nome: "RISE GAMING",
-        logo: "https://drive.google.com/file/d/1VcBtfjFxvEbHR0OKtWG5ZXoa_rU5jKa-/view?usp=drivesdk",
+        logo: "https://drive.google.com/file/d/10_1R4mWgCXJXjEO5M9fSzGWlZoOdTsTN/view?usp=drivesdk",
         logos: [
             { nome: "LOGO 1", id: "https://drive.google.com/file/d/1RJbbuoUVgqB5m59wAHNE6nYumY-2Ly_P/view?usp=drivesdk" }, { nome: "LOGO 2", id: "https://drive.google.com/file/d/1VcBtfjFxvEbHR0OKtWG5ZXoa_rU5jKa-/view?usp=drivesdk" }, { nome: "LOGO 3", id: "https://drive.google.com/file/d/187yAUiz7nGiZ4WbYChWkj8ndaybd-mxa/view?usp=drivesdk" },
             { nome: "LOGO 4", id: "https://drive.google.com/file/d/11OIYy5tvps_kuDi4LBtSZyyDg-YXgKtk/view?usp=drivesdk" }, { nome: "LOGO 5", id: "https://drive.google.com/file/d/1HfE2PbCUDvffobIGwIsxKX7YaSMGznyI/view?usp=drivesdk" }, { nome: "LOGO 6", id: "https://drive.google.com/file/d/1x1d_UX0UEFSs7FQO0c4pI7Ogsg9VKa5q/view?usp=drivesdk" },
@@ -382,7 +382,7 @@ const dadosEquipes = [
     {
         id: "rush-gaming",
         nome: "RUSH GAMING",
-        logo: "https://drive.google.com/file/d/1gGYqfRuOHbJY2UpnI51gHnzWoWMU0diw/view?usp=drivesdk",
+        logo: "https://drive.google.com/file/d/1aDF0Z8-HoEiEZnXnBOSRTVwJ_36xPKiU/view?usp=drivesdk",
         logos: [
             { nome: "LOGO DOURADA", id: "https://drive.google.com/file/d/1gGYqfRuOHbJY2UpnI51gHnzWoWMU0diw/view?usp=drivesdk" }, { nome: "LOGO VERMELHA", id: "https://drive.google.com/file/d/10whVPWXlIlOo92qojLFe25ibXOJ5stDz/view?usp=drivesdk" }, { nome: "Logo 3", id: "" },
             { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
@@ -409,7 +409,7 @@ const dadosEquipes = [
     {
         id: "sx-tet",
         nome: "SX TET",
-        logo: "https://drive.google.com/file/d/15KAn4zGURlF45V1NYwsjkQ0eAe-7utT7/view?usp=drivesdk",
+        logo: "https://drive.google.com/file/d/1inGA4OdQjfhLYVIeQ6M8wlBL6AVymaBn/view?usp=drivesdk",
         logos: [
             { nome: "LOGO PRINCIPAL", id: "https://drive.google.com/file/d/15KAn4zGURlF45V1NYwsjkQ0eAe-7utT7/view?usp=drivesdk" }, { nome: "Logo 2", id: "" }, { nome: "Logo 3", id: "" },
             { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
@@ -435,7 +435,7 @@ const dadosEquipes = [
     {
         id: "team-solid",
         nome: "TEAM SOLID",
-        logo: "https://drive.google.com/file/d/1OqzqKwiZSAzJtrPgoQx2jRGHIj5VGmrV/view?usp=drivesdk",
+        logo: "https://drive.google.com/file/d/1gBiaPEPIt29kC6tuv8j7M2fBAh-r-XN-/view?usp=drivesdk",
         logos: [
             { nome: "LOGO BRANCA", id: "https://drive.google.com/file/d/1OqzqKwiZSAzJtrPgoQx2jRGHIj5VGmrV/view?usp=drivesdk" }, { nome: "LOGO PRETA", id: "https://drive.google.com/file/d/10zi-Sv9mxjORO9WiwI4cgDsslOtydSEp/view?usp=drivesdk" }, { nome: "Logo 3", id: "" },
             { nome: "Logo 4", id: "" }, { nome: "Logo 5", id: "" }, { nome: "Logo 6", id: "" },
