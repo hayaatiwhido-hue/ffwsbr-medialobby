@@ -727,6 +727,18 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
             return url;
         }
 
+        // URL exclusiva para DOWNLOAD: não usa a miniatura de 480/720px.
+        // Para imagens hospedadas no Google Drive, solicita até 1500px de largura,
+        // preservando a resolução original de fotos 1500x1500.
+        function processarLinkDriveOriginal(idOuUrl) {
+            const url = processarLinkDrive(idOuUrl);
+            if (!url) return '';
+            if (url.startsWith('https://lh3.googleusercontent.com/d/')) {
+                return url.replace(/=(?:w|h|s)\d+(?:-[^/]*)?$/i, '') + '=w1500';
+            }
+            return url;
+        }
+
         function abrirSeletorDownload(contexto, payload) {
             const existente = document.getElementById('download-modal-backdrop');
             if (existente) existente.remove();
@@ -805,7 +817,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                 const nome = nomeArquivoJogador(membro, estilo.sigla, modo);
                 const pastaPose = String(estilo.sigla || 'POSE').replace(/[\\/:*?"<>|]/g, '-');
                 itens.push({
-                    url: processarLinkDrive(fileId),
+                    url: processarLinkDriveOriginal(fileId),
                     nome,
                     caminho: prefixo ? `${prefixo}/${pastaPose}/${nome}` : `${pastaPose}/${nome}`
                 });
@@ -829,7 +841,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                     const valor = typeof item === 'string' ? item : (item.id || item.link);
                     if (!valor || !String(valor).trim() || String(valor).includes('SEU_ID')) return;
                     const nome = (typeof item === 'object' && item.nome) ? item.nome : `${pasta}_${idx + 1}`;
-                    itens.push({ url: processarLinkDrive(valor), nome: nomeArquivoGenerico(nome), caminho: `${pasta}/${nomeArquivoGenerico(nome)}` });
+                    itens.push({ url: processarLinkDriveOriginal(valor), nome: nomeArquivoGenerico(nome), caminho: `${pasta}/${nomeArquivoGenerico(nome)}` });
                 });
             });
             return itens;
@@ -845,7 +857,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                 const fileId = membro?.fotos?.[estilo.sigla];
                 if (!fileId || !String(fileId).trim()) return;
                 itens.push({
-                    url: processarLinkDrive(fileId),
+                    url: processarLinkDriveOriginal(fileId),
                     nome: nomeArquivoJogador(membro, estilo.sigla, modo),
                     caminho: nomeArquivoJogador(membro, estilo.sigla, modo)
                 });
@@ -938,7 +950,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
         }
 
         function baixarIndividual(membro, estilo) {
-            abrirSeletorDownload('individual', { membro, sigla: estilo.sigla, url: processarLinkDrive(membro.fotos[estilo.sigla]) });
+            abrirSeletorDownload('individual', { membro, sigla: estilo.sigla, url: processarLinkDriveOriginal(membro.fotos[estilo.sigla]) });
         }
 
         function toggleEquipeSelecionada(id, checked) {
@@ -1297,7 +1309,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                 if (!fileId || String(fileId).trim() === '') return;
 
                 contadorEncontrados++;
-                const urlDownloadOriginal = processarLinkDrive(fileId);
+                const urlDownloadOriginal = processarLinkDriveOriginal(fileId);
                 const urlDriveImg = processarLinkDrivePreview(fileId, 720);
                 const nomeArquivo = nomeArquivoJogador(membro, siglaEstilo, 'nick');
                 const info = obterInfoPastaPose(estilo);
@@ -1407,7 +1419,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                     ? item.nome
                     : `${tipo.slice(0, -1)} ${idx + 1}`;
 
-                const urlDownloadOriginal = processarLinkDrive(valorBruto);
+                const urlDownloadOriginal = processarLinkDriveOriginal(valorBruto);
                 const urlDriveImg = processarLinkDrivePreview(valorBruto, 480);
                 const nomeArquivo = nomeArquivoGenerico(nomeItem);
 
