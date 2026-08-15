@@ -753,9 +753,9 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
             modal.innerHTML = `
                 <div class="download-modal">
                     <h3>Como deseja baixar?</h3>
-                    <p>Escolha o padrão de nome dos arquivos antes de iniciar o download.</p>
-                    <button class="download-choice" data-mode="nick"><b>Baixar com Nickname</b><span>UID-Tag.Nickname_SIGLA DA POSE.png</span></button>
-                    <button class="download-choice" data-mode="id"><b>Baixar com ID</b><span>UID.png</span></button>
+                    <p>Escolha uma das opções para iniciar o download.</p>
+                    <button class="download-choice" data-mode="nick"><b>Baixar com Nickname</b></button>
+                    <button class="download-choice" data-mode="id"><b>Baixar com ID</b></button>
                     <button class="download-cancel">Cancelar</button>
                     <div class="download-progress"><i></i></div>
                 </div>`;
@@ -1577,7 +1577,10 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
                 const estilo = (listaEstilos || []).find(x => x.sigla === botao.dataset.pose);
                 if (membro && estilo) return abrirSeletorDownload('individual', { membro, sigla: estilo.sigla, url });
             }
-            abrirSeletorDownload('asset', { url, nome });
+
+            // Logos e brasões são assets da equipe: não possuem UID/nickname.
+            // O download deve acontecer diretamente, sem abrir o seletor de nomes.
+            baixarArquivo(url, nome).catch(err => console.error('Erro ao baixar asset:', err));
         });
 
         window.onload = inicializarPainel;
