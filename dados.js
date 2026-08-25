@@ -298,7 +298,7 @@ const dadosEquipes = [
             { nick: "LPS Ninja (Coach)", playerId: "loops-esports-5", funcao: "", uid: "", fotos: { FCI: "", FBB: "", BPD: "", BPE: "", FBC: "", BCD: "", BCE: "", PDB: "", MVP: "", FUN1: "", FUN2: "", FPG1: "", FPG2: "", FPG3: "", CPD: "", CPE: "", CDR: "" } }
         ]
     },
-
+    {
         id: "los",
         nome: "LOS",
         logo: "https://drive.google.com/file/d/1fCJ8TEAle_wBEQj1CVSRMCRLCo95D42q/view?usp=drivesdk",
