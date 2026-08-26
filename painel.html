@@ -78,7 +78,7 @@
         };
 
         function irParaTopo() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: 'auto' });
         }
 
         function formatarTitulo(texto) {
@@ -676,7 +676,7 @@
                 const pid = escaparHtml(eq.id);
                 html += `
                     <div class="team-preview-card card-hover">
-                        <div class="team-preview-left" onclick="abrirEquipe('${pid}')">
+                        <div class="team-preview-left" data-action="open-team" data-team-id="${pid}" role="button" tabindex="0">
                             <div class="team-preview-logo">
                                 ${logoSrc ? `<img data-src="${escaparHtml(logoSrc)}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="${escaparHtml(eq.nome)}" class="lazy-media" loading="lazy" decoding="async" fetchpriority="low">` : ''}
                             </div>
@@ -711,6 +711,7 @@
 
         function abrirEquipe(idEquipe) {
             equipeSelecionada = dadosEquipes.find(e => e.id === idEquipe);
+            window.equipeSelecionada = equipeSelecionada;
 
             if (!equipeSelecionada) return;
 
@@ -744,7 +745,7 @@
                 const iconeHtml = icone ? `<img src="${icone}" alt="${escaparHtml(funcao)}">` : `<span style="color:#e8b033;font-size:18px;font-weight:900">•</span>`;
                 const pid = String(membro.playerId || '').replace(/'/g, "\\'");
                 return `
-                    <div class="team-player-card" onclick="abrirEquipeJogador(equipeSelecionada, equipeSelecionada.membros.find(m => m.playerId === '${pid}'))">
+                    <div class="team-player-card" data-action="open-player" data-player-id="${escaparHtml(membro.playerId || '')}" role="button" tabindex="0">
                         <div class="team-player-avatar">${iconeHtml}</div>
                         <div class="min-w-0 flex-1">
                             <div class="team-player-card-label">PLAYER</div>
@@ -766,7 +767,7 @@
             `;
 
             container.innerHTML += `
-                <div onclick="abrirPastaLogosEBrasoes('Logotipos')" class="media-library-card media-library-card--brand">
+                <div data-action="open-assets" data-assets-type="Logotipos" class="media-library-card media-library-card--brand" role="button" tabindex="0">
                     <div class="media-library-glow"></div>
                     <div class="media-library-icon">
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 6.5h6l1.7 2H20a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 20 19.5H4A1.5 1.5 0 0 1 2.5 18V8A1.5 1.5 0 0 1 3.5 6.5Z"/><path d="M3 10h18"/></svg>
@@ -781,7 +782,7 @@
             `;
 
             container.innerHTML += `
-                <div onclick="abrirPastaLogosEBrasoes('Brasões')" class="media-library-card media-library-card--crest">
+                <div data-action="open-assets" data-assets-type="Brasões" class="media-library-card media-library-card--crest" role="button" tabindex="0">
                     <div class="media-library-glow"></div>
                     <div class="media-library-icon">
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4.5h12v6.3c0 4.2-2.4 7.1-6 8.7-3.6-1.6-6-4.5-6-8.7V4.5Z"/><path d="M9 9.2h6M12 7v6.2"/></svg>
@@ -799,7 +800,7 @@
                 const info = obterInfoPastaPose(estilo);
 
                 container.innerHTML += `
-                    <div onclick="abrirEstilo(${index})" class="pose-folder-card pose-folder-card-modern">
+                    <div data-action="open-style" data-style-index="${index}" class="pose-folder-card pose-folder-card-modern" role="button" tabindex="0">
                         <div class="pose-folder-visual"><div class="pose-folder-code">${escaparHtml(info.codigo)}</div><div class="pose-folder-lines"><span></span><span></span><span></span></div></div>
                         <div class="pose-folder-body"><span class="pose-folder-topline">PHOTO COLLECTION</span><h2>${escaparHtml(info.titulo)}</h2>${info.direcao ? `<div class="pose-folder-direction">${escaparHtml(info.direcao)}</div>` : ''}<p>${escaparHtml(info.descricao)}</p></div>
                         <div class="pose-folder-action"><span class="pose-folder-meta">${escaparHtml(info.codigo)} · MEDIA ASSET</span><span class="pose-folder-open">Abrir ↗</span></div>
@@ -814,6 +815,7 @@
         // O restante do site continua com o design já existente.
         function abrirEquipeJogador(equipe, membro) {
             equipeSelecionada = equipe;
+            window.equipeSelecionada = equipeSelecionada;
             nivelAtual = 'player';
 
             titulo.innerText = 'PLAYER MEDIA';
@@ -1156,6 +1158,30 @@
         });
 
 
+        // Navegação por delegação: evita dependência de onclick inline em cards dinâmicos.
+        document.addEventListener('click', function(event) {
+            const target = event.target.closest('[data-action]');
+            if (!target) return;
+            const action = target.dataset.action;
+            if (action === 'open-team') {
+                abrirEquipe(target.dataset.teamId);
+            } else if (action === 'open-player') {
+                const membro = (equipeSelecionada?.membros || []).find(m => String(m.playerId) === String(target.dataset.playerId));
+                if (membro) abrirEquipeJogador(equipeSelecionada, membro);
+            } else if (action === 'open-style') {
+                abrirEstilo(Number(target.dataset.styleIndex));
+            } else if (action === 'open-assets') {
+                abrirPastaLogosEBrasoes(target.dataset.assetsType || 'Logotipos');
+            }
+        });
+        document.addEventListener('keydown', function(event) {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            const target = event.target.closest('[data-action]');
+            if (!target) return;
+            event.preventDefault();
+            target.click();
+        });
+
         /* ===== MEDIA LOBBY V2 ENHANCEMENTS ===== */
         (function(){
             const originalRenderizarEquipes = renderizarEquipes;
@@ -1267,6 +1293,21 @@
             };
             document.addEventListener('click',e=>{const img=e.target.closest('.photo-preview-image,.asset-preview-image,.photo-preview-stage img,.team-player-avatar img');if(img)openLightbox(img);});
             makeLightbox();
+
+            // As funções vivem dentro do escopo de inicialização.
+            // Os botões gerados pelo HTML usam eventos inline, então expomos
+            // somente as ações públicas necessárias no window.
+            window.renderizarEquipes = renderizarEquipes;
+            window.abrirEquipe = abrirEquipe;
+            window.abrirEstilo = abrirEstilo;
+            window.abrirEquipeJogador = abrirEquipeJogador;
+            window.abrirPastaLogosEBrasoes = abrirPastaLogosEBrasoes;
+            window.abrirSeletorDownload = abrirSeletorDownload;
+            window.continuarDownloadEquipesSelecionadas = continuarDownloadEquipesSelecionadas;
+            window.renderizarSeletorEquipesDownload = renderizarSeletorEquipesDownload;
+            window.selecionarTodasEquipesDownload = selecionarTodasEquipesDownload;
+            window.voltarNivel = voltarNivel;
+            window.sair = sair;
         })();
 
         // O carregamento da API pode terminar depois que o evento load já ocorreu.
