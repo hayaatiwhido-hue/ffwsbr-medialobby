@@ -1,5 +1,8 @@
+/* ============================================================
+   INDEX.HTML — estilos originais externalizados
+   ============================================================ */
 
-        @font-face { font-family: 'GFF-Latin'; src: url('fonts/GFF-LATIN-BLACK.woff2') format('woff2'); }
+@font-face { font-family: 'GFF-Latin'; src: url('fonts/GFF-LATIN-BLACK.woff2') format('woff2'); }
         body { font-family: 'GFF-Latin', sans-serif; background-image: url('info-ffws/backgroundpainel.png'); background-position: center; background-size: cover; }
         .btn-primary { background-color: #e8b033; color: #1a1a1a; }
         .btn-primary:hover { background-color: #f74afe; color: #fff; }
@@ -200,12 +203,11 @@ button{outline:none}
   .login-domains{max-height:285px!important}
 }
 
+/* ============================================================
+   PAINEL.HTML — estilos originais externalizados
+   ============================================================ */
 
-
-/* ===== MEDIA LOBBY — extracted from original index.html + painel.html ===== */
-
-
-        @font-face {
+@font-face {
             font-family: 'GFF-Latin';
             src: url('fonts/GFF-Latin-Thin.woff2') format('woff2'), url('fonts/GFF-Latin-Thin.ttf') format('truetype');
             font-weight: 100;

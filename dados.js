@@ -1,3 +1,40 @@
+// LISTA DE USUÁRIOS E PERMISSÕES DE ACESSO
+const listaUsuarios = [
+
+    // LOGIN EXCLUSIVO DE JOGADOR:
+    // Crie um registro para cada jogador liberado pelo Developer.
+    // playerId deve ser exatamente o playerId do jogador em dadosEquipes.
+    // Exemplo:
+    // { email: "jogador@medialobby.com", senha: "SenhaDoJogador", scope: "player", playerId: "afrogames-0" },
+    { email: "jotinha@medialobby.dev", senha: "Stw1402s@", scope: "all" },
+    { email: "ag4futury2022@novofuturo.com", senha: "Futury@2022", scope: "all" },
+    { email: "ban@novofuturo.com", senha: "BanFFWSgostoso2026", scope: "all" },
+    { email: "anextplay@acessfull.com", senha: "Anextplay@gg", scope: "all" },
+    { email: "eduardogabriel081005@gmail.com", senha: "Edubiel12", scope: "all" },
+    { email: "ciliro@esolid.com", senha: "eSolidNews2026", scope: "all" },
+    { email: "ceo@yutaeventos.com", senha: "YutaGotoso26Yuna", scope: "all" },
+    { email: "pedrow@acessfull.com", senha: "infmeuamor", scope: "all" },
+    { email: "thallys@pixelbroadcast.com", senha: "AdmPixel1", scope: "all" },
+    { email: "oaspira@diretoria.com", senha: "Diretoria123", scope: "all" },
+    { email: "jaya@los.com", senha: "LosJaya2026", scope: "all" },
+    { email: "joao@afrogames.com", senha: "12345678", scope: "all" },
+
+    { email: "wf9@influence.com", senha: "WF9_Coach", scope: "influence-rage" },
+    { email: "saskito@influence.com", senha: "ManagerINF-2026", scope: "influence-rage" },
+    { email: "igor@influence.com", senha: "10218211", scope: "player", playerId: "inf.igor7" },
+    { email: "lyonrlq@influence.com", senha: "1759301816", scope: "player", playerId: "1759301816" },
+    { email: "nepoign@influence.com", senha: "812813211", scope: "player", playerId: "inf.nepo" },
+    { email: "dressalinda@afrogames.com", senha: "11092025", scope: "all" },
+    { email: "peter@afrogames.com", senha: "677943449", scope: "player", playerId: "Player-AFG.Peter" },
+    { email: "dnsetzz@afrogames.com", senha: "217618100", scope: "player", playerId: "Player-AFG.Dnsetzz" },
+    { email: "nielffx@afrogames.com", senha: "111420295", scope: "player", playerId: "Player-AFG.Nielffx" },
+    { email: "braboxx7@afrogames.com", senha: "247890207", scope: "player", playerId: "Player-AFG.BRABOXX7" },
+    { email: "sant10@afrogames.com", senha: "1130977672", scope: "player", playerId: "Player-AFG.Sant10$" },
+    { email: "gbzinn7@afrogames.com", senha: "21550867", scope: "player", playerId: "Player-AFG.gbzinn7$" }
+
+    
+];
+
 // FILTRO DE DOMÍNIOS DO LOGIN
 // Configure aqui como cada domínio deve aparecer no painel de login.
 // O index.html lê esta lista automaticamente.
