@@ -96,11 +96,29 @@
   }
 
   function normalizarFoto(r) {
-    const playerId = norm(first(r, ['player_id','playerId','PLAYER_ID','id_player','ID_PLAYER','membro_id','MEMBRO_ID']));
+    const playerId = norm(first(r, ['player_id','playerId','PLAYER_ID','id_player','ID_PLAYER','membro_id','MEMBRO_ID','player','PLAYER']));
     const equipeId = norm(first(r, ['equipe_id','equipeId','TEAM_ID','team_id','id_equipe','ID_EQUIPE','equipe','EQUIPE']));
     const sigla = norm(first(r, ['sigla','SIGLA','estilo_sigla','ESTILO_SIGLA','codigo','CODIGO','estilo','ESTILO'])).toUpperCase();
     const url = assetUrl(r);
     return { playerId, equipeId, sigla, url };
+  }
+
+  function extrairFotosDaLinha(r) {
+    const base = normalizarFoto(r);
+    const saida = [];
+    if (base.playerId && base.sigla && base.url) saida.push(base);
+
+    // Também aceita a FOTOS em formato horizontal: uma linha por jogador
+    // com colunas FBB, FBC, BCD, BCE, MVP, etc.
+    const chavesEstilo = new Set((window.listaEstilos || []).map(x => String(x.sigla || '').toUpperCase()).filter(Boolean));
+    Object.keys(r || {}).forEach(chave => {
+      const siglaColuna = String(chave || '').trim().toUpperCase();
+      if (!chavesEstilo.has(siglaColuna)) return;
+      const valor = norm(r[chave]);
+      if (!valor) return;
+      saida.push({ playerId: base.playerId, equipeId: base.equipeId, sigla: siglaColuna, url: valor });
+    });
+    return saida;
   }
 
   async function carregarTudo() {
@@ -140,21 +158,24 @@
     });
 
     // Fotos vêm exclusivamente da aba FOTOS e são ligadas ao membro pela identificação disponível.
+    // Suporta tanto uma linha por foto quanto uma linha por jogador com uma coluna para cada sigla.
     fotosRaw.filter(active).forEach(r => {
-      const f = normalizarFoto(r);
-      if (!f.url || !f.sigla) return;
-      const m = memberMap.get(low(f.playerId));
-      if (m) m.fotos[f.sigla] = f.url;
+      extrairFotosDaLinha(r).forEach(f => {
+        if (!f.url || !f.sigla) return;
+        const m = memberMap.get(low(f.playerId));
+        if (m) m.fotos[f.sigla] = f.url;
+      });
     });
 
     // Compatibilidade com planilhas que tenham a equipe apenas na linha de FOTOS.
     fotosRaw.filter(active).forEach(r => {
-      const f = normalizarFoto(r);
-      if (!f.url || !f.sigla) return;
-      const team = resolveTeam(f.equipeId);
-      if (!team) return;
-      const candidate = (team.membros || []).find(m => low(m.playerId) === low(f.playerId) || low(m.uid) === low(f.playerId));
-      if (candidate) candidate.fotos[f.sigla] = f.url;
+      extrairFotosDaLinha(r).forEach(f => {
+        if (!f.url || !f.sigla) return;
+        const team = resolveTeam(f.equipeId);
+        if (!team) return;
+        const candidate = (team.membros || []).find(m => low(m.playerId) === low(f.playerId) || low(m.uid) === low(f.playerId));
+        if (candidate) candidate.fotos[f.sigla] = f.url;
+      });
     });
 
     window.MEDIA_LOBBY_API = API;

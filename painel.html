@@ -1269,7 +1269,14 @@
             makeLightbox();
         })();
 
-        window.onload = inicializarPainel;
+        // O carregamento da API pode terminar depois que o evento load já ocorreu.
+        // Por isso não dependemos apenas de window.onload: inicializamos imediatamente
+        // se o DOM já estiver pronto, ou aguardamos DOMContentLoaded caso contrário.
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', inicializarPainel, { once: true });
+        } else {
+            inicializarPainel();
+        }
             }).catch(error => {
             console.error(error);
             const msg = document.getElementById('mensagem-status');
