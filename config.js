@@ -1,1 +1,1 @@
-const API_URL = 'COLE_AQUI_A_URL_DO_CLOUDFLARE_WORKER';
+const API_URL = 'https://media-lobby-api.hayaati-whido.workers.dev/';
