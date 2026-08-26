@@ -1262,7 +1262,7 @@
                 if(!container || document.getElementById('ml-dashboard')) return;
                 const stats=[[''+(dadosEquipes||[]).length,'EQUIPES'],[''+(dadosEquipes||[]).reduce((n,e)=>n+(e.membros||[]).length,0),'PLAYERS'],[''+totalAssets(),'ASSETS']];
                 const dash=document.createElement('div');dash.id='ml-dashboard';dash.className='ml-dashboard';
-                dash.innerHTML=`<div class="ml-dashboard-head"><div><div class="ml-kicker">OFFICIAL MEDIA PLATFORM</div><div class="ml-dashboard-title">Media Lobby</div><div class="ml-dashboard-sub">Central oficial para equipes, jogadores, identidades e acervo fotográfico.</div></div><div class="ml-stats">${stats.map(s=>`<div class="ml-stat"><b>${s[0]}</b><span>${s[1]}</span></div>`).join('')}</div></div><div class="ml-search"><input id="ml-global-search" type="search" autocomplete="off" placeholder="Buscar equipe, jogador ou UID..."></div>`;
+                dash.innerHTML=`<div class="ml-dashboard-head"><div><div class="ml-kicker">OFFICIAL MEDIA PLATFORM</div><div class="ml-dashboard-title">Media Lobby</div><div class="ml-dashboard-sub">Central oficial para equipes, jogadores, identidades e acervo fotográfico.</div></div><div class="ml-stats">${stats.map(s=>`<div class="ml-stat"><b>${s[0]}</b><span>${s[1]}</span></div>`).join('')}</div></div><div class="ml-search legacy-search-hidden"></div>`;
                 container.prepend(dash);
                 const input=dash.querySelector('#ml-global-search');
                 input.addEventListener('input',()=>filterTeams(input.value));
@@ -1303,6 +1303,7 @@
                 originalAbrirEquipe(id);
                 addBreadcrumb(['MEDIA LOBBY', equipeSelecionada?.nome||'EQUIPE']);
                 addTeamCover(equipeSelecionada);addPlayerFilter();bindLightbox();
+                renderSearchPanel();
             };
             abrirEstilo=function(index){
                 originalAbrirEstilo(index);
@@ -1331,6 +1332,205 @@
             window.selecionarTodasEquipesDownload = selecionarTodasEquipesDownload;
             window.voltarNivel = voltarNivel;
             window.sair = sair;
+        })();
+
+
+        /* ===== MEDIA LOBBY — BUSCA UNIFICADA ===== */
+        (function(){
+            const norm = v => String(v ?? '').trim();
+            const key = v => norm(v).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+            let filtroBusca = '';
+
+            function equipesPermitidas(){
+                if (scope === 'all') return dadosEquipes || [];
+                if (scope === 'player') {
+                    const acesso = localizarJogador();
+                    return acesso ? [acesso.equipe] : [];
+                }
+                const eq = (dadosEquipes || []).find(e => key(e.id) === key(scope));
+                return eq ? [eq] : [];
+            }
+
+            function assetValor(item){
+                return typeof item === 'string' ? item : (item?.id || item?.link || '');
+            }
+            function assetNome(item, tipo, i){
+                return typeof item === 'object' && item?.nome ? item.nome : `${tipo} ${i+1}`;
+            }
+            function assetPreview(item){
+                const v=assetValor(item);
+                return v ? processarLinkDrivePreview(v,100) : '';
+            }
+            function playerFotoCount(m){ return Object.values(m?.fotos||{}).filter(Boolean).length; }
+
+            function renderSearchPanel(){
+                const container=document.getElementById('conteudo-painel');
+                if(!container || document.getElementById('ml-unified-search')) return;
+                const panel=document.createElement('section');
+                panel.id='ml-unified-search';
+                panel.className='ml-search-panel';
+                panel.innerHTML=`
+                  <div class="ml-search-row">
+                    <div class="ml-search-input-wrap">
+                      <input id="ml-search-input" class="ml-search-input" type="search" autocomplete="off" placeholder="Pesquisar equipe, jogador, ID ou conteúdo...">
+                    </div>
+                  </div>
+                  <div class="ml-search-filters">
+                    <button type="button" class="ml-search-filter active" data-filter="">TODOS</button>
+                    <button type="button" class="ml-search-filter" data-filter="equipe">EQUIPE</button>
+                    <button type="button" class="ml-search-filter" data-filter="logos">LOGOS</button>
+                    <button type="button" class="ml-search-filter" data-filter="brasoes">BRASÕES</button>
+                    <button type="button" class="ml-search-filter" data-filter="fotos">FOTOS</button>
+                  </div>
+                  <div class="ml-search-hint"><span id="ml-search-mode">TODOS OS CONTEÚDOS</span><span id="ml-search-count"></span></div>
+                  <div id="ml-search-results" class="ml-search-results"></div>`;
+                const dashboard=document.getElementById('ml-dashboard');
+                if(dashboard) dashboard.after(panel); else container.prepend(panel);
+
+                panel.querySelectorAll('.ml-search-filter').forEach(btn=>{
+                    btn.addEventListener('click',()=>{
+                        filtroBusca=btn.dataset.filter||'';
+                        panel.querySelectorAll('.ml-search-filter').forEach(b=>b.classList.toggle('active',b===btn));
+                        document.getElementById('ml-search-mode').textContent = {
+                          '':'TODOS OS CONTEÚDOS','equipe':'PESQUISA POR EQUIPE','logos':'LOGOTIPOS DA EQUIPE',
+                          'brasoes':'BRASÕES DA EQUIPE','fotos':'FOTOS DE JOGADORES'
+                        }[filtroBusca];
+                        executarBusca();
+                    });
+                });
+                document.getElementById('ml-search-input').addEventListener('input',executarBusca);
+            }
+
+            function abrirEquipePorId(id){ window.abrirEquipe(id); }
+            function abrirPlayer(eqId, playerId){
+                const eq=(dadosEquipes||[]).find(e=>key(e.id)===key(eqId));
+                const m=eq?.membros?.find(x=>key(x.playerId)===key(playerId) || key(x.uid)===key(playerId));
+                if(eq&&m) window.abrirEquipeJogador(eq,m);
+            }
+            function abrirAssets(tipo,eqId){ 
+                const eq=(dadosEquipes||[]).find(e=>key(e.id)===key(eqId));
+                if(eq){ equipeSelecionada=eq; window.equipeSelecionada=eq; window.abrirPastaLogosEBrasoes(tipo); }
+            }
+
+            function renderTeamResult(eq){
+                const logo=processarLinkDrivePreview(eq.logo,110);
+                const players=(eq.membros||[]);
+                const logos=eq.logos||[], brasoes=eq.brasoes||[];
+                return `<article class="ml-search-result">
+                  <div class="ml-search-result-head">
+                    <div class="ml-search-result-main">
+                      <div class="ml-search-result-logo">${logo?`<img src="${escaparHtml(logo)}" alt="">`:''}</div>
+                      <div><div class="ml-search-result-title">${escaparHtml(eq.nome)}</div>
+                      <div class="ml-search-result-meta">${escaparHtml(eq.id)} · ${players.length} PLAYERS · ${logos.length} LOGOS · ${brasoes.length} BRASÕES</div></div>
+                    </div>
+                    <button class="ml-search-open" data-open-team="${escaparHtml(eq.id)}">ABRIR EQUIPE ↗</button>
+                  </div>
+                  <div class="ml-search-subtitle">DIRECIONAMENTOS DIRETOS</div>
+                  <div class="ml-search-chip-grid">${players.length?players.map(m=>`<button class="ml-search-chip" data-open-player="${escaparHtml(eq.id)}" data-player="${escaparHtml(m.playerId)}">${escaparHtml(m.nick)} <span>↗</span></button>`).join(''):'<span class="ml-search-meta">Nenhum jogador cadastrado.</span>'}</div>
+                  <div class="ml-search-subtitle">ACERVO DA EQUIPE</div>
+                  <div class="ml-search-chip-grid">
+                    <button class="ml-search-chip" data-open-assets="Logotipos" data-team="${escaparHtml(eq.id)}">LOGOS · ${logos.length}</button>
+                    <button class="ml-search-chip" data-open-assets="Brasões" data-team="${escaparHtml(eq.id)}">BRASÕES · ${brasoes.length}</button>
+                    <button class="ml-search-chip" data-open-team="${escaparHtml(eq.id)}">FOTOS DOS JOGADORES · ${players.reduce((n,m)=>n+playerFotoCount(m),0)}</button>
+                  </div>
+                </article>`;
+            }
+
+            function renderAssetResult(eq,tipo){
+                const lista=tipo==='logos'?(eq.logos||[]):(eq.brasoes||[]);
+                const titulo=tipo==='logos'?'LOGOS':'BRASÕES';
+                return `<article class="ml-search-result">
+                  <div class="ml-search-result-head"><div><div class="ml-search-result-title">${escaparHtml(eq.nome)} · ${titulo}</div><div class="ml-search-result-meta">${lista.length} ASSETS · ID ${escaparHtml(eq.id)}</div></div><button class="ml-search-open" data-open-assets="${tipo==='logos'?'Logotipos':'Brasões'}" data-team="${escaparHtml(eq.id)}">ABRIR BIBLIOTECA ↗</button></div>
+                  <div class="ml-search-subtitle">ASSETS CADASTRADOS</div>
+                  <div class="ml-search-chip-grid">${lista.length?lista.map((x,i)=>{const url=assetPreview(x);return `<button class="ml-search-chip" data-open-assets="${tipo==='logos'?'Logotipos':'Brasões'}" data-team="${escaparHtml(eq.id)}">${url?`<img src="${escaparHtml(url)}" alt="">`:''}${escaparHtml(assetNome(x,titulo,i))}</button>`}).join(''):'<span class="ml-search-meta">Nenhum asset cadastrado.</span>'}</div>
+                </article>`;
+            }
+
+            function renderPlayerResult(eq,m){
+                const count=playerFotoCount(m);
+                return `<article class="ml-search-result">
+                  <div class="ml-search-result-head">
+                    <div class="ml-search-result-main"><div class="ml-search-result-logo">${eq.logo?`<img src="${escaparHtml(processarLinkDrivePreview(eq.logo,100))}" alt="">`:''}</div><div><div class="ml-search-result-title">${escaparHtml(m.nick)}</div><div class="ml-search-result-meta">${escaparHtml(m.playerId)} · UID ${escaparHtml(m.uid||'—')} · ${escaparHtml(m.funcao||'PLAYER')} · ${escaparHtml(eq.nome)}</div></div></div>
+                    <button class="ml-search-open" data-open-player="${escaparHtml(eq.id)}" data-player="${escaparHtml(m.playerId)}">ABRIR FOTOS ↗</button>
+                  </div>
+                  <div class="ml-search-subtitle">ACERVO INDIVIDUAL</div>
+                  <div class="ml-search-player"><div><div class="ml-search-player-name">${count} FOTOS DISPONÍVEIS</div><div class="ml-search-player-meta">ID: ${escaparHtml(m.playerId)} · UID: ${escaparHtml(m.uid||'NÃO CADASTRADO')}</div></div><button class="ml-search-open" data-open-player="${escaparHtml(eq.id)}" data-player="${escaparHtml(m.playerId)}">VER PERFIL</button></div>
+                </article>`;
+            }
+
+            function executarBusca(){
+                const input=document.getElementById('ml-search-input');
+                const results=document.getElementById('ml-search-results');
+                const count=document.getElementById('ml-search-count');
+                if(!input||!results) return;
+                const q=key(input.value);
+                if(!q){results.innerHTML='';if(count)count.textContent='';return;}
+                const equipes=equipesPermitidas();
+                let html='', total=0;
+
+                if(filtroBusca==='equipe'){
+                    const matches=equipes.filter(e=>key(e.nome).includes(q));
+                    total=matches.length; html=matches.map(renderTeamResult).join('');
+                } else if(filtroBusca==='logos' || filtroBusca==='brasoes'){
+                    const matches=equipes.filter(e=>key(e.nome).includes(q) || key(e.id).includes(q));
+                    total=matches.reduce((n,e)=>n+((filtroBusca==='logos'?e.logos:e.brasoes)||[]).length,0);
+                    html=matches.map(e=>renderAssetResult(e,filtroBusca)).join('');
+                } else if(filtroBusca==='fotos'){
+                    const rows=[];
+                    equipes.forEach(e=>(e.membros||[]).forEach(m=>{
+                        if(key(m.nick).includes(q)||key(m.playerId).includes(q)||key(m.uid).includes(q)) rows.push([e,m]);
+                    }));
+                    total=rows.length; html=rows.map(([e,m])=>renderPlayerResult(e,m)).join('');
+                } else {
+                    // TODOS: equipe + acervo + logos + brasões + direcionamentos de jogadores.
+                    equipes.forEach(e=>{
+                        const teamMatch=key(e.nome).includes(q)||key(e.id).includes(q);
+                        const matchingPlayers=(e.membros||[]).filter(m=>key(m.nick).includes(q)||key(m.playerId).includes(q)||key(m.uid).includes(q));
+                        if(teamMatch){html+=renderTeamResult(e);total++;}
+                        else if(matchingPlayers.length){matchingPlayers.forEach(m=>{html+=renderPlayerResult(e,m);total++;});}
+                    });
+                }
+
+                results.innerHTML=html||`<div class="ml-search-empty"><b>NENHUM RESULTADO</b>Não encontramos conteúdo para “${escaparHtml(input.value)}” neste acesso.</div>`;
+                if(count)count.textContent=`${total} RESULTADO${total===1?'':'S'}`;
+            }
+
+            function bindSearchActions(){
+                document.addEventListener('click',e=>{
+                    const team=e.target.closest('[data-open-team]');
+                    if(team){e.preventDefault();abrirEquipePorId(team.dataset.openTeam);return;}
+                    const player=e.target.closest('[data-open-player]');
+                    if(player){e.preventDefault();abrirPlayer(player.dataset.openPlayer,player.dataset.player);return;}
+                    const asset=e.target.closest('[data-open-assets]');
+                    if(asset){e.preventDefault();abrirAssets(asset.dataset.openAssets,asset.dataset.team);return;}
+                });
+            }
+
+            const previousRenderizarEquipes = renderizarEquipes;
+            renderizarEquipes = function(){
+                previousRenderizarEquipes();
+                renderSearchPanel();
+            };
+            window.renderizarEquipes = renderizarEquipes;
+            bindSearchActions();
+        })();
+
+        // Revalida o status do login quando o painel é aberto.
+        // Se o cadastro mudou para manutenção/desativado na planilha, a sessão não permanece válida.
+        (function(){
+            const key = v => String(v ?? '').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+            const email=sessionStorage.getItem('user_email');
+            if(!email || !Array.isArray(listaUsuarios)) return;
+            const u=listaUsuarios.find(x=>key(x.email)===key(email));
+            if(!u || u.statusTipo==='desativado'){
+                sessionStorage.clear();
+                window.location.replace('index.html');
+                return;
+            }
+            if(u.statusTipo==='manutencao'){
+                sessionStorage.setItem('user_status','manutencao');
+                window.location.replace('index-manutencao.html');
+            }
         })();
 
         // O carregamento da API pode terminar depois que o evento load já ocorreu.
