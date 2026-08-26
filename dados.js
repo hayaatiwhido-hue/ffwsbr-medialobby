@@ -1,6 +1,7 @@
 /*
  * MEDIA LOBBY — DATA API
- * Fonte única: abas do SheetBest.
+ * Todas as informações dinâmicas vêm das abas do SheetBest abaixo.
+ * Não coloque dados de acesso, equipes ou URLs fixos neste arquivo.
  */
 (() => {
   const API = {
@@ -15,38 +16,42 @@
 
   const norm = v => String(v ?? '').trim();
   const low = v => norm(v).toLowerCase();
-  const strip = v => low(v).normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  // Regra oficial de validade: qualquer registro marcado como ATIVO = NÃO
+  // (ou equivalente) é considerado inativo e não pode aparecer no sistema.
+  // Se a coluna ATIVO não existir ou estiver vazia, o registro é tratado como ativo
+  // para manter compatibilidade com abas que ainda não possuem essa coluna.
+  const normalizeStatusText = v => low(v).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  const truthy = v => ['sim','yes','true','1','ativo','active','on','autorizado','login autorizado','liberado','aprovado','permitido','enabled'].includes(normalizeStatusText(v));
+  const falsy = v => ['não','nao','no','false','0','inativo','inactive','off','desativado','desativada','bloqueado','bloqueada','revogado','revogada','cancelado','cancelada','negado','negada','denied','disabled','sem acesso','acesso negado','encerrado','encerrada'].includes(normalizeStatusText(v));
+  const maintenance = v => {
+    const t = normalizeStatusText(v);
+    return ['manutencao','maintenance','em manutencao','em manutencao temporaria','temporariamente indisponivel','pausado','pausada','em pausa','suspenso','suspensa','temporario','temporaria'].some(x => t === x || t.includes(x));
+  };
+  const getAtivo = row => first(row, ['ativo','ATIVO','Ativo','active','ACTIVE','Active','status','STATUS','Status']);
+  const statusTipo = v => {
+    if (maintenance(v)) return 'manutencao';
+    if (falsy(v)) return 'desativado';
+    if (truthy(v)) return 'autorizado';
+    // Vazio continua compatível com a estrutura antiga. Valores desconhecidos ficam bloqueados.
+    return norm(v) === '' ? 'autorizado' : 'desativado';
+  };
+  const active = row => statusTipo(getAtivo(row)) !== 'desativado' && statusTipo(getAtivo(row)) !== 'manutencao';
   const first = (row, keys) => {
     for (const key of keys) {
       if (row && row[key] !== undefined && row[key] !== null && norm(row[key]) !== '') return row[key];
     }
     return '';
   };
-  const getAtivo = row => first(row, ['ativo','ATIVO','Ativo','active','ACTIVE','status','STATUS','Status']);
-  const isInactive = v => ['nao','não','no','false','0','inativo','inactive','off','desativado','bloqueado','revogado','cancelado','negado','denied','disabled'].includes(strip(v));
-  const active = row => !isInactive(getAtivo(row));
-
-  function classificarStatusUsuario(valor) {
-    const s = strip(valor).replace(/[^a-z0-9]+/g, ' ').trim();
-    if (!s) return 'autorizado';
-    const manut = ['manutencao','em manutencao','maintenance','temporariamente indisponivel','pausado','em pausa','suspenso temporariamente'];
-    const des = ['nao','nao autorizado','desativado','inativo','bloqueado','revogado','cancelado','negado','denied','disabled','sem acesso','acesso negado','encerrado','expirado','proibido'];
-    const ok = ['sim','autorizado','login autorizado','ativo','liberado','aprovado','permitido','enabled','active','ok','acesso autorizado'];
-    if (manut.some(x => s === x || s.includes(x)) || s.includes('manutenc')) return 'manutencao';
-    if (des.some(x => s === x || s.includes(x))) return 'desativado';
-    if (ok.some(x => s === x || s.includes(x))) return 'autorizado';
-    return 'autorizado';
-  }
 
   async function get(url) {
     const response = await fetch(url, { cache: 'no-store', headers: { Accept: 'application/json' } });
-    if (!response.ok) throw new Error(`SheetBest ${response.status}`);
+    if (!response.ok) throw new Error(`SheetBest ${response.status} em ${url}`);
     const data = await response.json();
-    return Array.isArray(data) ? data : [];
+    if (!Array.isArray(data)) throw new Error('Resposta inválida da API SheetBest.');
+    return data;
   }
 
   function normalizarUsuario(r) {
-    const ativo = norm(getAtivo(r)) || 'SIM';
     return {
       email: norm(first(r, ['email','EMAIL','e-mail','E-MAIL'])).toLowerCase(),
       senha: norm(first(r, ['senha','SENHA','password','PASSWORD'])),
@@ -54,8 +59,8 @@
       player_id: norm(first(r, ['player_id','playerId','PLAYER_ID','id_player','ID_PLAYER'])),
       playerId: norm(first(r, ['player_id','playerId','PLAYER_ID','id_player','ID_PLAYER'])),
       user_type: norm(first(r, ['user_type','userType','USER_TYPE','tipo','TIPO'])) || 'standard',
-      ativo,
-      statusTipo: classificarStatusUsuario(ativo)
+      ativo: norm(getAtivo(r)) || 'SIM',
+      statusTipo: statusTipo(getAtivo(r))
     };
   }
 
@@ -64,38 +69,69 @@
     if (dominio && !dominio.startsWith('@')) dominio = '@' + dominio;
     return { dominio, nome: norm(first(r, ['nome','NOME','name','NAME'])) || dominio, ativo: norm(getAtivo(r)) || 'SIM' };
   }
+
   function normalizarEstilo(r) {
-    return { nomeEstilo: norm(first(r,['nome_estilo','nomeEstilo','NOME_ESTILO','nome','NOME'])), sigla: norm(first(r,['sigla','SIGLA','codigo','CODIGO'])).toUpperCase(), ativo: norm(getAtivo(r)) || 'SIM' };
+    return {
+      nomeEstilo: norm(first(r, ['nome_estilo','nomeEstilo','NOME_ESTILO','nome','NOME'])),
+      sigla: norm(first(r, ['sigla','SIGLA','codigo','CODIGO'])).toUpperCase(),
+      ativo: norm(getAtivo(r)) || 'SIM'
+    };
   }
+
   function normalizarEquipe(r) {
     return {
-      id: norm(first(r,['id','ID','equipe_id','equipeId','TEAM_ID'])),
-      nome: norm(first(r,['nome','NOME','equipe','EQUIPE','team_name','TEAM_NAME'])),
-      logo: norm(first(r,['logo','LOGO','logo_principal','logoPrincipal','LOGO_PRINCIPAL'])),
+      id: norm(first(r, ['id','ID','equipe_id','equipeId','TEAM_ID'])),
+      nome: norm(first(r, ['nome','NOME','equipe','EQUIPE','team_name','TEAM_NAME'])),
+      logo: norm(first(r, ['logo','LOGO','logo_principal','logoPrincipal','LOGO_PRINCIPAL'])),
       ativo: norm(getAtivo(r)) || 'SIM',
-      logos: [], brasoes: [], membros: []
+      logos: [],
+      brasoes: [],
+      membros: []
     };
   }
-  function assetUrl(r) { return norm(first(r,['url','URL','link','LINK','arquivo','ARQUIVO','id','ID','drive','DRIVE'])); }
-  function assetName(r) { return norm(first(r,['nome','NOME','name','NAME','titulo','TITULO','asset','ASSET'])) || 'Asset'; }
-  function assetTeam(r) { return norm(first(r,['equipe_id','equipeId','TEAM_ID','team_id','id_equipe','ID_EQUIPE','equipe','EQUIPE'])); }
-  function assetType(r) { return strip(first(r,['tipo','TIPO','categoria','CATEGORIA','categoria_asset','CATEGORIA_ASSET','type','TYPE'])); }
+
+  function assetUrl(r) { return norm(first(r, ['url','URL','link','LINK','arquivo','ARQUIVO','id','ID','drive','DRIVE'])); }
+  function assetName(r) { return norm(first(r, ['nome','NOME','name','NAME','titulo','TITULO','asset','ASSET'])) || 'Asset'; }
+  function assetTeam(r) { return norm(first(r, ['equipe_id','equipeId','TEAM_ID','team_id','id_equipe','ID_EQUIPE','equipe','EQUIPE'])); }
+  function assetType(r) { return low(first(r, ['tipo','TIPO','categoria','CATEGORIA','categoria_asset','CATEGORIA_ASSET','type','TYPE'])); }
+
   function normalizarMembro(r) {
-    const equipeId = norm(first(r,['equipe_id','equipeId','TEAM_ID','team_id','id_equipe','ID_EQUIPE','equipe','EQUIPE']));
-    const playerId = norm(first(r,['player_id','playerId','PLAYER_ID','id','ID']));
+    const equipeId = norm(first(r, ['equipe_id','equipeId','TEAM_ID','team_id','id_equipe','ID_EQUIPE','equipe','EQUIPE']));
+    const playerId = norm(first(r, ['player_id','playerId','PLAYER_ID','id','ID']));
     return {
-      nick: norm(first(r,['nick','NICK','nickname','NICKNAME','nome','NOME'])) || 'PLAYER',
-      playerId, funcao: norm(first(r,['funcao','FUNCAO','função','FUNÇÃO','role','ROLE'])),
-      uid: norm(first(r,['uid','UID','player_uid','PLAYER_UID'])), equipeId, fotos: {}
+      nick: norm(first(r, ['nick','NICK','nickname','NICKNAME','nome','NOME'])) || 'PLAYER',
+      playerId,
+      funcao: norm(first(r, ['funcao','FUNCAO','função','FUNÇÃO','role','ROLE'])),
+      uid: norm(first(r, ['uid','UID','player_uid','PLAYER_UID'])),
+      equipeId,
+      fotos: {}
     };
   }
+
   function normalizarFoto(r) {
-    return {
-      playerId: norm(first(r,['player_id','playerId','PLAYER_ID','id_player','ID_PLAYER','membro_id','MEMBRO_ID','player','PLAYER'])),
-      equipeId: norm(first(r,['equipe_id','equipeId','TEAM_ID','team_id','id_equipe','ID_EQUIPE','equipe','EQUIPE'])),
-      sigla: norm(first(r,['sigla','SIGLA','estilo_sigla','ESTILO_SIGLA','codigo','CODIGO','estilo','ESTILO'])).toUpperCase(),
-      url: assetUrl(r)
-    };
+    const playerId = norm(first(r, ['player_id','playerId','PLAYER_ID','id_player','ID_PLAYER','membro_id','MEMBRO_ID','player','PLAYER']));
+    const equipeId = norm(first(r, ['equipe_id','equipeId','TEAM_ID','team_id','id_equipe','ID_EQUIPE','equipe','EQUIPE']));
+    const sigla = norm(first(r, ['sigla','SIGLA','estilo_sigla','ESTILO_SIGLA','codigo','CODIGO','estilo','ESTILO'])).toUpperCase();
+    const url = assetUrl(r);
+    return { playerId, equipeId, sigla, url };
+  }
+
+  function extrairFotosDaLinha(r) {
+    const base = normalizarFoto(r);
+    const saida = [];
+    if (base.playerId && base.sigla && base.url) saida.push(base);
+
+    // Também aceita a FOTOS em formato horizontal: uma linha por jogador
+    // com colunas FBB, FBC, BCD, BCE, MVP, etc.
+    const chavesEstilo = new Set((window.listaEstilos || []).map(x => String(x.sigla || '').toUpperCase()).filter(Boolean));
+    Object.keys(r || {}).forEach(chave => {
+      const siglaColuna = String(chave || '').trim().toUpperCase();
+      if (!chavesEstilo.has(siglaColuna)) return;
+      const valor = norm(r[chave]);
+      if (!valor) return;
+      saida.push({ playerId: base.playerId, equipeId: base.equipeId, sigla: siglaColuna, url: valor });
+    });
+    return saida;
   }
 
   async function carregarTudo() {
@@ -103,16 +139,16 @@
       get(API.usuarios), get(API.dominios), get(API.estilos), get(API.equipes), get(API.assets), get(API.membros), get(API.fotos)
     ]);
 
-    // USUARIOS: não filtramos status aqui; precisamos diferenciar manutenção de desativado.
     window.listaUsuarios = usuariosRaw.map(normalizarUsuario).filter(x => x.email);
     window.dominiosLogin = dominiosRaw.filter(active).map(normalizarDominio).filter(x => x.dominio);
     window.listaEstilos = estilosRaw.filter(active).map(normalizarEstilo).filter(x => x.sigla);
     window.dadosEquipes = equipesRaw.filter(active).map(normalizarEquipe).filter(x => x.id && x.nome);
 
-    const equipeMap = new Map(window.dadosEquipes.map(e => [strip(e.id), e]));
-    const equipeNomeMap = new Map(window.dadosEquipes.map(e => [strip(e.nome), e]));
-    const resolveTeam = value => equipeMap.get(strip(value)) || equipeNomeMap.get(strip(value));
+    const equipeMap = new Map(window.dadosEquipes.map(e => [low(e.id), e]));
+    const equipeNomeMap = new Map(window.dadosEquipes.map(e => [low(e.nome), e]));
+    const resolveTeam = value => equipeMap.get(low(value)) || equipeNomeMap.get(low(value));
 
+    // Assets: aceita nomes de tipo como LOGO/BRASAO e variações de acentuação.
     assetsRaw.filter(active).forEach(r => {
       const team = resolveTeam(assetTeam(r));
       if (!team) return;
@@ -122,38 +158,48 @@
       else if (type.includes('logo') || type.includes('emblema') || type.includes('identity')) team.logos.push(item);
     });
 
+    // Membros vêm exclusivamente da aba MEMBROS.
     const memberMap = new Map();
     membrosRaw.filter(active).forEach(r => {
       const m = normalizarMembro(r);
       const team = resolveTeam(m.equipeId);
       if (!team || !m.playerId) return;
+      if (!team.membros) team.membros = [];
       team.membros.push(m);
-      memberMap.set(strip(m.playerId), m);
-      if (m.uid) memberMap.set(strip(m.uid), m);
+      memberMap.set(low(m.playerId), m);
+      if (m.uid) memberMap.set(low(m.uid), m);
     });
 
-    const styleKeys = new Set(window.listaEstilos.map(x => x.sigla));
+    // Fotos vêm exclusivamente da aba FOTOS e são ligadas ao membro pela identificação disponível.
+    // Suporta tanto uma linha por foto quanto uma linha por jogador com uma coluna para cada sigla.
     fotosRaw.filter(active).forEach(r => {
-      const base = normalizarFoto(r);
-      const rows = [];
-      if (base.playerId && base.sigla && base.url) rows.push(base);
-      Object.keys(r || {}).forEach(k => {
-        const sigla = norm(k).toUpperCase();
-        if (styleKeys.has(sigla) && norm(r[k])) rows.push({ playerId: base.playerId, equipeId: base.equipeId, sigla, url: norm(r[k]) });
+      extrairFotosDaLinha(r).forEach(f => {
+        if (!f.url || !f.sigla) return;
+        const m = memberMap.get(low(f.playerId));
+        if (m) m.fotos[f.sigla] = f.url;
       });
-      rows.forEach(f => {
-        const m = memberMap.get(strip(f.playerId));
-        if (m && f.url) m.fotos[f.sigla] = f.url;
+    });
+
+    // Compatibilidade com planilhas que tenham a equipe apenas na linha de FOTOS.
+    fotosRaw.filter(active).forEach(r => {
+      extrairFotosDaLinha(r).forEach(f => {
+        if (!f.url || !f.sigla) return;
+        const team = resolveTeam(f.equipeId);
+        if (!team) return;
+        const candidate = (team.membros || []).find(m => low(m.playerId) === low(f.playerId) || low(m.uid) === low(f.playerId));
+        if (candidate) candidate.fotos[f.sigla] = f.url;
       });
     });
 
     window.MEDIA_LOBBY_API = API;
+    window.MEDIA_LOBBY_STATUS = { statusTipo, maintenance, falsy, truthy };
     window.MEDIA_LOBBY_DADOS_PRONTOS = true;
     window.dispatchEvent(new CustomEvent('media-lobby-dados-prontos'));
     return true;
   }
 
   window.MEDIA_LOBBY_API = API;
+  window.MEDIA_LOBBY_STATUS = { statusTipo, maintenance, falsy, truthy };
   window.MEDIA_LOBBY_READY = carregarTudo().catch(error => {
     console.error('[MEDIA LOBBY] Falha ao carregar dados:', error);
     window.MEDIA_LOBBY_ERRO = error;

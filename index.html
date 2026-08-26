@@ -227,13 +227,7 @@
                     // MANUTENÇÃO: o usuário existe, mas o site inteiro deve ser apresentado
                     // como temporariamente indisponível. Nunca informamos que o login está em manutenção.
                     if (tipoStatus === 'manutencao') {
-                        sessionStorage.setItem('autenticado', 'true');
-                        sessionStorage.setItem('user_email', user.email);
-                        sessionStorage.setItem('user_status', 'manutencao');
-                        sessionStorage.setItem('user_scope', user.scope || 'all');
-                        sessionStorage.setItem('user_type', user.user_type || (user.scope === 'player' ? 'player' : 'standard'));
-                        if (user.scope === 'player') sessionStorage.setItem('player_id', user.playerId || '');
-                        else sessionStorage.removeItem('player_id');
+                        sessionStorage.clear();
                         window.location.replace('index-manutencao.html');
                         return;
                     }
