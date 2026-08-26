@@ -1,0 +1,9 @@
+name = "media-lobby-api"
+main = "worker.js"
+compatibility_date = "2026-08-26"
+
+# Configure these two values as Cloudflare Worker secrets/variables:
+# SHEETBEST_URL = URL completa da sua planilha/API do SheetBest
+# SESSION_SECRET = uma chave aleatória longa e privada
+#
+# Não coloque SESSION_SECRET no GitHub.

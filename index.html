@@ -6,30 +6,232 @@
     <title>MEDIA LOBBY FFWS BRASIL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="config.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        @font-face { font-family: 'GFF-Latin'; src: url('fonts/GFF-LATIN-BLACK.woff2') format('woff2'); }
+        body { font-family: 'GFF-Latin', sans-serif; background-image: var(--ffws-login-bg, url('info-ffws/backgroundpainel.png')); background-position: center; background-size: cover; }
+        .btn-primary { background-color: #e8b033; color: #1a1a1a; }
+        .btn-primary:hover { background-color: #f74afe; color: #fff; }
+        
+        .loader {
+            border: 3px solid rgba(232, 176, 51, 0.2);
+            border-top: 3px solid #e8b033;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .dominio-item { transition: background-color .15s ease, border-color .15s ease; }
+        .dominio-item:hover { background-color: #252538; }
+        .dominio-item.selecionado { background-color: rgba(232, 176, 51, 0.12); border-left-color: #e8b033; }
+        #lista-dominios::-webkit-scrollbar { width: 7px; }
+        #lista-dominios::-webkit-scrollbar-track { background: #10101e; }
+        #lista-dominios::-webkit-scrollbar-thumb { background: #555; border-radius: 8px; }
+        #lista-dominios::-webkit-scrollbar-thumb:hover { background: #e8b033; }
+        .login-voltar-wrap { display:none; }
+        body.login-filtro-ativo .filtros-titulo,
+        body.login-filtro-ativo #lista-dominios { display:none; }
+        body.login-filtro-ativo .login-voltar-wrap { display:block; }
+        .login-voltar { width:100%; margin-bottom:18px; padding:10px 14px; border:1px solid rgba(232,176,51,.25); border-radius:9px; background:rgba(232,176,51,.07); color:#e8b033; font-size:11px; font-weight:800; letter-spacing:.04em; transition:.2s ease; }
+        .login-voltar:hover { background:rgba(247,74,254,.12); border-color:rgba(247,74,254,.45); color:#fff; }
+        .login-transicao { animation:loginRefresh .28s ease; }
+        @keyframes loginRefresh { from { opacity:.35; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+
+
+
+    
+/* ===== FFWS MEDIA LOBBY — PREMIUM UI SYSTEM ===== */
+:root{
+ --gold:#f0b83f; --gold2:#ffd66b; --pink:#f74afe; --ink:#070711; --panel:rgba(13,13,25,.78); --panel2:rgba(20,20,36,.72); --line:rgba(255,255,255,.09); --muted:#8e8ea5; --text:#f7f7fb;
+ --shadow:0 30px 90px rgba(0,0,0,.42);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background-color:#05050b!important;color:var(--text)!important;position:relative;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:-20%;z-index:-3;background:radial-gradient(circle at 15% 20%,rgba(240,184,63,.13),transparent 26%),radial-gradient(circle at 84% 18%,rgba(247,74,254,.13),transparent 28%),radial-gradient(circle at 55% 90%,rgba(94,72,255,.09),transparent 30%);filter:blur(20px);animation:ffwsAmbient 16s ease-in-out infinite alternate;pointer-events:none}
+body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,rgba(4,4,10,.28),rgba(4,4,10,.78)),radial-gradient(circle at center,transparent 20%,rgba(0,0,0,.32) 100%);pointer-events:none}
+@keyframes ffwsAmbient{from{transform:translate3d(-1%,0,0) scale(1)}to{transform:translate3d(1%,1%,0) scale(1.05)}}
+button,input{font:inherit}
+button{outline:none}
+
+/* shared glass language */
+.max-w-6xl{width:min(1400px,calc(100% - 32px))!important;max-width:1400px!important;background:linear-gradient(145deg,rgba(17,17,30,.88),rgba(8,8,17,.82))!important;border:1px solid rgba(255,255,255,.10)!important;border-radius:28px!important;box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.06)!important;backdrop-filter:blur(28px)!important;-webkit-backdrop-filter:blur(28px)!important;position:relative;overflow:hidden}
+.max-w-6xl:before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),var(--pink),transparent);opacity:.8}
+
+/* premium header */
+#titulo-pagina{color:#fff!important;letter-spacing:-.035em!important;font-weight:900!important;text-shadow:0 0 28px rgba(240,184,63,.08)}
+#subtitulo-pagina{color:#8e8ea5!important}
+#logo-cabecalho{filter:drop-shadow(0 8px 22px rgba(240,184,63,.18))!important}
+#btn-inicio,#btn-voltar,#btn-sair{border:1px solid rgba(255,255,255,.10)!important;background:rgba(255,255,255,.045)!important;color:#e9e9f1!important;border-radius:12px!important;padding:10px 14px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)!important}
+#btn-inicio:hover,#btn-voltar:hover{background:rgba(240,184,63,.10)!important;border-color:rgba(240,184,63,.35)!important;transform:translateY(-1px)}
+#btn-sair{border-color:rgba(255,91,91,.22)!important;color:#ff9c9c!important}
+#btn-sair:hover{background:rgba(255,70,70,.10)!important;border-color:rgba(255,91,91,.42)!important}
+
+/* cards generated by the existing app */
+#conteudo-painel{position:relative;z-index:1}
+#conteudo-painel > *{animation:ffwsCardIn .45s ease both}
+@keyframes ffwsCardIn{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}
+#conteudo-painel > div{border-color:rgba(255,255,255,.09)!important;background:linear-gradient(145deg,rgba(25,25,42,.78),rgba(10,10,20,.76))!important;box-shadow:0 16px 42px rgba(0,0,0,.22)!important;backdrop-filter:blur(16px);border-radius:20px!important}
+#conteudo-painel > div:hover{border-color:rgba(240,184,63,.35)!important;box-shadow:0 22px 55px rgba(0,0,0,.34),0 0 0 1px rgba(240,184,63,.05)!important;transform:translateY(-4px)}
+
+/* media library */
+.media-library-card,.pose-folder-card,.photo-preview-card,.asset-preview-card,.player-profile-hero{background:linear-gradient(145deg,rgba(24,24,42,.84),rgba(8,8,17,.88))!important;border-color:rgba(255,255,255,.10)!important;box-shadow:0 20px 50px rgba(0,0,0,.28)!important;border-radius:22px!important}
+.media-library-card:hover,.pose-folder-card:hover,.photo-preview-card:hover,.asset-preview-card:hover{border-color:rgba(247,74,254,.48)!important;box-shadow:0 28px 65px rgba(0,0,0,.38),0 0 32px rgba(247,74,254,.06)!important}
+.media-library-content h2{color:#fff!important}
+.media-library-footer strong,.pose-folder-open{color:var(--gold2)!important}
+.pose-folder-card::before{background:linear-gradient(180deg,var(--gold),var(--pink),#6c5cff)!important}
+
+/* typography accents */
+.text-3xl{letter-spacing:-.04em}
+
+/* mobile */
+@media(max-width:640px){
+ body{padding:10px!important}
+ .max-w-6xl{width:100%!important;border-radius:22px!important;padding:16px!important}
+ #titulo-pagina{font-size:1.55rem!important}
+}
+
+/* ===== LOGIN — PREMIUM FFWS EXPERIENCE ===== */
+.login-shell{position:relative;width:min(1040px,100%);display:grid;grid-template-columns:1.05fr .95fr;gap:0;min-height:650px;border:1px solid rgba(255,255,255,.10);border-radius:32px;overflow:hidden;background:rgba(9,9,18,.72);box-shadow:0 40px 120px rgba(0,0,0,.55);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px)}
+.login-shell:before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(240,184,63,.08),transparent 36%,rgba(247,74,254,.07));pointer-events:none}
+.login-brand{position:relative;padding:56px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(145deg,rgba(255,255,255,.035),transparent 65%);border-right:1px solid rgba(255,255,255,.08)}
+.login-brand:after{content:"";position:absolute;width:320px;height:320px;right:-140px;bottom:-160px;border-radius:50%;background:rgba(247,74,254,.09);filter:blur(4px)}
+.login-brand-kicker{font-size:10px;letter-spacing:.28em;color:#8d8da2;font-weight:800}
+.login-brand h2{font-size:clamp(38px,5vw,66px);line-height:.9;letter-spacing:-.055em;font-weight:900;margin-top:18px;max-width:500px}
+.login-brand h2 span{color:var(--gold2)}
+.login-brand p{max-width:440px;color:#9292a7;line-height:1.65;margin-top:20px;font-size:13px}
+.login-meta{display:flex;gap:9px;flex-wrap:wrap}
+.login-meta span{padding:8px 10px;border:1px solid rgba(255,255,255,.08);border-radius:999px;background:rgba(255,255,255,.035);color:#9d9daf;font-size:9px;letter-spacing:.12em;font-weight:800}
+.login-panel{position:relative;z-index:1;padding:46px;display:flex;flex-direction:column;justify-content:center}
+.login-panel .login-panel-inner{width:100%;max-width:420px;margin:auto}
+.login-logo-row{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+.login-logo-row img{max-height:54px!important;max-width:130px!important;object-fit:contain}
+.login-divider{height:1px;background:linear-gradient(90deg,rgba(255,255,255,.12),transparent);margin:22px 0}
+.login-label{display:block;color:#aaaabd;font-size:9px;letter-spacing:.16em;font-weight:900;margin:0 0 9px}
+.login-input{width:100%;height:52px!important;padding:0 15px!important;border-radius:13px!important;border:1px solid rgba(255,255,255,.10)!important;background:rgba(255,255,255,.045)!important;color:#fff!important;transition:.2s ease}
+.login-input:focus{border-color:rgba(240,184,63,.62)!important;background:rgba(255,255,255,.065)!important;box-shadow:0 0 0 4px rgba(240,184,63,.08)!important}
+.login-submit{width:100%;height:54px;border:0;border-radius:13px;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#17130a;font-weight:950;letter-spacing:.08em;font-size:11px;box-shadow:0 12px 28px rgba(240,184,63,.16);transition:.22s ease}
+.login-submit:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(247,74,254,.16);background:linear-gradient(135deg,#ffd66b,#f74afe);color:#fff}
+.login-domains{display:grid!important;grid-template-columns:1fr 1fr;gap:8px;padding:8px!important;max-height:250px!important;background:rgba(255,255,255,.025)!important;border:1px solid rgba(255,255,255,.08)!important;border-radius:16px!important}
+.login-domains .dominio-item{border:1px solid rgba(255,255,255,.06)!important;border-radius:11px!important;background:rgba(255,255,255,.025)!important;padding:12px!important;min-height:44px}
+.login-domains .dominio-item:hover{background:rgba(240,184,63,.07)!important;border-color:rgba(240,184,63,.25)!important}
+.login-domains .dominio-item.selecionado{background:linear-gradient(135deg,rgba(240,184,63,.12),rgba(247,74,254,.08))!important;border-color:rgba(240,184,63,.45)!important}
+.login-footer{margin-top:24px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between;align-items:center;color:#606075;font-size:8px;letter-spacing:.16em}
+.login-footer img{height:32px!important;width:32px!important}
+@media(max-width:820px){
+  body{align-items:flex-start!important;justify-content:center!important;overflow-y:auto!important;padding:14px!important}
+  .login-shell{grid-template-columns:1fr;min-height:0;height:auto;max-height:none;overflow:visible;border-radius:24px}
+  .login-brand{display:none!important}
+  .login-panel{padding:28px 22px 24px;min-height:0;justify-content:flex-start}
+  .login-panel .login-panel-inner{max-width:none}
+  .login-domains{max-height:300px!important;overflow-y:auto!important;align-content:start}
+  .login-footer{position:relative;margin-top:22px;clear:both}
+}
+@media(max-width:480px){
+  body{padding:10px!important}
+  .login-domains{grid-template-columns:1fr;max-height:330px!important}
+  .login-panel{padding:22px 16px 20px}
+  .login-shell{border-radius:22px}
+  .login-footer{font-size:7px}
+}
+
+
+/* ===== LOGIN V2 — EXECUTIVE / MEDIA OPERATIONS ===== */
+.login-shell{
+  width:min(1160px,100%);min-height:720px;
+  background:linear-gradient(135deg,rgba(7,7,15,.92),rgba(16,13,27,.82));
+  border-color:rgba(255,255,255,.13);
+  box-shadow:0 45px 140px rgba(0,0,0,.62),0 0 80px rgba(240,184,63,.06);
+}
+.login-shell::after{content:"";position:absolute;inset:1px;border-radius:31px;pointer-events:none;border:1px solid rgba(255,255,255,.035)}
+.login-brand{padding:58px 58px 48px;background:linear-gradient(155deg,rgba(255,255,255,.055),rgba(255,255,255,.008) 55%,rgba(247,74,254,.035));}
+.login-brand::before{content:"";position:absolute;left:42px;top:44px;width:88px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.login-brand::after{width:430px;height:430px;right:-220px;bottom:-210px;background:radial-gradient(circle,rgba(247,74,254,.16),transparent 68%);filter:none}
+.login-brand-kicker{display:inline-flex;align-items:center;gap:8px;color:#b0b0c0;letter-spacing:.25em;font-size:9px}
+.login-brand-kicker::before{content:"";width:6px;height:6px;border-radius:50%;background:#57e389;box-shadow:0 0 14px #57e389}
+.login-brand h2{font-size:clamp(48px,6vw,82px);margin-top:30px}
+.login-brand h2 span{background:linear-gradient(90deg,#fff,var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.login-brand p{font-family:'GFF-Latin',sans-serif;max-width:390px;color:#a2a2b4;font-size:13px}
+.login-brand-main{position:relative;z-index:2}
+.login-brand-visual{margin-top:46px;position:relative;width:100%;max-width:470px;min-height:190px;border:1px solid rgba(255,255,255,.08);border-radius:24px;background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.012));overflow:hidden;display:flex;align-items:center;justify-content:center}
+.login-brand-visual::before{content:"";position:absolute;width:270px;height:270px;border-radius:50%;background:radial-gradient(circle,rgba(240,184,63,.15),transparent 68%);left:-70px;bottom:-110px}
+.login-brand-visual::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent 35%,rgba(247,74,254,.06),transparent 70%);pointer-events:none}
+.login-brand-visual img{position:relative;z-index:2;max-height:100px;max-width:240px;object-fit:contain;filter:drop-shadow(0 18px 30px rgba(0,0,0,.42))}
+.login-brand-orbit{position:absolute;width:360px;height:110px;border:1px solid rgba(240,184,63,.12);border-radius:50%;transform:rotate(-18deg)}
+.login-brand-orbit::after{content:"";position:absolute;width:7px;height:7px;border-radius:50%;background:var(--pink);right:42px;top:5px;box-shadow:0 0 18px var(--pink)}
+.login-brand-status{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;color:#6f6f82;font-size:8px;letter-spacing:.16em;font-weight:900}
+.login-brand-status strong{color:#aaaabc}
+.login-meta{margin-top:34px}
+.login-meta span{background:rgba(255,255,255,.028);border-color:rgba(255,255,255,.075)}
+.login-panel{padding:48px 54px;background:linear-gradient(180deg,rgba(8,8,17,.28),rgba(8,8,17,.58))}
+.login-panel-inner{position:relative}
+.login-panel-top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:24px}
+.login-panel-badge{padding:7px 10px;border:1px solid rgba(87,227,137,.18);background:rgba(87,227,137,.055);border-radius:999px;color:#7fe9a2;font:800 8px/1 Arial,sans-serif;letter-spacing:.13em}
+.login-panel-code{color:#5f5f73;font:800 8px/1 Arial,sans-serif;letter-spacing:.18em}
+.login-heading{font-size:25px!important;line-height:1.1!important;letter-spacing:-.04em!important;color:#fff!important;margin-bottom:8px!important}
+.login-subheading{font:500 12px/1.5 Arial,sans-serif;color:#77778b;margin-bottom:25px}
+.login-logo-row{justify-content:flex-start!important;margin-bottom:22px!important;padding:12px 14px;border:1px solid rgba(255,255,255,.07);border-radius:15px;background:rgba(255,255,255,.025)}
+.login-logo-row img{max-height:42px!important;max-width:110px!important}
+.login-field{position:relative;margin-bottom:12px}
+.login-field-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:16px;height:16px;border:1px solid #77778a;border-radius:4px;opacity:.75;pointer-events:none}
+.login-field-icon::after{content:"";position:absolute;left:3px;right:3px;top:5px;height:1px;background:#77778a}
+.login-field .login-input{padding-left:43px!important}
+.login-submit{height:56px;border-radius:14px;margin-top:3px;letter-spacing:.13em}
+.login-access-note{display:flex;align-items:flex-start;gap:10px;margin-top:15px;padding:12px 13px;border:1px solid rgba(255,255,255,.06);border-radius:12px;background:rgba(255,255,255,.022);font:500 10px/1.45 Arial,sans-serif;color:#707084}
+.login-access-note b{color:#a7a7b7}
+.login-access-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px rgba(240,184,63,.55);margin-top:3px;flex:none}
+.login-domain-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin:25px 0 9px}
+.login-domain-head label{margin:0!important}
+.login-domain-head small{font:700 8px/1 Arial,sans-serif;color:#5f5f73;letter-spacing:.1em}
+.login-domains{box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 12px 30px rgba(0,0,0,.16)}
+.login-domains .dominio-item{font-family:'GFF-Latin',sans-serif!important;font-size:11px!important;font-weight:800!important;color:#d8d8e3!important;letter-spacing:.02em}
+.login-footer{margin-top:20px}
+.login-footer span{font-family:'GFF-Latin',sans-serif}
+.login-mobile-brand{display:none}
+@media(max-width:820px){
+  .login-shell{min-height:0}
+  .login-brand{display:none!important}
+  .login-mobile-brand{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;padding:13px 14px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:linear-gradient(135deg,rgba(255,255,255,.045),rgba(247,74,254,.035))}
+  .login-mobile-brand img{max-height:42px;max-width:100px;object-fit:contain}
+  .login-mobile-title{font:900 10px/1.2 Arial,sans-serif;color:#fff;letter-spacing:.08em;text-align:right}
+  .login-mobile-title span{display:block;color:var(--gold2);font-size:8px;margin-top:4px;letter-spacing:.15em}
+  .login-panel{padding:20px 18px 20px}
+  .login-panel-top{margin-bottom:16px}
+  .login-heading{font-size:21px!important}
+  .login-subheading{font-size:11px;margin-bottom:18px}
+}
+@media(max-width:480px){
+  .login-shell{border-radius:20px}
+  .login-panel{padding:16px 14px 16px}
+  .login-mobile-brand{margin-bottom:16px}
+  .login-logo-row{padding:10px 11px!important}
+  .login-domains{max-height:285px!important}
+}
+
+</style>
 </head>
 <body class="flex min-h-screen items-center justify-center p-4 md:p-8">
     <div class="login-shell">
       <section class="login-brand">
         <div class="login-brand-main">
           <div class="login-brand-kicker">FFWS BRASIL · MEDIA OPERATIONS</div>
-          <div class="flex items-center gap-4 mt-6"><img src="logo-ffws.svg" alt="Logo FFWS" class="max-h-20 max-w-[170px] object-contain"><img id="logo-diretoria-brand" src="" alt="" class="max-h-14 max-w-[130px] object-contain" onerror="this.style.display='none'"></div>
+          <div class="flex items-center gap-4 mt-6"><img src="info-ffws/logoffws.png" onerror="ffwsAssetFallback(this, 'logoffws.png')" alt="Logo FFWS" class="max-h-20 max-w-[170px] object-contain"><img id="logo-diretoria-brand" src="" alt="" class="max-h-14 max-w-[130px] object-contain" onerror="this.style.display='none'"></div>
           <h2>Media Lobby<br><span>Brasil.</span></h2>
           <p>Portal oficial para acesso organizado ao acervo de mídia, identidades visuais e materiais das equipes.</p>
-          <div class="login-brand-visual"><div class="login-brand-orbit"></div><img src="logo-ffws.svg" alt="FFWS Brasil 2026"></div>
+          <div class="login-brand-visual"><div class="login-brand-orbit"></div><img src="info-ffws/logoffws.png" onerror="ffwsAssetFallback(this, 'logoffws.png')" alt="FFWS Brasil 2026"></div>
           <div class="login-brand-status"><span>MEDIA OPERATIONS PLATFORM</span><strong>BRASIL · 2026</strong></div>
         </div>
         <div class="login-meta"><span>MEDIA ASSETS</span><span>TEAM LIBRARY</span><span>PLAYER ACCESS</span><span>SECURE AREA</span></div>
       </section>
       <section class="login-panel">
         <div class="login-panel-inner">
-        <div class="login-mobile-brand"><img src="logo-ffws.svg" alt="FFWS Brasil"><div class="login-mobile-title">MEDIA LOBBY<span>BRASIL · 2026</span></div></div>
+        <div class="login-mobile-brand"><img src="info-ffws/logoffws.png" onerror="ffwsAssetFallback(this, 'logoffws.png')" alt="FFWS Brasil"><div class="login-mobile-title">MEDIA LOBBY<span>BRASIL · 2026</span></div></div>
         <div class="login-panel-top"><span class="login-panel-badge">● ACCESS GATEWAY ONLINE</span><span class="login-panel-code">ML / 2026</span></div>
         <h1 class="login-heading">Acesso ao Media Lobby</h1>
         <p class="login-subheading">Entre com suas credenciais autorizadas para acessar o acervo oficial.</p>
 
         <div class="flex justify-center items-center gap-3 mb-4 login-logo-row">
-            <img src="logo-ffws.svg" class="max-h-20" alt="Logo FFWS">
+            <img src="info-ffws/logoffws.png" onerror="ffwsAssetFallback(this, 'logoffws.png')" class="max-h-20" alt="Logo FFWS">
             <img id="logo-diretoria" src="" class="max-h-16 max-w-32 object-contain" alt="Logo Diretoria" onerror="this.style.display='none'">
         </div>
         
@@ -60,7 +262,7 @@
         <div class="mt-5">
             <div class="login-domain-head"><label class="filtros-titulo block text-sm font-semibold text-gray-300 mb-2">ORGANIZAÇÃO / DOMÍNIO</label><small>SELECIONE PARA FILTRAR</small></div>
             <div id="lista-dominios" class="login-domains w-full">
-                <!-- Os domínios são inseridos automaticamente a partir de configuração do Supabase. -->
+                <!-- Os domínios são inseridos automaticamente a partir de dominiosLogin no dados.js. -->
             </div>
         </div>
 
@@ -68,29 +270,178 @@
         <div class="login-footer">
             <span>AUTHORIZED MEDIA ACCESS</span>
             <div class="flex items-center gap-3">
-              <img src="logo-diretoria.svg" alt="Diretoria" class="object-contain" onerror="this.style.display='none'">
-              <img src="logo-futury.svg" alt="Futury" class="object-contain" onerror="this.style.display='none'">
+              <img src="info-ffws/logo-diretoria.png" onerror="ffwsAssetFallback(this, 'logo-diretoria.png')">
+              <img src="info-ffws/logo-futury.png" onerror="ffwsAssetFallback(this, 'logo-futury.png')">
             </div>
         </div>
         </div>
       </section>
     </div>
 
-        <script>
+    
+    <script src="dados.js"></script>
+    <script>
+        const logoDiretoriaEl = document.getElementById('logo-diretoria');
+        if (typeof logoDiretoria !== 'undefined' && logoDiretoriaEl) { logoDiretoriaEl.src = logoDiretoria; const brandLogo=document.getElementById('logo-diretoria-brand'); if(brandLogo) brandLogo.src=logoDiretoria; }
+
+        /*
+         * Os domínios e os nomes exibidos são configurados diretamente
+         * no dados.js, na constante "dominiosLogin".
+         */
         const listaDominiosEl = document.getElementById('lista-dominios');
         const emailInputEl = document.getElementById('email-input');
+
         let dominioAtual = '';
-        let configData = {};
-        function atualizarCampoEmail(){ const atual=emailInputEl.value.trim(); if(dominioAtual){ emailInputEl.value=atual.includes('@')?atual.split('@')[0]:atual; emailInputEl.placeholder='Digite somente seu login'; } else emailInputEl.placeholder='Email@dominio.com'; }
-        function ativarModoLoginFiltrado(){ document.body.classList.add('login-filtro-ativo'); emailInputEl.focus(); }
-        function desativarModoLoginFiltrado(){ dominioAtual=''; document.body.classList.remove('login-filtro-ativo'); document.querySelectorAll('.dominio-item').forEach(x=>x.classList.remove('selecionado')); emailInputEl.value=''; atualizarCampoEmail(); }
-        function escaparHtml(t){ return String(t??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;'); }
-        function renderizarDominios(){ listaDominiosEl.innerHTML=''; const vistos=new Set(); (configData.dominios||[]).forEach(item=>{ const dominio=String(item.dominio||'').trim().toLowerCase(); if(!dominio||vistos.has(dominio))return; vistos.add(dominio); const b=document.createElement('button'); b.type='button'; b.className='dominio-item w-full text-left px-4 py-3 border-l-2 border-transparent border-b border-[#2d2d42] last:border-b-0 text-white cursor-pointer flex items-center justify-between gap-3'; b.dataset.dominio=dominio; b.innerHTML=`<span class="font-semibold">${escaparHtml(item.nome||dominio)}</span>`; b.onclick=()=>{ dominioAtual=dominioAtual===dominio?'':dominio; document.querySelectorAll('.dominio-item').forEach(x=>x.classList.remove('selecionado')); if(dominioAtual){b.classList.add('selecionado');ativarModoLoginFiltrado();} else desativarModoLoginFiltrado(); atualizarCampoEmail(); }; listaDominiosEl.appendChild(b); }); }
-        document.getElementById('btn-voltar-filtros').addEventListener('click',desativarModoLoginFiltrado);
-        async function carregarConfig(){ try{ const r=await fetch(`${API_URL}/config`); if(!r.ok)throw new Error(); configData=await r.json(); renderizarDominios(); if(configData.config?.logo_diretoria){ document.getElementById('logo-diretoria').src=configData.config.logo_diretoria; document.getElementById('logo-diretoria-brand').src=configData.config.logo_diretoria; } }catch(e){ const m=document.getElementById('mensagem-status');m.className='text-red-400 text-sm mb-4 text-center font-bold';m.innerText='Não foi possível carregar a configuração.';m.classList.remove('hidden'); } }
-        async function fazerLogin(){ const raw=emailInputEl.value.trim().toLowerCase(); const email=dominioAtual?(raw.includes('@')?raw:`${raw}${dominioAtual}`):raw; const password=document.getElementById('senha').value; const msg=document.getElementById('mensagem-status'); const btn=document.getElementById('btn-entrar'); btn.disabled=true; msg.className='text-yellow-400 text-sm mb-4 text-center font-bold';msg.textContent='PROCESSANDO...';msg.classList.remove('hidden'); try{ const r=await fetch(`${API_URL}/login`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})}); const d=await r.json(); if(!r.ok)throw new Error(d.error||'Credenciais inválidas.'); sessionStorage.setItem('ml_token',d.token);sessionStorage.setItem('user_scope',d.scope);sessionStorage.setItem('user_type',d.userType);sessionStorage.setItem('player_id',d.playerId||''); msg.className='text-green-500 text-sm mb-4 text-center font-bold';msg.textContent='LOGIN AUTORIZADO'; setTimeout(()=>location.href='painel.html',250); }catch(e){msg.className='text-red-400 text-sm mb-4 text-center font-bold';msg.textContent=e.message||'Credenciais de Acesso Incorretas!';btn.disabled=false;} }
-        document.getElementById('login-form').addEventListener('submit',e=>{e.preventDefault();fazerLogin();});
-        carregarConfig();
+
+        function atualizarCampoEmail() {
+            if (dominioAtual) {
+                const atual = emailInputEl.value.trim();
+                emailInputEl.value = atual.includes('@') ? atual.split('@')[0] : atual;
+                emailInputEl.placeholder = 'Digite somente seu login';
+            } else {
+                emailInputEl.placeholder = 'Email@dominio.com';
+            }
+            emailInputEl.classList.remove('rounded-l', 'border-r-0');
+            emailInputEl.classList.add('rounded');
+        }
+
+        function ativarModoLoginFiltrado() {
+            document.body.classList.add('login-filtro-ativo');
+            document.querySelector('.bg-\\[#10101e\\]\\/90')?.classList.add('login-transicao');
+            setTimeout(() => document.querySelector('.bg-\\[#10101e\\]\\/90')?.classList.remove('login-transicao'), 300);
+            emailInputEl.focus();
+        }
+
+        function desativarModoLoginFiltrado() {
+            dominioAtual = '';
+            document.body.classList.remove('login-filtro-ativo');
+            document.querySelectorAll('.dominio-item').forEach(item => item.classList.remove('selecionado'));
+            emailInputEl.value = '';
+            atualizarCampoEmail();
+            document.querySelector('.bg-\\[#10101e\\]\\/90')?.classList.add('login-transicao');
+            setTimeout(() => document.querySelector('.bg-\\[#10101e\\]\\/90')?.classList.remove('login-transicao'), 300);
+        }
+
+        function carregarDominios() {
+            listaDominiosEl.innerHTML = '';
+
+            const configurados = Array.isArray(dominiosLogin) ? dominiosLogin : [];
+
+            // Evita duplicação mesmo se o mesmo domínio for cadastrado duas vezes.
+            const vistos = new Set();
+
+            configurados.forEach(item => {
+                const dominio = String(item.dominio || '').trim().toLowerCase();
+                const nome = String(item.nome || dominio).trim();
+
+                if (!dominio || vistos.has(dominio)) return;
+                vistos.add(dominio);
+
+                const botao = document.createElement('button');
+                botao.type = 'button';
+                botao.className = 'dominio-item w-full text-left px-4 py-3 border-l-2 border-transparent border-b border-[#2d2d42] last:border-b-0 text-white cursor-pointer flex items-center justify-between gap-3';
+                botao.dataset.dominio = dominio;
+
+                botao.innerHTML = `
+                    <span class="font-semibold">${escaparHtml(nome)}</span>
+                `;
+
+                botao.addEventListener('click', () => selecionarDominio(dominio, botao));
+                listaDominiosEl.appendChild(botao);
+            });
+
+            if (!listaDominiosEl.children.length) {
+                listaDominiosEl.innerHTML = `
+                    <div class="px-4 py-3 text-sm text-gray-500">
+                        Nenhum domínio configurado no dados.js.
+                    </div>
+                `;
+            }
+        }
+
+        function escaparHtml(texto) {
+            return String(texto ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function selecionarDominio(dominio, elemento) {
+            const mesmoDominio = dominioAtual === dominio && !!dominio;
+
+            if (mesmoDominio) {
+                desativarModoLoginFiltrado();
+                return;
+            }
+
+            dominioAtual = String(dominio || '').trim().toLowerCase();
+
+            document.querySelectorAll('.dominio-item').forEach(item => item.classList.remove('selecionado'));
+            if (elemento) elemento.classList.add('selecionado');
+
+            atualizarCampoEmail();
+            ativarModoLoginFiltrado();
+        }
+
+        document.getElementById('btn-voltar-filtros').addEventListener('click', desativarModoLoginFiltrado);
+
+        carregarDominios();
+        atualizarCampoEmail();
+
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const valorEmail = emailInputEl.value.trim().toLowerCase();
+            const emailInput = dominioAtual ? `${valorEmail}${dominioAtual}` : valorEmail;
+            const usuarioInput = dominioAtual ? valorEmail : valorEmail;
+            const passInput = document.getElementById('senha').value;
+            const msgStatus = document.getElementById('mensagem-status');
+            const btnEntrar = document.getElementById('btn-entrar');
+
+            if (!valorEmail || !passInput) {
+                msgStatus.className = "text-red-400 text-sm mb-4 text-center font-bold";
+                msgStatus.innerText = !valorEmail ? "Informe seu email ou login." : "Informe sua senha.";
+                msgStatus.classList.remove('hidden');
+                return;
+            }
+
+            btnEntrar.disabled = true;
+            msgStatus.className = "text-yellow-400 text-sm mb-4 text-center font-bold flex items-center justify-center gap-2";
+            msgStatus.innerHTML = `<div class="loader"></div> PROCESSANDO...`;
+            msgStatus.classList.remove('hidden');
+
+            try {
+                const response = await fetch(`${API_URL.replace(/\\/$/, '')}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: emailInput, senha: passInput })
+                });
+
+                const result = await response.json().catch(() => ({}));
+
+                if (!response.ok || !result.ok) {
+                    throw new Error(result.error || 'Credenciais de acesso incorretas.');
+                }
+
+                const user = result.user || {};
+                sessionStorage.setItem('autenticado', 'true');
+                sessionStorage.setItem('session_token', result.session || '');
+                sessionStorage.setItem('user_scope', user.scope || 'standard');
+                sessionStorage.setItem('user_type', user.user_type || (user.scope === 'player' ? 'player' : 'standard'));
+                if ((user.scope || '') === 'player') sessionStorage.setItem('player_id', user.player_id || '');
+                else sessionStorage.removeItem('player_id');
+
+                msgStatus.className = "text-green-500 text-sm mb-4 text-center font-bold";
+                msgStatus.innerText = "LOGIN AUTORIZADO";
+                setTimeout(() => window.location.href = 'painel.html', 400);
+            } catch (err) {
+                msgStatus.className = "text-red-400 text-sm mb-4 text-center font-bold";
+                msgStatus.innerText = err?.message || "Não foi possível conectar ao servidor.";
+                btnEntrar.disabled = false;
+            }
+        });
     </script>
 </body>
 </html>
