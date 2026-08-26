@@ -1,23 +1,7 @@
-PACOTE COMPLETO FFWSBR MEDIA LOBBY
+FFWS Media Lobby - versão conectada à planilha
 
-Arquivos principais:
-- index.html
-- painel.html
-- dados.js
-- config.js
-- worker.js
-- wrangler.toml
-- vercel.json
+Os domínios exibidos na tela de login são obtidos em tempo real pelo endpoint /domains do Cloudflare Worker, que lê a mesma SHEETBEST_URL usada no login.
 
-SEGURANCA:
-As senhas que estavam no dados.js foram removidas. O login agora usa o Cloudflare Worker.
+O Worker precisa ter SHEETBEST_URL e SESSION_SECRET configurados.
 
-UNICA CONFIGURACAO EXTERNA NECESSARIA:
-Em config.js deve entrar a URL PUBLICA REAL do seu Worker Cloudflare.
-Nao invente uma URL: use exatamente a URL mostrada no botao Visit do Worker.
-
-No Cloudflare Worker, configure os secrets/variables:
-SHEETBEST_URL = URL completa da sua API SheetBest
-SESSION_SECRET = sua secret privada
-
-Depois publique o Worker e publique o conteudo deste pacote na Vercel/GitHub.
+O frontend precisa apontar API_URL para a URL pública do Worker em config.js.

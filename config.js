@@ -1,6 +1,6 @@
 // Configuração do frontend
 // URL pública do Cloudflare Worker.
-const API_URL = 'https://media-lobby-api.hayaati-whido.workers.dev/';
+const API_URL = 'COLE_AQUI_A_URL_DO_CLOUDFLARE_WORKER';
 
 // Todos os assets visuais ficam na pasta info-ffws/.
 // O fallback aponta para o mesmo repositório GitHub caso o deploy não tenha

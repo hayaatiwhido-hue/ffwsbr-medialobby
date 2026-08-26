@@ -157,6 +157,36 @@ async function handleMe(request, env) {
   return json({ ok: true, user });
 }
 
+async function handleDomains(request, env) {
+  try {
+    const users = await getUsers(env);
+    const domains = new Map();
+
+    for (const user of users) {
+      if (normalize(user.ativo || "SIM") !== "sim") continue;
+      const email = normalize(user.email);
+      const at = email.lastIndexOf("@");
+      if (at < 1 || at === email.length - 1) continue;
+
+      const dominio = email.slice(at + 1).trim();
+      if (!dominio || !dominio.includes(".")) continue;
+
+      if (!domains.has(dominio)) {
+        domains.set(dominio, { dominio: `@${dominio}`, nome: dominio });
+      }
+    }
+
+    return json({
+      ok: true,
+      dominios: Array.from(domains.values()).sort((a, b) =>
+        a.nome.localeCompare(b.nome, "pt-BR")
+      )
+    });
+  } catch (e) {
+    return json({ ok: false, error: e.message }, 502);
+  }
+}
+
 async function handleUsers(request, env) {
   if (!env.SESSION_SECRET) {
     return json({ ok: false, error: "SESSION_SECRET não configurada." }, 500);
@@ -203,6 +233,11 @@ export default {
       if (request.method === "GET" &&
           (path === "/session" || path === "/me" || path === "/api/session")) {
         return await handleMe(request, env);
+      }
+
+      if (request.method === "GET" &&
+          (path === "/domains" || path === "/api/domains")) {
+        return await handleDomains(request, env);
       }
 
       if (request.method === "GET" &&
