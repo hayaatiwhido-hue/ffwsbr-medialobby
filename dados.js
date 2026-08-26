@@ -20,10 +20,22 @@
   // (ou equivalente) é considerado inativo e não pode aparecer no sistema.
   // Se a coluna ATIVO não existir ou estiver vazia, o registro é tratado como ativo
   // para manter compatibilidade com abas que ainda não possuem essa coluna.
-  const truthy = v => ['sim','yes','true','1','ativo','active','on'].includes(low(v));
-  const falsy = v => ['não','nao','no','false','0','inativo','inactive','off'].includes(low(v));
+  const normalizeStatusText = v => low(v).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  const truthy = v => ['sim','yes','true','1','ativo','active','on','autorizado','login autorizado','liberado','aprovado','permitido','enabled'].includes(normalizeStatusText(v));
+  const falsy = v => ['não','nao','no','false','0','inativo','inactive','off','desativado','desativada','bloqueado','bloqueada','revogado','revogada','cancelado','cancelada','negado','negada','denied','disabled','sem acesso','acesso negado','encerrado','encerrada'].includes(normalizeStatusText(v));
+  const maintenance = v => {
+    const t = normalizeStatusText(v);
+    return ['manutencao','maintenance','em manutencao','em manutencao temporaria','temporariamente indisponivel','pausado','pausada','em pausa','suspenso','suspensa','temporario','temporaria'].some(x => t === x || t.includes(x));
+  };
   const getAtivo = row => first(row, ['ativo','ATIVO','Ativo','active','ACTIVE','Active','status','STATUS','Status']);
-  const active = row => !falsy(getAtivo(row));
+  const statusTipo = v => {
+    if (maintenance(v)) return 'manutencao';
+    if (falsy(v)) return 'desativado';
+    if (truthy(v)) return 'autorizado';
+    // Vazio continua compatível com a estrutura antiga. Valores desconhecidos ficam bloqueados.
+    return norm(v) === '' ? 'autorizado' : 'desativado';
+  };
+  const active = row => statusTipo(getAtivo(row)) !== 'desativado' && statusTipo(getAtivo(row)) !== 'manutencao';
   const first = (row, keys) => {
     for (const key of keys) {
       if (row && row[key] !== undefined && row[key] !== null && norm(row[key]) !== '') return row[key];
@@ -47,7 +59,8 @@
       player_id: norm(first(r, ['player_id','playerId','PLAYER_ID','id_player','ID_PLAYER'])),
       playerId: norm(first(r, ['player_id','playerId','PLAYER_ID','id_player','ID_PLAYER'])),
       user_type: norm(first(r, ['user_type','userType','USER_TYPE','tipo','TIPO'])) || 'standard',
-      ativo: norm(getAtivo(r)) || 'SIM'
+      ativo: norm(getAtivo(r)) || 'SIM',
+      statusTipo: statusTipo(getAtivo(r))
     };
   }
 
@@ -126,7 +139,7 @@
       get(API.usuarios), get(API.dominios), get(API.estilos), get(API.equipes), get(API.assets), get(API.membros), get(API.fotos)
     ]);
 
-    window.listaUsuarios = usuariosRaw.filter(active).map(normalizarUsuario).filter(x => x.email);
+    window.listaUsuarios = usuariosRaw.map(normalizarUsuario).filter(x => x.email);
     window.dominiosLogin = dominiosRaw.filter(active).map(normalizarDominio).filter(x => x.dominio);
     window.listaEstilos = estilosRaw.filter(active).map(normalizarEstilo).filter(x => x.sigla);
     window.dadosEquipes = equipesRaw.filter(active).map(normalizarEquipe).filter(x => x.id && x.nome);
@@ -179,12 +192,14 @@
     });
 
     window.MEDIA_LOBBY_API = API;
+    window.MEDIA_LOBBY_STATUS = { statusTipo, maintenance, falsy, truthy };
     window.MEDIA_LOBBY_DADOS_PRONTOS = true;
     window.dispatchEvent(new CustomEvent('media-lobby-dados-prontos'));
     return true;
   }
 
   window.MEDIA_LOBBY_API = API;
+  window.MEDIA_LOBBY_STATUS = { statusTipo, maintenance, falsy, truthy };
   window.MEDIA_LOBBY_READY = carregarTudo().catch(error => {
     console.error('[MEDIA LOBBY] Falha ao carregar dados:', error);
     window.MEDIA_LOBBY_ERRO = error;
