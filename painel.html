@@ -1,26 +1,22 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <base target="_top">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MEDIA LOBBY FFWS BRASIL</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="config.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="min-h-screen text-gray-100 p-4 md:p-6">
 
-    <script>
-        if (!sessionStorage.getItem('auth_token')) {
-            window.location.href = '?page=index';
-        }
-    </script>
+
 
     <div class="max-w-6xl mx-auto p-5 md:p-8">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-[#262638] pb-5 gap-5">
             <div class="flex items-center gap-4">
                 <div class="bg-white/[.04] p-2 rounded-2xl border border-white/[.09] shadow-lg">
-                    <img src="info-ffws/logoffws.png" alt="Logo FFWS" class="h-12 max-w-[120px] object-contain">
+                    <img src="logo-ffws.svg" alt="Logo FFWS" class="h-12 max-w-[120px] object-contain">
                 </div>
                 <div>
                     <div class="flex items-center gap-3 flex-wrap">
@@ -71,11 +67,11 @@
         const equipesSelecionadas = new Set();
 
         const iconesFuncoes = {
-            RUSHER: 'info-ffws/rusher.png',
-            SNIPER: 'info-ffws/sniper.png',
-            SUPPORT: 'info-ffws/support.png',
-            BOMBER: 'info-ffws/bomber.png',
-            RIFLER: 'info-ffws/rifler.png'
+            RUSHER: 'rusher.svg',
+            SNIPER: 'sniper.svg',
+            SUPPORT: 'support.svg',
+            BOMBER: 'bomber.svg',
+            RIFLER: 'rifler.svg'
         };
 
         function irParaTopo() {
@@ -182,10 +178,7 @@
             return `${base}.${extensao}`;
         }
 
-        function sair() {
-            sessionStorage.clear();
-            window.location.href = '?page=index';
-        }
+        function sair() { sessionStorage.clear(); window.location.href = 'index.html'; }
 
         function voltarNivel() {
             if (userType === 'player') {
@@ -904,7 +897,7 @@
                                 <span>${escaparHtml(siglaEstilo)}</span>
                             </div>
                             <div class="photo-preview-image-wrap">
-                                <img data-src="${urlDriveImg}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="${escaparHtml(membro.nick)} · ${escaparHtml(info.titulo)}" class="photo-preview-image lazy-media" loading="lazy" decoding="async" fetchpriority="low" onerror="this.src='info-ffws/logoffws.png'">
+                                <img data-src="${urlDriveImg}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="${escaparHtml(membro.nick)} · ${escaparHtml(info.titulo)}" class="photo-preview-image lazy-media" loading="lazy" decoding="async" fetchpriority="low" onerror="this.src='logo-ffws.svg'">
                             </div>
                         </div>
                         <div class="photo-preview-info">
@@ -1006,7 +999,7 @@
                         <div class="asset-preview-stage">
                             <span class="asset-preview-label">${tipo === 'Logotipos' ? 'LOGO ASSET' : 'CREST ASSET'}</span>
                             <div class="asset-preview-image-wrap ${tipo === 'Brasões' ? 'crest-image-wrap' : ''}">
-                                <img data-src="${urlDriveImg}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="${escaparHtml(nomeItem)}" class="asset-preview-image ${tipo === 'Brasões' ? 'crest-asset-image' : ''} lazy-media" loading="lazy" decoding="async" fetchpriority="low" onerror="this.src='info-ffws/logoffws.png'">
+                                <img data-src="${urlDriveImg}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="${escaparHtml(nomeItem)}" class="asset-preview-image ${tipo === 'Brasões' ? 'crest-asset-image' : ''} lazy-media" loading="lazy" decoding="async" fetchpriority="low" onerror="this.src='logo-ffws.svg'">
                             </div>
                         </div>
                         <div class="asset-preview-info">
@@ -1095,7 +1088,7 @@
                                     <span>${escaparHtml(siglaEstilo)}</span>
                                 </div>
                                 <div class="photo-preview-image-wrap">
-                                    <img data-src="${urlDriveImg}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="${escaparHtml(membro.nick)}" class="photo-preview-image lazy-media" loading="lazy" decoding="async" fetchpriority="low" onerror="this.src='info-ffws/logoffws.png'">
+                                    <img data-src="${urlDriveImg}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="${escaparHtml(membro.nick)}" class="photo-preview-image lazy-media" loading="lazy" decoding="async" fetchpriority="low" onerror="this.src='logo-ffws.svg'">
                                 </div>
                             </div>
                             <div class="photo-preview-info">
@@ -1156,28 +1149,8 @@
             baixarArquivo(url, nome).catch(err => console.error('Erro ao baixar asset:', err));
         });
 
-        async function iniciarPainelSeguro() {
-            const token = sessionStorage.getItem('auth_token');
-            if (!token) { window.location.href = '?page=index'; return; }
-            google.script.run.withSuccessHandler(function(result) {
-                if (!result || !result.ok) {
-                    sessionStorage.clear();
-                    window.location.href = '?page=index';
-                    return;
-                }
-                dadosEquipes = result.dadosEquipes || [];
-                listaEstilos = result.listaEstilos || [];
-                scope = result.scope || '';
-                userType = result.userType || 'standard';
-                playerId = result.playerId || '';
-                inicializarPainel();
-            }).withFailureHandler(function() {
-                sessionStorage.clear();
-                window.location.href = '?page=index';
-            }).getAuthorizedData(token);
-        }
-
-        window.onload = iniciarPainelSeguro;
+        async function iniciarPainelSeguro(){ const token=sessionStorage.getItem('ml_token'); if(!token){location.href='index.html';return;} try{ const r=await fetch(`${API_URL}/data`,{headers:{Authorization:`Bearer ${token}`}}); const d=await r.json(); if(!r.ok)throw new Error(d.error||'Sessão inválida'); dadosEquipes=d.dadosEquipes||[];listaEstilos=d.listaEstilos||[];scope=d.scope||'';userType=d.userType||'standard';playerId=d.playerId||'';inicializarPainel(); }catch(e){ console.error(e); sessionStorage.clear(); alert('Sessão expirada ou acesso não autorizado.'); location.href='index.html'; } }
+        window.onload=iniciarPainelSeguro;
     </script>
 </body>
 </html>

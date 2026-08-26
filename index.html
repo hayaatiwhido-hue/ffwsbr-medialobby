@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <base target="_top">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MEDIA LOBBY FFWS BRASIL</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="config.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="flex min-h-screen items-center justify-center p-4 md:p-8">
@@ -13,23 +13,23 @@
       <section class="login-brand">
         <div class="login-brand-main">
           <div class="login-brand-kicker">FFWS BRASIL · MEDIA OPERATIONS</div>
-          <div class="flex items-center gap-4 mt-6"><img src="info-ffws/logoffws.png" alt="Logo FFWS" class="max-h-20 max-w-[170px] object-contain"><img id="logo-diretoria-brand" src="" alt="" class="max-h-14 max-w-[130px] object-contain" onerror="this.style.display='none'"></div>
+          <div class="flex items-center gap-4 mt-6"><img src="logo-ffws.svg" alt="Logo FFWS" class="max-h-20 max-w-[170px] object-contain"><img id="logo-diretoria-brand" src="" alt="" class="max-h-14 max-w-[130px] object-contain" onerror="this.style.display='none'"></div>
           <h2>Media Lobby<br><span>Brasil.</span></h2>
           <p>Portal oficial para acesso organizado ao acervo de mídia, identidades visuais e materiais das equipes.</p>
-          <div class="login-brand-visual"><div class="login-brand-orbit"></div><img src="info-ffws/logoffws.png" alt="FFWS Brasil 2026"></div>
+          <div class="login-brand-visual"><div class="login-brand-orbit"></div><img src="logo-ffws.svg" alt="FFWS Brasil 2026"></div>
           <div class="login-brand-status"><span>MEDIA OPERATIONS PLATFORM</span><strong>BRASIL · 2026</strong></div>
         </div>
         <div class="login-meta"><span>MEDIA ASSETS</span><span>TEAM LIBRARY</span><span>PLAYER ACCESS</span><span>SECURE AREA</span></div>
       </section>
       <section class="login-panel">
         <div class="login-panel-inner">
-        <div class="login-mobile-brand"><img src="info-ffws/logoffws.png" alt="FFWS Brasil"><div class="login-mobile-title">MEDIA LOBBY<span>BRASIL · 2026</span></div></div>
+        <div class="login-mobile-brand"><img src="logo-ffws.svg" alt="FFWS Brasil"><div class="login-mobile-title">MEDIA LOBBY<span>BRASIL · 2026</span></div></div>
         <div class="login-panel-top"><span class="login-panel-badge">● ACCESS GATEWAY ONLINE</span><span class="login-panel-code">ML / 2026</span></div>
         <h1 class="login-heading">Acesso ao Media Lobby</h1>
         <p class="login-subheading">Entre com suas credenciais autorizadas para acessar o acervo oficial.</p>
 
         <div class="flex justify-center items-center gap-3 mb-4 login-logo-row">
-            <img src="info-ffws/logoffws.png" class="max-h-20" alt="Logo FFWS">
+            <img src="logo-ffws.svg" class="max-h-20" alt="Logo FFWS">
             <img id="logo-diretoria" src="" class="max-h-16 max-w-32 object-contain" alt="Logo Diretoria" onerror="this.style.display='none'">
         </div>
         
@@ -60,7 +60,7 @@
         <div class="mt-5">
             <div class="login-domain-head"><label class="filtros-titulo block text-sm font-semibold text-gray-300 mb-2">ORGANIZAÇÃO / DOMÍNIO</label><small>SELECIONE PARA FILTRAR</small></div>
             <div id="lista-dominios" class="login-domains w-full">
-                <!-- Os domínios são inseridos automaticamente a partir de dominiosLogin no dados.js. -->
+                <!-- Os domínios são inseridos automaticamente a partir de configuração do Supabase. -->
             </div>
         </div>
 
@@ -68,8 +68,8 @@
         <div class="login-footer">
             <span>AUTHORIZED MEDIA ACCESS</span>
             <div class="flex items-center gap-3">
-              <img src="info-ffws/logo-diretoria.png" alt="Diretoria" class="object-contain" onerror="this.style.display='none'">
-              <img src="info-ffws/logo-futury.png" alt="Futury" class="object-contain" onerror="this.style.display='none'">
+              <img src="logo-diretoria.svg" alt="Diretoria" class="object-contain" onerror="this.style.display='none'">
+              <img src="logo-futury.svg" alt="Futury" class="object-contain" onerror="this.style.display='none'">
             </div>
         </div>
         </div>
@@ -77,172 +77,20 @@
     </div>
 
         <script>
-        const logoDiretoriaEl = document.getElementById('logo-diretoria');
-        if (typeof logoDiretoria !== 'undefined' && logoDiretoriaEl) { logoDiretoriaEl.src = logoDiretoria; const brandLogo=document.getElementById('logo-diretoria-brand'); if(brandLogo) brandLogo.src=logoDiretoria; }
-
-        /*
-         * Os domínios e os nomes exibidos são configurados diretamente
-         * no dados.js, na constante "dominiosLogin".
-         */
         const listaDominiosEl = document.getElementById('lista-dominios');
         const emailInputEl = document.getElementById('email-input');
-
         let dominioAtual = '';
-
-        function atualizarCampoEmail() {
-            if (dominioAtual) {
-                const atual = emailInputEl.value.trim();
-                emailInputEl.value = atual.includes('@') ? atual.split('@')[0] : atual;
-                emailInputEl.placeholder = 'Digite somente seu login';
-            } else {
-                emailInputEl.placeholder = 'Email@dominio.com';
-            }
-            emailInputEl.classList.remove('rounded-l', 'border-r-0');
-            emailInputEl.classList.add('rounded');
-        }
-
-        function ativarModoLoginFiltrado() {
-            document.body.classList.add('login-filtro-ativo');
-            document.querySelector('.bg-\\[#10101e\\]\\/90')?.classList.add('login-transicao');
-            setTimeout(() => document.querySelector('.bg-\\[#10101e\\]\\/90')?.classList.remove('login-transicao'), 300);
-            emailInputEl.focus();
-        }
-
-        function desativarModoLoginFiltrado() {
-            dominioAtual = '';
-            document.body.classList.remove('login-filtro-ativo');
-            document.querySelectorAll('.dominio-item').forEach(item => item.classList.remove('selecionado'));
-            emailInputEl.value = '';
-            atualizarCampoEmail();
-            document.querySelector('.bg-\\[#10101e\\]\\/90')?.classList.add('login-transicao');
-            setTimeout(() => document.querySelector('.bg-\\[#10101e\\]\\/90')?.classList.remove('login-transicao'), 300);
-        }
-
-        function carregarDominios() {
-            listaDominiosEl.innerHTML = '';
-
-            const configurados = Array.isArray(window.__dominiosLogin) ? window.__dominiosLogin : [];
-
-            // Evita duplicação mesmo se o mesmo domínio for cadastrado duas vezes.
-            const vistos = new Set();
-
-            configurados.forEach(item => {
-                const dominio = String(item.dominio || '').trim().toLowerCase();
-                const nome = String(item.nome || dominio).trim();
-
-                if (!dominio || vistos.has(dominio)) return;
-                vistos.add(dominio);
-
-                const botao = document.createElement('button');
-                botao.type = 'button';
-                botao.className = 'dominio-item w-full text-left px-4 py-3 border-l-2 border-transparent border-b border-[#2d2d42] last:border-b-0 text-white cursor-pointer flex items-center justify-between gap-3';
-                botao.dataset.dominio = dominio;
-
-                botao.innerHTML = `
-                    <span class="font-semibold">${escaparHtml(nome)}</span>
-                `;
-
-                botao.addEventListener('click', () => selecionarDominio(dominio, botao));
-                listaDominiosEl.appendChild(botao);
-            });
-
-            if (!listaDominiosEl.children.length) {
-                listaDominiosEl.innerHTML = `
-                    <div class="px-4 py-3 text-sm text-gray-500">
-                        Nenhum domínio configurado no dados.js.
-                    </div>
-                `;
-            }
-        }
-
-        function escaparHtml(texto) {
-            return String(texto ?? '')
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-        }
-
-        function selecionarDominio(dominio, elemento) {
-            const mesmoDominio = dominioAtual === dominio && !!dominio;
-
-            if (mesmoDominio) {
-                desativarModoLoginFiltrado();
-                return;
-            }
-
-            dominioAtual = String(dominio || '').trim().toLowerCase();
-
-            document.querySelectorAll('.dominio-item').forEach(item => item.classList.remove('selecionado'));
-            if (elemento) elemento.classList.add('selecionado');
-
-            atualizarCampoEmail();
-            ativarModoLoginFiltrado();
-        }
-
-        document.getElementById('btn-voltar-filtros').addEventListener('click', desativarModoLoginFiltrado);
-
-        google.script.run.withSuccessHandler(function(config) {
-            window.__dominiosLogin = config.dominios || [];
-            carregarDominios();
-            atualizarCampoEmail();
-        }).withFailureHandler(function(err) {
-            const msg = document.getElementById('mensagem-status');
-            msg.className = "text-red-400 text-sm mb-4 text-center font-bold";
-            msg.innerText = "Não foi possível carregar a configuração de acesso.";
-            msg.classList.remove('hidden');
-        }).getPublicConfig();
-
-        document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const valorEmail = emailInputEl.value.trim().toLowerCase();
-            const emailInput = dominioAtual
-                ? `${valorEmail}${dominioAtual}`
-                : valorEmail;
-            const usuarioInput = dominioAtual
-                ? valorEmail
-                : (valorEmail.includes('@') ? valorEmail.split('@')[0] : valorEmail);
-            const passInput = document.getElementById('senha').value;
-            const msgStatus = document.getElementById('mensagem-status');
-            const btnEntrar = document.getElementById('btn-entrar');
-
-            if (!valorEmail || (dominioAtual && !usuarioInput)) {
-                msgStatus.className = "text-red-400 text-sm mb-4 text-center font-bold";
-                msgStatus.innerText = !valorEmail
-                    ? "Informe seu email ou login."
-                    : "Informe o usuário do seu email.";
-                msgStatus.classList.remove('hidden');
-                return;
-            }
-
-            btnEntrar.disabled = true;
-            msgStatus.className = "text-yellow-400 text-sm mb-4 text-center font-bold flex items-center justify-center gap-2";
-            msgStatus.innerHTML = `<div class="loader"></div> PROCESSANDO...`;
-            msgStatus.classList.remove('hidden');
-
-            google.script.run.withSuccessHandler(function(result) {
-                if (result && result.ok) {
-                    msgStatus.className = "text-green-500 text-sm mb-4 text-center font-bold";
-                    msgStatus.innerText = "LOGIN AUTORIZADO";
-                    sessionStorage.setItem('auth_token', result.token);
-                    sessionStorage.setItem('user_scope', result.scope || '');
-                    sessionStorage.setItem('user_type', result.userType || 'standard');
-                    if (result.playerId) sessionStorage.setItem('player_id', result.playerId);
-                    else sessionStorage.removeItem('player_id');
-                    setTimeout(() => window.location.href = '?page=painel', 500);
-                } else {
-                    msgStatus.className = "text-red-400 text-sm mb-4 text-center font-bold";
-                    msgStatus.innerText = "Credenciais de Acesso Incorretas!";
-                    btnEntrar.disabled = false;
-                }
-            }).withFailureHandler(function() {
-                msgStatus.className = "text-red-400 text-sm mb-4 text-center font-bold";
-                msgStatus.innerText = "Erro ao validar o acesso. Tente novamente.";
-                btnEntrar.disabled = false;
-            }).loginUsuario(emailInput, passInput);
-        });
+        let configData = {};
+        function atualizarCampoEmail(){ const atual=emailInputEl.value.trim(); if(dominioAtual){ emailInputEl.value=atual.includes('@')?atual.split('@')[0]:atual; emailInputEl.placeholder='Digite somente seu login'; } else emailInputEl.placeholder='Email@dominio.com'; }
+        function ativarModoLoginFiltrado(){ document.body.classList.add('login-filtro-ativo'); emailInputEl.focus(); }
+        function desativarModoLoginFiltrado(){ dominioAtual=''; document.body.classList.remove('login-filtro-ativo'); document.querySelectorAll('.dominio-item').forEach(x=>x.classList.remove('selecionado')); emailInputEl.value=''; atualizarCampoEmail(); }
+        function escaparHtml(t){ return String(t??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;'); }
+        function renderizarDominios(){ listaDominiosEl.innerHTML=''; const vistos=new Set(); (configData.dominios||[]).forEach(item=>{ const dominio=String(item.dominio||'').trim().toLowerCase(); if(!dominio||vistos.has(dominio))return; vistos.add(dominio); const b=document.createElement('button'); b.type='button'; b.className='dominio-item w-full text-left px-4 py-3 border-l-2 border-transparent border-b border-[#2d2d42] last:border-b-0 text-white cursor-pointer flex items-center justify-between gap-3'; b.dataset.dominio=dominio; b.innerHTML=`<span class="font-semibold">${escaparHtml(item.nome||dominio)}</span>`; b.onclick=()=>{ dominioAtual=dominioAtual===dominio?'':dominio; document.querySelectorAll('.dominio-item').forEach(x=>x.classList.remove('selecionado')); if(dominioAtual){b.classList.add('selecionado');ativarModoLoginFiltrado();} else desativarModoLoginFiltrado(); atualizarCampoEmail(); }; listaDominiosEl.appendChild(b); }); }
+        document.getElementById('btn-voltar-filtros').addEventListener('click',desativarModoLoginFiltrado);
+        async function carregarConfig(){ try{ const r=await fetch(`${API_URL}/config`); if(!r.ok)throw new Error(); configData=await r.json(); renderizarDominios(); if(configData.config?.logo_diretoria){ document.getElementById('logo-diretoria').src=configData.config.logo_diretoria; document.getElementById('logo-diretoria-brand').src=configData.config.logo_diretoria; } }catch(e){ const m=document.getElementById('mensagem-status');m.className='text-red-400 text-sm mb-4 text-center font-bold';m.innerText='Não foi possível carregar a configuração.';m.classList.remove('hidden'); } }
+        async function fazerLogin(){ const raw=emailInputEl.value.trim().toLowerCase(); const email=dominioAtual?(raw.includes('@')?raw:`${raw}${dominioAtual}`):raw; const password=document.getElementById('senha').value; const msg=document.getElementById('mensagem-status'); const btn=document.getElementById('btn-entrar'); btn.disabled=true; msg.className='text-yellow-400 text-sm mb-4 text-center font-bold';msg.textContent='PROCESSANDO...';msg.classList.remove('hidden'); try{ const r=await fetch(`${API_URL}/login`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})}); const d=await r.json(); if(!r.ok)throw new Error(d.error||'Credenciais inválidas.'); sessionStorage.setItem('ml_token',d.token);sessionStorage.setItem('user_scope',d.scope);sessionStorage.setItem('user_type',d.userType);sessionStorage.setItem('player_id',d.playerId||''); msg.className='text-green-500 text-sm mb-4 text-center font-bold';msg.textContent='LOGIN AUTORIZADO'; setTimeout(()=>location.href='painel.html',250); }catch(e){msg.className='text-red-400 text-sm mb-4 text-center font-bold';msg.textContent=e.message||'Credenciais de Acesso Incorretas!';btn.disabled=false;} }
+        document.getElementById('login-form').addEventListener('submit',e=>{e.preventDefault();fazerLogin();});
+        carregarConfig();
     </script>
 </body>
 </html>
