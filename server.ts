@@ -11,7 +11,7 @@ const PORT = Number(process.env.PORT || 3000);
 const SESSION_HOURS = Number(process.env.SESSION_HOURS || 24);
 const ONLINE_TIMEOUT_MINUTES = Number(process.env.ONLINE_TIMEOUT_MINUTES || 5);
 const ALERT_COOLDOWN_MINUTES = Number(process.env.ALERT_COOLDOWN_MINUTES || 15);
-const SHEETBEST_USUARIOS_URL = process.env.SHEETBEST_USUARIOS_URL || '';
+const SHEETBEST_USUARIOS_URL = process.env.SHEETBEST_USUARIOS_URL || 'https://api.sheetbest.com/sheets/53fd3157-4eac-49eb-b064-7be9f8e795af/tabs/USUARIOS';
 const SESSION_SECRET = process.env.SESSION_SECRET || '';
 const ADMIN_ALERT_EMAIL = process.env.ADMIN_ALERT_EMAIL || '';
 const SMTP_HOST = process.env.SMTP_HOST || '';
@@ -74,21 +74,25 @@ async function sendAlert(email:string,ip:string,device:string,other:any[]){
   await transporter.sendMail({from:SMTP_FROM,to:recipients,subject:`Media Lobby — login usado em outro dispositivo: ${email}`,text:`O login ${email} foi detectado em sessões diferentes.\n\nNova sessão:\nIP: ${ip}\nDispositivo: ${device.slice(0,12)}\n\nOutras sessões ativas:\n${lines}\n\nAcesse o painel administrativo para revogar uma sessão.`});
   await sql`INSERT INTO ml_alerts(email,last_alert_at) VALUES(${email},now()) ON CONFLICT(email) DO UPDATE SET last_alert_at=EXCLUDED.last_alert_at`;
 }
+function statelessSession(token:string){ try{ const [payload,sig]=token.split('.'); if(!payload||!sig) return null; const expected=crypto.createHmac('sha256',SESSION_SECRET||'change-me').update(payload).digest('base64url'); if(!crypto.timingSafeEqual(Buffer.from(sig),Buffer.from(expected))) return null; const s=JSON.parse(Buffer.from(payload,'base64url').toString()); if(!s.exp||Date.now()>s.exp) return null; return s; }catch{return null;} }
 async function auth(req:any){
-  if(!sql) return null; const token=parseCookies(req).ml_session; if(!token) return null; const rows=await sql`SELECT * FROM ml_sessions WHERE token_hash=${tokenHash(token)} AND revoked=false AND expires_at>now() LIMIT 1`; const s=rows[0]; if(!s) return null; const ip=clientIp(req); const device=deviceHash(req,String(req.headers['x-device-id']||'')); await sql`UPDATE ml_sessions SET last_seen=now(),ip=${ip},device_hash=${device},user_agent=${String(req.headers['user-agent']||'')} WHERE id=${s.id}`; return {...s,ip,device}; }
+  const token=parseCookies(req).ml_session; if(!token) return null;
+  if(!sql){ const s=statelessSession(token); return s ? {...s,ip:clientIp(req),device:deviceHash(req,String(req.headers['x-device-id']||''))} : null; }
+  const rows=await sql`SELECT * FROM ml_sessions WHERE token_hash=${tokenHash(token)} AND revoked=false AND expires_at>now() LIMIT 1`; const s=rows[0]; if(!s) return null; const ip=clientIp(req); const device=deviceHash(req,String(req.headers['x-device-id']||'')); await sql`UPDATE ml_sessions SET last_seen=now(),ip=${ip},device_hash=${device},user_agent=${String(req.headers['user-agent']||'')} WHERE id=${s.id}`; return {...s,ip,device}; }
 async function adminAuth(req:any){ const s=await auth(req); return s && s.user_type==='admin' ? s : null; }
 async function login(req:any,res:any){
   const b=await body(req); const email=String(b.email||'').trim().toLowerCase(); const senha=String(b.senha||''); const deviceId=String(b.deviceId||''); if(!email||!senha) return json(res,400,{ok:false,error:'Informe email e senha.'});
-  if(!sql) return json(res,500,{ok:false,error:'Banco de dados não configurado no Vercel.'});
   const sheet=(await getSheetUsers()).find((u:any)=>u.email===email); if(!sheet || sheet.status==='desativado') return json(res,401,{ok:false,error:'Credenciais de Acesso Incorreta!'});
-  let user=await findUser(email); let valid=false; if(user?.password_hash) valid=await bcrypt.compare(senha,user.password_hash); if(!valid && sheet.senha && senha===sheet.senha){ await upsertUser(sheet); user=await findUser(email); valid=true; }
-  if(!valid || !user || user.blocked) return json(res,401,{ok:false,error:'Credenciais de Acesso Incorreta!'});
+  let user=sql ? await findUser(email) : null; let valid=false; if(user?.password_hash) valid=await bcrypt.compare(senha,user.password_hash); if(!valid && sheet.senha && senha===sheet.senha){ if(sql){ await upsertUser(sheet); user=await findUser(email); } valid=true; }
+  if(!valid || (user && user.blocked)) return json(res,401,{ok:false,error:'Credenciais de Acesso Incorreta!'});
   const token=randomToken(), th=tokenHash(token), ip=clientIp(req), dh=deviceHash(req,deviceId), ua=String(req.headers['user-agent']||''), expires=new Date(Date.now()+SESSION_HOURS*3600000);
-  await sql`INSERT INTO ml_sessions(email,token_hash,user_type,scope,player_id,ip,device_hash,user_agent,expires_at) VALUES(${email},${th},${sheet.userType},${sheet.scope},${sheet.playerId},${ip},${dh},${ua},${expires})`;
-  await sql`UPDATE ml_users SET last_login=now(),user_type=${sheet.userType},scope=${sheet.scope},player_id=${sheet.playerId},status=${sheet.status} WHERE email=${email}`;
-  const others=await sql`SELECT email,ip,device_hash,last_seen FROM ml_sessions WHERE email=${email} AND revoked=false AND expires_at>now() AND token_hash<>${th} ORDER BY last_seen DESC LIMIT 10`;
-  if(others.length && others.some((x:any)=>x.ip!==ip || x.device_hash!==dh)){ await recordEvent('duplicate_login',email,ip,dh,'Mesmo login detectado em IP/dispositivo diferente.'); sendAlert(email,ip,dh,others).catch(e=>console.error(e)); }
-  const maxAge=SESSION_HOURS*3600; return json(res,200,{ok:true,user:{email,scope:sheet.scope,playerId:sheet.playerId,userType:sheet.userType,status:sheet.status}},{'Set-Cookie':cookie('ml_session',token,maxAge)});
+  if(sql){
+    await sql`INSERT INTO ml_sessions(email,token_hash,user_type,scope,player_id,ip,device_hash,user_agent,expires_at) VALUES(${email},${th},${sheet.userType},${sheet.scope},${sheet.playerId},${ip},${dh},${ua},${expires})`;
+    await sql`UPDATE ml_users SET last_login=now(),user_type=${sheet.userType},scope=${sheet.scope},player_id=${sheet.playerId},status=${sheet.status} WHERE email=${email}`;
+    const others=await sql`SELECT email,ip,device_hash,last_seen FROM ml_sessions WHERE email=${email} AND revoked=false AND expires_at>now() AND token_hash<>${th} ORDER BY last_seen DESC LIMIT 10`;
+    if(others.length && others.some((x:any)=>x.ip!==ip || x.device_hash!==dh)){ await recordEvent('duplicate_login',email,ip,dh,'Mesmo login detectado em IP/dispositivo diferente.'); sendAlert(email,ip,dh,others).catch(e=>console.error(e)); }
+  }
+  let sessionToken=token; if(!sql){ const payload=Buffer.from(JSON.stringify({email,scope:sheet.scope,player_id:sheet.playerId,user_type:sheet.userType,status:sheet.status,exp:Date.now()+SESSION_HOURS*3600000})).toString('base64url'); const sig=crypto.createHmac('sha256',SESSION_SECRET||'change-me').update(payload).digest('base64url'); sessionToken=payload+'.'+sig; } const maxAge=SESSION_HOURS*3600; return json(res,200,{ok:true,user:{email,scope:sheet.scope,playerId:sheet.playerId,userType:sheet.userType,status:sheet.status}},{'Set-Cookie':cookie('ml_session',sessionToken,maxAge)});
 }
 async function api(req:any,res:any){
   const u=new URL(req.url||'/',`http://${req.headers.host||'localhost'}`); const p=u.pathname;
@@ -98,6 +102,7 @@ async function api(req:any,res:any){
   if(req.method==='GET'&&p==='/api/me'){ const s=await auth(req); if(!s) return json(res,401,{ok:false}); return json(res,200,{ok:true,user:{email:s.email,scope:s.scope,playerId:s.player_id,userType:s.user_type,status:s.status||'autorizado'}}); }
   if(req.method==='GET'&&p==='/admin'){ const a=await adminAuth(req); if(!a) return json(res,403,{ok:false,error:'Acesso administrativo negado.'}); return html(res,200,ADMIN_HTML); }
   if(p.startsWith('/api/admin')){
+    if(!sql) return json(res,503,{ok:false,error:'Painel administrativo requer POSTGRES_URL ou DATABASE_URL na Vercel.'});
     const a=await adminAuth(req); if(!a) return json(res,403,{ok:false,error:'Acesso administrativo negado.'});
     if(req.method==='GET'&&p==='/api/admin/overview'){
       const timeout=`${ONLINE_TIMEOUT_MINUTES} minutes`;
