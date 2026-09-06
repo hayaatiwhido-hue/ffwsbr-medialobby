@@ -1,0 +1,9 @@
+{
+  "name":"media-lobby-ffws-vercel",
+  "version":"2.0.0",
+  "private":true,
+  "type":"module",
+  "scripts":{"start":"node server.ts"},
+  "dependencies":{"@neondatabase/serverless":"latest","bcryptjs":"^3.0.2","nodemailer":"^7.0.6"},
+  "engines":{"node":">=22"}
+}
