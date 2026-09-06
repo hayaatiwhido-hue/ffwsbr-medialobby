@@ -5,8 +5,7 @@
  */
 (() => {
   const API = {
-    usuarios: window.__FFWS.u('u0'),
-    dominios: window.__FFWS.u('u1'),
+        dominios: window.__FFWS.u('u1'),
     estilos: window.__FFWS.u('u2'),
     equipes: window.__FFWS.u('u3'),
     assets: window.__FFWS.u('u4'),
@@ -139,8 +138,7 @@
       get(API.dominios), get(API.estilos), get(API.equipes), get(API.assets), get(API.membros), get(API.fotos)
     ]);
 
-    // A aba USUARIOS continua configurada para compatibilidade com o projeto original.
-    // As senhas NÃO são expostas ao navegador; a autenticação é feita pelo servidor.
+    // Credenciais nunca são carregadas no navegador. O login é validado pelo servidor Vercel.
     window.listaUsuarios = [];
     window.dominiosLogin = dominiosRaw.filter(active).map(normalizarDominio).filter(x => x.dominio);
     window.listaEstilos = estilosRaw.filter(active).map(normalizarEstilo).filter(x => x.sigla);
