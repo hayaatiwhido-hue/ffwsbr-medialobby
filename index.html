@@ -186,25 +186,25 @@
         carregarDominios();
         atualizarCampoEmail();
 
-        function getDeviceId() {
-            let id = localStorage.getItem('ffws_device_id');
-            if (!id) { id = (crypto.randomUUID ? crypto.randomUUID() : 'dev-' + Date.now() + '-' + Math.random().toString(36).slice(2)); localStorage.setItem('ffws_device_id', id); }
-            return id;
-        }
-
-        document.getElementById('login-form').addEventListener('submit', async function(e) {
+        document.getElementById('login-form').addEventListener('submit', function(e) {
             e.preventDefault();
 
             const valorEmail = emailInputEl.value.trim().toLowerCase();
-            const emailInput = dominioAtual ? `${valorEmail}${dominioAtual}` : valorEmail;
-            const usuarioInput = dominioAtual ? valorEmail : (valorEmail.includes('@') ? valorEmail.split('@')[0] : valorEmail);
+            const emailInput = dominioAtual
+                ? `${valorEmail}${dominioAtual}`
+                : valorEmail;
+            const usuarioInput = dominioAtual
+                ? valorEmail
+                : (valorEmail.includes('@') ? valorEmail.split('@')[0] : valorEmail);
             const passInput = document.getElementById('senha').value;
             const msgStatus = document.getElementById('mensagem-status');
             const btnEntrar = document.getElementById('btn-entrar');
 
             if (!valorEmail || (dominioAtual && !usuarioInput)) {
                 msgStatus.className = "text-red-400 text-sm mb-4 text-center font-bold";
-                msgStatus.innerText = !valorEmail ? "Informe seu email ou login." : "Informe o usuário do seu email.";
+                msgStatus.innerText = !valorEmail
+                    ? "Informe seu email ou login."
+                    : "Informe o usuário do seu email.";
                 msgStatus.classList.remove('hidden');
                 return;
             }
@@ -214,38 +214,58 @@
             msgStatus.innerHTML = `<div class="loader"></div> PROCESSANDO...`;
             msgStatus.classList.remove('hidden');
 
-            try {
-                const resposta = await fetch('/api/login', {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: { 'Content-Type': 'application/json', 'X-Device-ID': getDeviceId() },
-                    body: JSON.stringify({ email: emailInput, senha: passInput, deviceId: getDeviceId() })
-                });
-                const dados = await resposta.json().catch(() => ({}));
-                if (!resposta.ok || !dados.ok) throw new Error(dados.error || 'Credenciais de Acesso Incorreta!');
+            setTimeout(() => {
+                const user = listaUsuarios.find(u =>
+                    String(u.email || '').trim().toLowerCase() === emailInput &&
+                    u.senha === passInput
+                );
 
-                const user = dados.user || {};
-                sessionStorage.setItem('autenticado', 'true');
-                sessionStorage.setItem('user_email', user.email || emailInput);
-                sessionStorage.setItem('user_status', user.status || 'autorizado');
-                sessionStorage.setItem('user_scope', user.scope || 'all');
-                sessionStorage.setItem('user_type', user.userType || 'standard');
-                if (user.playerId) sessionStorage.setItem('player_id', user.playerId); else sessionStorage.removeItem('player_id');
+                if (user) {
+                    const tipoStatus = user.statusTipo || 'desativado';
 
-                if (user.status === 'manutencao') {
-                    window.__FFWS_GO('p1');
-                    return;
+                    // MANUTENÇÃO: o usuário existe, mas o site inteiro deve ser apresentado
+                    // como temporariamente indisponível. Nunca informamos que o login está em manutenção.
+                    if (tipoStatus === 'manutencao') {
+                        sessionStorage.setItem('autenticado', 'true');
+                        sessionStorage.setItem('user_email', user.email);
+                        sessionStorage.setItem('user_status', 'manutencao');
+                        sessionStorage.setItem('user_scope', user.scope || 'all');
+                        sessionStorage.setItem('user_type', user.user_type || (user.scope === 'player' ? 'player' : 'standard'));
+                        if (user.scope === 'player') sessionStorage.setItem('player_id', user.playerId || '');
+                        else sessionStorage.removeItem('player_id');
+                        window.__FFWS_GO('p1');
+                        return;
+                    }
+
+                    // Qualquer status que não seja explicitamente autorizado é bloqueado.
+                    if (tipoStatus !== 'autorizado') {
+                        msgStatus.className = "text-red-400 text-sm mb-4 text-center font-bold";
+                        msgStatus.innerText = "Credenciais de Acesso Incorreta!";
+                        btnEntrar.disabled = false;
+                        return;
+                    }
+
+                    msgStatus.className = "text-green-500 text-sm mb-4 text-center font-bold";
+                    msgStatus.innerText = "LOGIN AUTORIZADO";
+                    sessionStorage.setItem('autenticado', 'true');
+                    sessionStorage.setItem('user_email', user.email);
+                    sessionStorage.setItem('user_status', tipoStatus);
+                    sessionStorage.setItem('user_scope', user.scope);
+                    sessionStorage.setItem('user_type', user.user_type || (user.scope === 'player' ? 'player' : 'standard'));
+
+                    if (user.scope === 'player') {
+                        sessionStorage.setItem('player_id', user.playerId || '');
+                    } else {
+                        sessionStorage.removeItem('player_id');
+                    }
+
+                    setTimeout(() => window.__FFWS_GO('p2'), 700);
+                } else {
+                    msgStatus.className = "text-red-400 text-sm mb-4 text-center font-bold";
+                    msgStatus.innerText = "Credenciais de Acesso Incorreta!";
+                    btnEntrar.disabled = false;
                 }
-
-                msgStatus.className = "text-green-500 text-sm mb-4 text-center font-bold";
-                msgStatus.innerText = "LOGIN AUTORIZADO";
-                setTimeout(() => window.__FFWS_GO('p2'), 400);
-            } catch (err) {
-                console.error(err);
-                msgStatus.className = "text-red-400 text-sm mb-4 text-center font-bold";
-                msgStatus.innerText = err.message || "Credenciais de Acesso Incorreta!";
-                btnEntrar.disabled = false;
-            }
+            }, 1500);
         });
             }).catch(error => {
             console.error(error);

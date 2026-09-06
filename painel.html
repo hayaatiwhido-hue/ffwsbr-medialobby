@@ -10,21 +10,30 @@
 <body class="min-h-screen text-gray-100 p-4 md:p-6">
 
     <script>
-        async function validarSessaoServidor() {
-            try {
-                const r = await fetch('/api/me', { credentials: 'include', cache: 'no-store' });
-                if (!r.ok) { window.__FFWS_GO('p0'); return null; }
-                const data = await r.json();
-                const user = data.user || {};
-                sessionStorage.setItem('autenticado', 'true');
-                sessionStorage.setItem('user_email', user.email || '');
-                sessionStorage.setItem('user_scope', user.scope || 'all');
-                sessionStorage.setItem('user_type', user.userType || 'standard');
-                if (user.playerId) sessionStorage.setItem('player_id', user.playerId); else sessionStorage.removeItem('player_id');
-                return user;
-            } catch (e) {
-                console.error(e); window.__FFWS_GO('p0'); return null;
+        if (sessionStorage.getItem('autenticado') !== 'true') {
+            window.__FFWS_GO('p0');
+        }
+
+        // O status do login é validado novamente após carregar o SheetBest.
+        // Assim, se o administrador mudar SIM -> MANUTENÇÃO ou NÃO enquanto
+        // alguém ainda estiver com uma sessão aberta, o acesso é atualizado.
+        function validarStatusDaSessao() {
+            const emailSessao = String(sessionStorage.getItem('user_email') || '').trim().toLowerCase();
+            const user = Array.isArray(window.listaUsuarios)
+                ? window.listaUsuarios.find(u => String(u.email || '').trim().toLowerCase() === emailSessao)
+                : null;
+
+            if (!user || user.statusTipo === 'desativado') {
+                sessionStorage.clear();
+                window.__FFWS_GO('p0');
+                return false;
             }
+            if (user.statusTipo === 'manutencao') {
+                sessionStorage.clear();
+                window.__FFWS_GO('p1');
+                return false;
+            }
+            return true;
         }
     </script>
 
@@ -53,7 +62,6 @@
                 <button id="btn-sair" onclick="sair()" class="hidden bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded text-sm transition font-medium shadow-md cursor-pointer">
                     Desconectar do Login
                 </button>
-                <button id="btn-admin" onclick="window.location.href='/admin'" class="hidden bg-[#f0b83f] hover:bg-[#ffd66b] text-[#09090f] px-3 py-2 rounded text-sm transition font-bold shadow-md cursor-pointer">⚙ ADMINISTRAÇÃO</button>
             </div>
         </div>
 
@@ -70,14 +78,14 @@
     </div>
 <!-- Dados/configuração carregados no fim da página para manter o HTML limpo. -->
 <script>
-        window.MEDIA_LOBBY_READY.then(async () => {
-        const usuarioServidor = await validarSessaoServidor();
-        if (!usuarioServidor) return;
+        window.MEDIA_LOBBY_READY.then(() => {
+        if (!validarStatusDaSessao()) return;
         let nivelAtual = 'equipes';
         let equipeSelecionada = null;
         let estiloSelecionado = null;
 
         const scope = sessionStorage.getItem('user_scope');
+        const userType = sessionStorage.getItem('user_type') || 'standard';
         const playerId = sessionStorage.getItem('player_id') || '';
 
         const container = document.getElementById('conteudo-painel');
@@ -87,9 +95,6 @@
         const btnVoltar = document.getElementById('btn-voltar');
         const btnInicio = document.getElementById('btn-inicio');
         const btnSair = document.getElementById('btn-sair');
-        const btnAdmin = document.getElementById('btn-admin');
-        const userType = usuarioServidor.userType || sessionStorage.getItem('user_type') || 'standard';
-        if (userType === 'admin' && btnAdmin) btnAdmin.classList.remove('hidden');
         const equipesSelecionadas = new Set();
 
         const iconesFuncoes = {
@@ -204,8 +209,7 @@
             return `${base}.${extensao}`;
         }
 
-        async function sair() {
-            try { await fetch('/api/logout', { method:'POST', credentials:'include' }); } catch(e) {}
+        function sair() {
             sessionStorage.clear();
             window.__FFWS_GO('p0');
         }

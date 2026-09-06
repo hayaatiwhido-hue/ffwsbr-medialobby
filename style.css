@@ -2,11 +2,7 @@
    INDEX.HTML — estilos originais externalizados
    ============================================================ */
 
-@font-face { font-family:'GFF-Latin'; src:var(--ffws-font-thin); font-weight:100; font-style:normal; font-display:swap; }
-@font-face { font-family:'GFF-Latin'; src:var(--ffws-font-regular); font-weight:400; font-style:normal; font-display:swap; }
-@font-face { font-family:'GFF-Latin'; src:var(--ffws-font-medium); font-weight:500; font-style:normal; font-display:swap; }
-@font-face { font-family:'GFF-Latin'; src:var(--ffws-font-black); font-weight:700; font-style:normal; font-display:swap; }
-@font-face { font-family:'GFF-Latin'; src:var(--ffws-font-black); font-weight:900; font-style:normal; font-display:swap; }
+@font-face { font-family: 'GFF-Latin'; src: var(--ffws-f0) format('woff2'); }
         body { font-family: 'GFF-Latin', sans-serif; background-image: var(--ffws-a9); background-position: center; background-size: cover; }
         .btn-primary { background-color: #e8b033; color: #1a1a1a; }
         .btn-primary:hover { background-color: #f74afe; color: #fff; }
