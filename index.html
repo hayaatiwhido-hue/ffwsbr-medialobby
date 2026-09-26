@@ -1,126 +1,46 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>403 Forbidden</title>
+    <title>403 Forbidden</title>
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Courier New", monospace;
-}
-
-body {
-    height: 100vh;
-    background: #0b0b0b;
-    color: #e5e5e5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.container {
-    width: 90%;
-    max-width: 700px;
-    background: #111;
-    border: 1px solid #333;
-    padding: 40px;
-    box-shadow: 0 0 40px rgba(255,255,255,0.05);
-}
-
-.header {
-    color: #ff4444;
-    font-size: 50px;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.line {
-    height: 1px;
-    background: #333;
-    margin: 20px 0;
-}
-
-.message {
-    font-size: 18px;
-    line-height: 1.8;
-    color: #bbb;
-}
-
-.code {
-    margin-top: 25px;
-    background: #050505;
-    padding: 20px;
-    border-left: 4px solid #ff4444;
-    color: #888;
-}
-
-.status {
-    margin-top: 30px;
-    color: #ff4444;
-    font-weight: bold;
-}
-
-.footer {
-    margin-top: 30px;
-    font-size: 13px;
-    color: #555;
-}
-
-.cursor {
-    display: inline-block;
-    width: 8px;
-    height: 16px;
-    background: #aaa;
-    animation: blink 1s infinite;
-}
-
-@keyframes blink {
-    50% {
-        opacity: 0;
-    }
-}
-</style>
-
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="container">
+    <main class="forbidden-container">
 
-    <div class="header">
-        403 Forbidden
-    </div>
+        <h1>403</h1>
 
-    <div class="line"></div>
+        <h2>Forbidden</h2>
 
-    <div class="message">
-        Acesso negado.<br>
-        Este site encontra-se temporariamente desativado
-        ou não possui permissão para acesso.
-    </div>
+        <div class="divider"></div>
 
-    <div class="code">
-        Server Response:<br><br>
-        HTTP/1.1 403 Forbidden<br>
-        Error: Website Disabled<br>
-        Permission denied
-    </div>
+        <p>
+            Acesso negado.
+            <br>
+            Este site encontra-se temporariamente desativado.
+        </p>
 
-    <div class="status">
-        ● SITE OFFLINE
-    </div>
+        <section class="server-box">
+            <span>Server Response:</span><br><br>
+            HTTP/1.1 403 Forbidden<br>
+            Error: Website Disabled<br>
+            Permission denied
+        </section>
 
-    <div class="footer">
-        nginx/1.25.0 &nbsp; | &nbsp; Server Protection Enabled
-        <span class="cursor"></span>
-    </div>
+        <div class="status">
+            ● SITE OFFLINE
+        </div>
 
-</div>
+        <footer>
+            Powered by Server Security
+        </footer>
+
+    </main>
 
 </body>
 </html>
